@@ -12,6 +12,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: radar-dados
+  cancel-in-progress: false
+
 jobs:
   garimpo:
     runs-on: ubuntu-latest
@@ -34,4 +38,5 @@ jobs:
           git config user.email "radar-bot@users.noreply.github.com"
           git add -A
           git diff --cached --quiet || git commit -m "garimpo: lote processado"
+          git pull --rebase --autostash origin main
           git push
