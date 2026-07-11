@@ -108,6 +108,9 @@ def collect_site_urls(site, session, log):
     """Retorna set de URLs candidatas a página de imóvel."""
     base = site["base"]
     urls = set()
+    if site.get("ignorar_sitemap"):
+        site = dict(site)          # força o fluxo de listagem
+        _sm = discover_sitemaps
     if site.get("render"):
         try:
             import render_js
@@ -118,7 +121,7 @@ def collect_site_urls(site, session, log):
             log["render_erro"] = str(e)[:150]
             # se a renderização falhar, cai no fluxo normal abaixo
     used_sitemap = False
-    for sm in discover_sitemaps(base, session):
+    for sm in ([] if site.get("ignorar_sitemap") else discover_sitemaps(base, session)):
         try:
             content = fetch(sm, session, binary=True)
             locs, is_index = parse_sitemap(content)
@@ -160,7 +163,7 @@ def collect_site_urls(site, session, log):
                 continue
     else:
         log["metodo"] = "sitemap"
-    if 0 < len(urls) < 10:
+    if site.get("tambem_listagem") or (0 < len(urls) < 10):
         # sitemap existe mas é raso: complementa com as páginas de listagem
         log["metodo"] = "sitemap+listagem"
         paths = site.get("listing_paths") or ("/", "/venda", "/imoveis", "/comprar", "/imoveis/venda", "/busca")

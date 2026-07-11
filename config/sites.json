@@ -94,7 +94,9 @@
         "/comprar/residencial/rs+porto-alegre+independencia",
         "/comprar/residencial/rs+porto-alegre+higienopolis",
         "/comprar/residencial/rs+porto-alegre+petropolis"
-      ]
+      ],
+      "render": true,
+      "obs": "Listagens em JavaScript — coletado via navegador headless."
     },
     {
       "id": "guarida",
@@ -119,21 +121,37 @@
       "id": "foxter",
       "nome": "Foxter Cia Imobiliária",
       "base": "https://www.foxterciaimobiliaria.com.br",
-      "enabled": true
+      "enabled": true,
+      "tambem_listagem": true,
+      "listing_paths": [
+        "/imoveis/a-venda/em-porto-alegre-rs/no-bairro-boa-vista",
+        "/imoveis/a-venda/em-porto-alegre-rs/no-bairro-bela-vista",
+        "/imoveis/a-venda/em-porto-alegre-rs/no-bairro-auxiliadora",
+        "/imoveis/a-venda/em-porto-alegre-rs/no-bairro-tres-figueiras",
+        "/imoveis/a-venda/em-porto-alegre-rs/no-bairro-chacara-das-pedras",
+        "/imoveis/a-venda/em-porto-alegre-rs/no-bairro-jardim-europa",
+        "/imoveis/a-venda/em-porto-alegre-rs/no-bairro-passo-da-areia",
+        "/imoveis/a-venda/em-porto-alegre-rs/no-bairro-mont-serrat",
+        "/imoveis/a-venda/em-porto-alegre-rs/no-bairro-moinhos-de-vento",
+        "/imoveis/a-venda/em-porto-alegre-rs/no-bairro-rio-branco",
+        "/imoveis/a-venda/em-porto-alegre-rs/no-bairro-independencia",
+        "/imoveis/a-venda/em-porto-alegre-rs/no-bairro-higienopolis",
+        "/imoveis/a-venda/em-porto-alegre-rs/no-bairro-petropolis"
+      ],
+      "obs": "Sitemap traz só empreendimentos; listagens por bairro complementam com os avulsos."
     },
     {
       "id": "ducati",
       "nome": "Lopes Ducati",
       "base": "https://www.imobiliariaducati.com.br",
-      "enabled": true,
+      "enabled": false,
       "listing_paths": [
         "/imoveis/a-venda",
         "/comprar",
         "/imoveis/venda",
         "/venda"
       ],
-      "obs": "Site JavaScript — coletado via navegador headless (Playwright).",
-      "render": true
+      "obs": "Domínio www.imobiliariaducati.com.br fora do ar (migrou p/ Lopes). Reavaliar."
     },
     {
       "id": "sperinde",
@@ -171,9 +189,12 @@
       "base": "https://www.colnaghi.com.br",
       "enabled": true,
       "listing_paths": [
+        "/",
         "/empreendimentos",
         "/bairros"
-      ]
+      ],
+      "render": true,
+      "obs": "Site JavaScript — coletado via navegador headless."
     },
     {
       "id": "multiimob",
@@ -240,20 +261,20 @@
         "/busca/comprar/cidade/porto-alegre/1/",
         "/busca/comprar/cidade/porto-alegre/2/",
         "/busca/alugar/cidade/porto-alegre/1/"
-      ]
+      ],
+      "ignorar_sitemap": true
     },
     {
       "id": "silveira",
       "nome": "Silveira Imóveis",
       "base": "https://www.silveiraimoveiszn.com.br",
-      "enabled": true,
+      "enabled": false,
       "listing_paths": [
         "/",
         "/imoveis/venda",
         "/imoveis"
       ],
-      "obs": "Site JavaScript — coletado via navegador headless (Playwright).",
-      "render": true
+      "obs": "Domínio não resolve — site aparentemente desativado. Verificar se a empresa opera."
     },
     {
       "id": "zonanorte",
@@ -299,10 +320,13 @@
       "base": "https://www.dacas.com.br",
       "enabled": true,
       "listing_paths": [
+        "/",
         "/imoveis",
-        "/venda",
         "/busca"
-      ]
+      ],
+      "render": true,
+      "ignorar_sitemap": true,
+      "obs": "Site JavaScript/institucional — coletado via navegador headless."
     },
     {
       "id": "housin",
