@@ -1,0 +1,279 @@
+{
+  "monitorar": {
+    "venda": true,
+    "locacao": false
+  },
+  "somente_bairros_alvo": true,
+  "bairros_alvo": {
+    "Boa Vista": [
+      "boa-vista",
+      "boa vista"
+    ],
+    "Bela Vista": [
+      "bela-vista",
+      "bela vista"
+    ],
+    "Auxiliadora": [
+      "auxiliadora"
+    ],
+    "Três Figueiras": [
+      "tres-figueiras",
+      "três figueiras",
+      "tres figueiras"
+    ],
+    "Chácara das Pedras": [
+      "chacara-das-pedras",
+      "chácara das pedras",
+      "chacara das pedras"
+    ],
+    "Jardim Europa": [
+      "jardim-europa",
+      "jardim europa"
+    ],
+    "Passo da Areia": [
+      "passo-da-areia",
+      "passo-d-areia",
+      "passo-dareia",
+      "passo da areia",
+      "passo d'areia",
+      "passo d areia"
+    ],
+    "Mont Serrat": [
+      "mont-serrat",
+      "montserrat",
+      "mont serrat",
+      "mont'serrat"
+    ],
+    "Moinhos de Vento": [
+      "moinhos-de-vento",
+      "moinhos de vento"
+    ],
+    "Rio Branco": [
+      "rio-branco",
+      "rio branco"
+    ],
+    "Independência": [
+      "independencia",
+      "independência"
+    ],
+    "Santa Cecília": [
+      "santa-cecilia",
+      "santa cecília",
+      "santa cecilia"
+    ],
+    "Vila Jardim": [
+      "vila-jardim",
+      "vila jardim"
+    ],
+    "Higienópolis": [
+      "higienopolis",
+      "higienópolis"
+    ],
+    "Petrópolis": [
+      "petropolis",
+      "petrópolis"
+    ]
+  },
+  "sites": [
+    {
+      "id": "auxiliadora",
+      "nome": "Auxiliadora Predial",
+      "base": "https://www.auxiliadorapredial.com.br",
+      "enabled": true
+    },
+    {
+      "id": "guarida",
+      "nome": "Guarida Imóveis",
+      "base": "https://guarida.com.br",
+      "enabled": true
+    },
+    {
+      "id": "creditoreal",
+      "nome": "Crédito Real",
+      "base": "https://www.creditoreal.com.br",
+      "enabled": true
+    },
+    {
+      "id": "foxter",
+      "nome": "Foxter Cia Imobiliária",
+      "base": "https://www.foxterciaimobiliaria.com.br",
+      "enabled": true
+    },
+    {
+      "id": "ducati",
+      "nome": "Lopes Ducati",
+      "base": "https://www.imobiliariaducati.com.br",
+      "enabled": true
+    },
+    {
+      "id": "sperinde",
+      "nome": "Sperinde Imóveis",
+      "base": "https://www.sperinde.com",
+      "enabled": true
+    },
+    {
+      "id": "rial",
+      "nome": "Rial Imóveis",
+      "base": "https://www.rial.com.br",
+      "enabled": true
+    },
+    {
+      "id": "urban",
+      "nome": "Urban Company",
+      "base": "https://www.urban.imb.br",
+      "enabled": true
+    },
+    {
+      "id": "oneluxo",
+      "nome": "One Imóveis de Luxo",
+      "base": "https://oneluxo.com.br",
+      "enabled": true
+    },
+    {
+      "id": "colnaghi",
+      "nome": "Colnaghi Imóveis",
+      "base": "https://www.colnaghi.com.br",
+      "enabled": true
+    },
+    {
+      "id": "multiimob",
+      "nome": "MultiImob",
+      "base": "https://www.multiimob.com.br",
+      "enabled": true
+    },
+    {
+      "id": "bridge",
+      "nome": "Bridge Imóveis",
+      "base": "https://www.bridgeimoveis.com.br",
+      "enabled": true
+    },
+    {
+      "id": "verabernardes",
+      "nome": "Vera Bernardes",
+      "base": "https://www.verabernardes.com.br",
+      "enabled": true
+    },
+    {
+      "id": "condotta",
+      "nome": "Condotta",
+      "base": "https://www.condotta.com.br",
+      "enabled": true
+    },
+    {
+      "id": "morano",
+      "nome": "Morano Imobiliária",
+      "base": "https://www.morano.com.br",
+      "enabled": true
+    },
+    {
+      "id": "reservaimob",
+      "nome": "Reserva Imob",
+      "base": "https://www.reservaimob.com.br",
+      "enabled": true
+    },
+    {
+      "id": "terracini",
+      "nome": "Imobiliária Terracini",
+      "base": "https://www.terracini.com.br",
+      "enabled": true
+    },
+    {
+      "id": "cpimoveis",
+      "nome": "CP Imóveis",
+      "base": "https://www.cpimoveis.com.br",
+      "enabled": true
+    },
+    {
+      "id": "portolar",
+      "nome": "Portolar Imóveis",
+      "base": "https://portolar.com.br",
+      "enabled": true
+    },
+    {
+      "id": "garcia",
+      "nome": "Garcia Imóveis",
+      "base": "https://www.garciaimoveisrs.com.br",
+      "enabled": true
+    },
+    {
+      "id": "silveira",
+      "nome": "Silveira Imóveis",
+      "base": "https://www.silveiraimoveiszn.com.br",
+      "enabled": true
+    },
+    {
+      "id": "zonanorte",
+      "nome": "Imobiliária Zona Norte",
+      "base": "https://imobiliariazonanorte.com.br",
+      "enabled": true
+    },
+    {
+      "id": "visualize",
+      "nome": "Visualize Imóveis",
+      "base": "https://visualizeimoveis.com",
+      "enabled": true
+    },
+    {
+      "id": "peta",
+      "nome": "PETA Imóveis",
+      "base": "https://www.petaimoveis.com.br",
+      "enabled": true
+    },
+    {
+      "id": "private",
+      "nome": "Private Imóveis",
+      "base": "https://privateimoveis.com",
+      "enabled": true
+    },
+    {
+      "id": "dacas",
+      "nome": "Da Cás Imóveis",
+      "base": "https://www.dacas.com.br",
+      "enabled": true
+    },
+    {
+      "id": "housin",
+      "nome": "Housin 360 (Melnick)",
+      "base": "https://housin360.com.br",
+      "enabled": true
+    },
+    {
+      "id": "luxton",
+      "nome": "Luxton Imobiliária",
+      "base": "https://www.luxtonimoveis.com.br",
+      "enabled": true
+    },
+    {
+      "id": "albert",
+      "nome": "Albert Imóveis",
+      "base": "https://www.albertimoveis.com.br",
+      "enabled": true
+    },
+    {
+      "id": "lyon",
+      "nome": "Lyon Imóveis",
+      "base": "https://lyonimoveis.com.br",
+      "enabled": true
+    },
+    {
+      "id": "lopes",
+      "nome": "Lopes (LRT)",
+      "base": "https://www.lopes.com.br",
+      "enabled": false,
+      "obs": "Site nacional muito grande e com proteção anti-robô. Ativar depois com filtro específico."
+    },
+    {
+      "id": "quintoandar",
+      "nome": "QuintoAndar",
+      "base": "https://www.quintoandar.com.br",
+      "enabled": false,
+      "obs": "Forte proteção anti-robô. Melhor monitorar manualmente ou via portal."
+    }
+  ],
+  "cruzamento": {
+    "site_proprio": "https://www.bolettoimoveis.com.br",
+    "portal_rgi": "https://www.redegauchadeimoveis.com.br",
+    "max_enriquecimento_por_execucao": 150,
+    "_obs": "Feed XML do Jetimob via secret JETIMOB_FEED_URL; export manual em data/meus_imoveis.csv"
+  }
+}
