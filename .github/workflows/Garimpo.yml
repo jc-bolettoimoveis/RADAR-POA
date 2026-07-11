@@ -1,0 +1,37 @@
+name: Garimpo do estoque
+
+on:
+  schedule:
+    - cron: "30 1,4,7 * * *"   # 22:30, 01:30 e 04:30 de Brasília
+  workflow_dispatch:
+    inputs:
+      lote:
+        description: "Anúncios por lote (padrão 2000)"
+        default: "2000"
+
+permissions:
+  contents: write
+
+jobs:
+  garimpo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Garimpar estoque
+        env:
+          GARIMPO_LOTE: ${{ github.event.inputs.lote }}
+          WHATSAPP_DESTINOS: ${{ secrets.WHATSAPP_DESTINOS }}
+          PAINEL_URL: ${{ secrets.PAINEL_URL }}
+        run: python monitor/garimpo.py
+      - name: Gerar painel e salvar
+        run: |
+          python site/build_site.py
+          git config user.name "radar-bot"
+          git config user.email "radar-bot@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "garimpo: lote processado"
+          git push
