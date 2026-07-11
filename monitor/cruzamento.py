@@ -243,10 +243,48 @@ def cruzar(listings, base_itens, bairros_alvo, match_bairro, today):
             l["status"] = "livre"
     return mudancas
 
+def sanitizar(cfg, listings):
+    """Remove endereços de SEDE de imobiliária atribuídos a imóveis (gera P1 falso)
+    e fotos que são logo. Sedes: lista da config + detecção automática por repetição."""
+    import re as _re
+    from collections import Counter, defaultdict
+    sedes = [_rua_norm(s) or str(s).lower() for s in cfg.get("enderecos_sede", [])]
+    sedes = [s for s in sedes if s]
+    freq = defaultdict(Counter)
+    for l in listings:
+        if l.get("endereco"):
+            freq[l.get("site_id")][_rua_norm(l["endereco"]) or ""] += 1
+    auto = set()
+    for sid, cont in freq.items():
+        tot = sum(cont.values())
+        for end, n in cont.items():
+            if end and n >= 8 and n / tot >= 0.4:
+                auto.add(end)
+    FOTO_RUIM = _re.compile(r"logo|logotipo|icon|avatar|placeholder|selo|favicon|marca|\.svg", _re.I)
+    limpos = fotos = 0
+    try:
+        import extrator
+    except Exception:
+        extrator = None
+    for l in listings:
+        en = _rua_norm(l.get("endereco")) or ""
+        if en and (en in auto or any(s in en or en in s for s in sedes)):
+            l["endereco"] = l["numero"] = None
+            l["latitude"] = l["longitude"] = None
+            if extrator:
+                extrator.classificar(l)
+            limpos += 1
+        if l.get("foto") and FOTO_RUIM.search(l["foto"]):
+            l["foto"] = None
+            fotos += 1
+    return {"enderecos_sede_removidos": limpos, "fotos_logo_removidas": fotos,
+            "sedes_auto_detectadas": len(auto)}
+
 def executar(cfg, listings, session, fetch, collect_urls, enrich, match_bairro, today):
     cz = cfg.get("cruzamento", {})
     bairros_alvo = cfg["bairros_alvo"]
     log = {}
+    log["saneamento"] = sanitizar(cfg, listings)
     cache = {}
     if os.path.exists(CACHE_PATH):
         cache = json.load(open(CACHE_PATH, encoding="utf-8"))

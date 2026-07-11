@@ -223,7 +223,7 @@ def enrich(url, session, bairros_alvo):
     info["titulo"] = meta("og:title") or (re.search(r"<title[^>]*>([^<]+)", html, re.I) or [None, None])[1]
     if info["titulo"]:
         info["titulo"] = info["titulo"].strip()[:160]
-    info["foto"] = meta("og:image")
+    info["foto"] = meta("og:image")   # pode ser logo — corrigido após o extrator
     info["descricao"] = (meta("og:description") or meta("description") or "")[:300] or None
     m = PRICE_PAT.search(html)
     if m:
@@ -235,6 +235,10 @@ def enrich(url, session, bairros_alvo):
             info[k] = det.get(k)
         if det.get("preco_venda_fmt"):
             info["preco"] = det["preco_venda_fmt"]
+        from extrator import FOTO_RUIM
+        if info.get("foto") and FOTO_RUIM.search(info["foto"]):
+            info["foto"] = None
+        info["foto"] = info["foto"] or det.get("foto_boa")
     except Exception:
         pass
     texto_busca = " ".join(x for x in (url, info["titulo"], info["descricao"]) if x)

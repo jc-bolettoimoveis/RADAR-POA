@@ -372,5 +372,27 @@
     "portal_rgi": "https://www.redegauchadeimoveis.com.br",
     "max_enriquecimento_por_execucao": 150,
     "_obs": "Feed XML do Jetimob via secret JETIMOB_FEED_URL; export manual em data/meus_imoveis.csv"
-  }
+  },
+  "enderecos_sede": [
+    "Av. Cristóvão Colombo, 2948",
+    "Av. Assis Brasil, 3718",
+    "R. 24 de Outubro, 1440",
+    "Rua Quintino Bocaiúva, 515",
+    "Av. Carlos Gomes, 716",
+    "Av. Assis Brasil, 3259",
+    "Av. Assis Brasil, 1776",
+    "Av. Dr. Nilo Peçanha, 2576",
+    "Av. João Wallig, 660",
+    "Av. Dr. Nilo Peçanha, 1215",
+    "R. Liberdade, 227",
+    "Av. Carlos Gomes, 328",
+    "Av. Carlos Gomes, 700",
+    "Rua Tomaz Gonzaga, 481",
+    "R. Cel. Armando Assis, 20",
+    "Av. Plínio Brasil Milano, 143",
+    "Rua Luzitana, 462",
+    "Av. do Forte, 1261",
+    "Rua Sapé, 835",
+    "Av. São Pedro, 1728"
+  ]
 }

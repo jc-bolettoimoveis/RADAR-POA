@@ -72,6 +72,8 @@ def _walk(obj, out):
                         str(v.get(c)) for c in ("streetAddress", "addressLocality") if v.get(c)))
                 elif isinstance(v, str):
                     out.setdefault("endereco", v)
+            elif kl == "image" and v and not out.get("foto_jl"):
+                out["foto_jl"] = v[0] if isinstance(v, list) and v else (v if isinstance(v, str) else None)
             elif kl in ("sku", "productid", "identifier") and v and not out.get("codigo"):
                 out["codigo"] = str(v)[:30]
             _walk(v, out)
@@ -125,6 +127,47 @@ def _tipo_imovel(texto):
                     "predio": "prédio"}.get(t, t)
     return None
 
+FOTO_RUIM = re.compile(r"logo|logotipo|icon|avatar|whatsapp|placeholder|selo|favicon|marca|og-?image-?default|\.svg", re.I)
+FOTO_BOA = re.compile(r"upload|foto|imove|galeria|gallery|cdn|media|storage|arquivo|imagem|thumb|cloudfront|amazonaws|jetimgs", re.I)
+
+def escolher_foto(html, foto_jl=None, foto_og=None):
+    """Prefere foto real do imóvel; descarta logos/placeholder."""
+    cands = []
+    for f in (foto_jl, foto_og):
+        if f:
+            cands.append(f)
+    cands += re.findall(r'<img[^>]+src=["\']([^"\'>]+)', html, re.I)[:60]
+    for c in cands:
+        if not FOTO_RUIM.search(c) and FOTO_BOA.search(c) and re.search(r"\.(jpe?g|webp|png)([?#]|$)", c, re.I):
+            return c
+    for c in cands:
+        if not FOTO_RUIM.search(c) and re.search(r"\.(jpe?g|webp)([?#]|$)", c, re.I):
+            return c
+    return None
+
+def classificar(d):
+    """(Re)calcula endereco_nivel e prioridade a partir dos campos atuais."""
+    tem_rua = bool(d.get("endereco"))
+    tem_ll = bool(d.get("latitude"))
+    if (tem_rua and d.get("numero")) or tem_ll:
+        d["endereco_nivel"] = "completo"
+    elif tem_rua and d.get("empreendimento"):
+        d["endereco_nivel"] = "rua+condominio"
+    elif tem_rua:
+        d["endereco_nivel"] = "rua"
+    else:
+        d["endereco_nivel"] = "bairro"
+    casa_terreno = (d.get("tipo_imovel") or "") in ("casa", "sobrado", "terreno")
+    if d["endereco_nivel"] == "completo":
+        d["prioridade"] = 1 if casa_terreno else 2
+    elif d["endereco_nivel"] == "rua+condominio":
+        d["prioridade"] = 2
+    elif d["endereco_nivel"] == "rua":
+        d["prioridade"] = 3
+    else:
+        d["prioridade"] = 4
+    return d
+
 # --------------------------------------------------------------- principal
 def extrair(html, url=""):
     d = _jsonld(html)
@@ -171,15 +214,7 @@ def extrair(html, url=""):
     d["tipo_imovel"] = _tipo_imovel((d.get("endereco") or "") + " " + texto[:3000]) or _tipo_imovel(url)
     m = re.search(r",\s?(\d{1,5})(?:\D|$)", d.get("endereco") or "")
     d["numero"] = m.group(1) if m else None
-    tem_rua = bool(d.get("endereco"))
-    if (tem_rua and d.get("numero")) or ll:
-        d["endereco_nivel"] = "completo"
-    elif tem_rua and d.get("empreendimento"):
-        d["endereco_nivel"] = "rua+condominio"
-    elif tem_rua:
-        d["endereco_nivel"] = "rua"
-    else:
-        d["endereco_nivel"] = "bairro"
+    classificar(d)
     casa_terreno = (d.get("tipo_imovel") or "") in ("casa", "sobrado", "terreno")
     if d["endereco_nivel"] == "completo":
         d["prioridade"] = 1 if casa_terreno else 2
@@ -193,6 +228,8 @@ def extrair(html, url=""):
     tl = texto.lower()
     carac = sorted({c for c in VOCAB if c in tl})
     d["caracteristicas"] = carac or None
+
+    d["foto_boa"] = escolher_foto(html, d.pop("foto_jl", None))
 
     # formata moedas para exibição
     d["preco_venda_fmt"] = _fmt_moeda(d.get("preco_venda"))
