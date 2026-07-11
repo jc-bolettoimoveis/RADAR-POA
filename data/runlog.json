@@ -1,5 +1,5 @@
 {
- "executado_em": "2026-07-11T18:00:47Z",
+ "executado_em": "2026-07-11T18:29:04Z",
  "sites": {
   "auxiliadora": {
    "nome": "Auxiliadora Predial",
@@ -37,11 +37,11 @@
   "creditoreal": {
    "nome": "Crédito Real",
    "status": "ok",
-   "novos": 18,
+   "novos": 0,
    "erro": null,
    "metodo": "render(js)",
-   "urls_coletadas": 73,
-   "urls_imovel": 36,
+   "urls_coletadas": 55,
+   "urls_imovel": 18,
    "exemplo_imovel": [
     "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-cavalhada-porto-alegre-ag-80-cod-10000107",
     "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-cidade-baixa-porto-alegre-ag-300-cod-74145752",
@@ -83,12 +83,12 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 98,
-   "urls_imovel": 35,
+   "urls_coletadas": 97,
+   "urls_imovel": 34,
    "exemplo_imovel": [
-    "https://www.sperinde.com/imovel/alugar/1642033/loja-com-30m-no-bairro-sao-joao-em-porto-alegre/",
-    "https://www.sperinde.com/imovel/alugar/1642034/loja-com-30m-no-bairro-sao-joao-em-porto-alegre/",
-    "https://www.sperinde.com/imovel/alugar/1642194/apartamento-com-45m-no-bairro-teresopolis-em-porto-alegre/"
+    "https://www.sperinde.com/imovel/alugar/17775013/loja-com-475m-no-bairro-moinhos-de-vento-em-porto-alegre/",
+    "https://www.sperinde.com/imovel/alugar/21015119/sala-com-63m-no-bairro-sao-pelegrino-em-caxias-do-sul/",
+    "https://www.sperinde.com/imovel/alugar/21015142/sala-com-45m-no-bairro-exposicao-em-caxias-do-sul/"
    ]
   },
   "rial": {
@@ -200,8 +200,8 @@
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 263,
-   "urls_imovel": 224,
+   "urls_coletadas": 268,
+   "urls_imovel": 229,
    "exemplo_imovel": [
     "https://www.condotta.com.br/imovel/apartamento-porto-alegre-1-quarto-43-m/AP1456-COUI",
     "https://www.condotta.com.br/imovel/apartamento-porto-alegre-2-quartos-38-m/AP1358-COUI",
@@ -276,7 +276,8 @@
     "https://portolar.com.br/detalhes_loc.php?Google=%20+Dep%C3%B3sito&imovel=1070",
     "https://portolar.com.br/detalhes_loc.php?Google=Barao%20do%20Cahy%20+Casa%20Comercial&imovel=822",
     "https://portolar.com.br/detalhes_loc.php?Google=Barao%20do%20Cahy%20+Casa&imovel=826"
-   ]
+   ],
+   "removidos": 224
   },
   "garcia": {
    "nome": "Garcia Imóveis",
@@ -295,7 +296,8 @@
     "https://www.garciaimoveisrs.com.br/busca/comprar/cidade/alvorada/bairros/passo-do-feijo/1/",
     "https://www.garciaimoveisrs.com.br/busca/comprar/cidade/alvorada/bairros/sumare/1/",
     "https://www.garciaimoveisrs.com.br/busca/comprar/cidade/alvorada/bairros/tijuca/1/"
-   ]
+   ],
+   "removidos": 0
   },
   "silveira": {
    "nome": "Silveira Imóveis",
@@ -309,7 +311,8 @@
    ],
    "metodo": "render(js)",
    "urls_coletadas": 0,
-   "urls_imovel": 0
+   "urls_imovel": 0,
+   "removidos": 0
   },
   "zonanorte": {
    "nome": "Imobiliária Zona Norte",
@@ -323,21 +326,23 @@
     "https://imobiliariazonanorte.com.br/detalhes_loc.php?imovel=0134",
     "https://imobiliariazonanorte.com.br/detalhes_loc.php?imovel=0136",
     "https://imobiliariazonanorte.com.br/detalhes_loc.php?imovel=0138"
-   ]
+   ],
+   "removidos": 0
   },
   "visualize": {
    "nome": "Visualize Imóveis",
    "status": "ok",
-   "novos": 1,
+   "novos": 2,
    "erro": null,
    "metodo": "listagem",
    "urls_coletadas": 53,
    "urls_imovel": 28,
    "exemplo_imovel": [
-    "https://visualizeimoveis.com/empreendimento/23166",
     "https://visualizeimoveis.com/empreendimento/40226",
-    "https://visualizeimoveis.com/empreendimento/49860"
-   ]
+    "https://visualizeimoveis.com/empreendimento/43407",
+    "https://visualizeimoveis.com/empreendimento/56383"
+   ],
+   "removidos": 2
   },
   "private": {
    "nome": "Private Imóveis",
@@ -351,7 +356,8 @@
     "https://privateimoveis.com/imovel/apartamento-garden-para-venda-3-dormitorios-porto-alegre-petropolis-65174/",
     "https://privateimoveis.com/imovel/apartamento-garden-para-venda-3-dormitorios-porto-alegre-rio-branco-15274/",
     "https://privateimoveis.com/imovel/apartamento-para-venda-1-dormitorio-porto-alegre-petropolis-49630/"
-   ]
+   ],
+   "removidos": 0
   },
   "dacas": {
    "nome": "Da Cás Imóveis",
@@ -363,7 +369,8 @@
    "urls_imovel": 0,
    "exemplos_urls": [
     "https://www.dacas.com.br/atrio-menino-deus"
-   ]
+   ],
+   "removidos": 0
   },
   "housin": {
    "nome": "Housin 360 (Melnick)",
@@ -375,7 +382,8 @@
    "urls_imovel": 1,
    "exemplo_imovel": [
     "https://housin360.com.br/square-garden-housin360-a-imobiliaria-da-melnick/"
-   ]
+   ],
+   "removidos": 0
   },
   "luxton": {
    "nome": "Luxton Imobiliária",
@@ -387,10 +395,10 @@
    "urls_imovel": 18,
    "exemplo_imovel": [
     "https://www.luxtonimoveis.com.br/imovel/15348/apartamento-com-145m-no-bairro-auxiliadora-em-porto-alegre_poa/venda/",
-    "https://www.luxtonimoveis.com.br/imovel/24144/apartamento-com-40m-no-bairro-moinhos-de-vento-em-porto-alegre_poa/locacao/",
-    "https://www.luxtonimoveis.com.br/imovel/34246/apartamento-garden-com-221m-no-bairro-praia-de-belas-em-porto-alegre_poa/venda/"
+    "https://www.luxtonimoveis.com.br/imovel/34246/apartamento-garden-com-221m-no-bairro-praia-de-belas-em-porto-alegre_poa/venda/",
+    "https://www.luxtonimoveis.com.br/imovel/34685/terreno-residencial-com-640m-no-bairro-sans-souci-em-eldorado-do-sul_poa/venda/"
    ],
-   "removidos": 3
+   "removidos": 2
   },
   "albert": {
    "nome": "Albert Imóveis",
@@ -398,12 +406,12 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 87,
+   "urls_coletadas": 88,
    "urls_imovel": 18,
    "exemplo_imovel": [
     "https://www.albertimoveis.com.br/empreendimento/21512/tree-haus-porsche-consulting/",
     "https://www.albertimoveis.com.br/empreendimento/23122/garden-haus-i-porsche-consulting/",
-    "https://www.albertimoveis.com.br/imovel/204/loft-com-37m-no-bairro-tres-figueiras-porto-alegre/locacao/"
+    "https://www.albertimoveis.com.br/imovel/22704/apartamento-com-124m-no-bairro-mont-serrat-porto-alegre/venda/"
    ],
    "removidos": 0
   },
@@ -432,10 +440,8 @@
   "mudancas_status": 1
  },
  "alertas": {
-  "mensagens": 4,
+  "mensagens": 2,
   "erros": [
-   "callmebot 555191510553: HTTP 210",
-   "callmebot 555191510553: HTTP 210",
    "callmebot 555191510553: HTTP 210",
    "callmebot 555191510553: HTTP 210"
   ],
