@@ -32,7 +32,7 @@ TIMEOUT = 25
 DELAY_BETWEEN_REQ = 1.2      # educação com os servidores
 MAX_SUBSITEMAPS = 40
 MAX_URLS_PER_SITE = 30000
-MAX_NEW_ENRICH = 40          # máx. de páginas de detalhe buscadas por site por execução
+MAX_NEW_ENRICH = 120          # máx. de páginas de detalhe buscadas por site por execução
 
 LOC_PAT   = re.compile(r"alug|loca[cç][aã]o|aluguel|/rent", re.I)
 VENDA_PAT = re.compile(r"vend|compr|/sale|a-venda|à-venda", re.I)
@@ -346,7 +346,7 @@ def main():
         time.sleep(DELAY_BETWEEN_REQ)
 
     # ---------------- revisita: atualiza preço dos anúncios ativos (detecta quedas) -----
-    REVISITA_CAP = 60
+    REVISITA_CAP = 120
     def _preco_num(p):
         m = re.search(r"[\d\.]{4,}(?:,\d{2})?", p or "")
         return float(m.group(0).replace(".", "").replace(",", ".")) if m else None

@@ -119,3 +119,13 @@ def enviar(novos_livres, removidos, quedas, painel_url=None):
             log["obs"] = "nenhum canal configurado — mensagem apenas no log"
             print("---- ALERTA (não enviado) ----\n" + m + "\n------------------------------")
     return log
+
+
+def enviar_texto(msg):
+    """Envia uma única mensagem avulsa (resumos)."""
+    log = {}
+    ok = _enviar_callmebot(msg, log)
+    ok = _enviar_meta(msg, log) or ok
+    if not ok:
+        print("---- RESUMO (não enviado) ----\n" + msg)
+    return log

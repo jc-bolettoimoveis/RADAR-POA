@@ -174,7 +174,8 @@ function render(){
       ${l.foto?`<img loading="lazy" src="${l.foto}" onerror="this.outerHTML='<div class=noimg>🏠</div>'">`:'<div class="noimg">🏠</div>'}
       <div class="body">
         <div class="badges">
-          ${hoje&&!l.removido_em?'<span class="b new">NOVO HOJE</span>':''}
+          ${hoje&&!l.removido_em&&l.origem!=='garimpo'?'<span class="b new">NOVO HOJE</span>':''}
+          ${l.origem==='garimpo'?'<span class="b">🗄 estoque</span>':''}
           ${l.removido_em?'<span class="b st-rem">⚫ REMOVIDO</span>':''}
           ${l.queda?'<span class="b st-queda">💸 PREÇO ↓</span>':''}
           ${daysAgo(l.detectado_em)>=90&&!l.removido_em?'<span class="b">⏳ 90d+</span>':''}
