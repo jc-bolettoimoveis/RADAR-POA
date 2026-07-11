@@ -91,7 +91,9 @@ header h1{font-size:18px;margin:0}header small{opacity:.8}
 </style>
 </head>
 <body>
-<header><h1>📡 Radar de Captação — imóveis novos fora da RGI</h1><small id="gen"></small></header>
+<header><h1>📡 Radar de Captação — imóveis novos fora da RGI</h1>
+<div><a href="dashboard.html" style="color:#fff;font-size:13px;font-weight:700;text-decoration:none;background:rgba(255,255,255,.15);padding:7px 14px;border-radius:8px">📊 Dashboard</a>
+<small id="gen" style="margin-left:10px"></small></div></header>
 <div class="wrap">
   <div class="filters">
     <input type="text" id="q" placeholder="Buscar título, endereço, característica (ex.: churrasqueira)...">
@@ -223,4 +225,187 @@ render();
 
 with open(os.path.join(DOCS, "index.html"), "w", encoding="utf-8") as f:
     f.write(HTML)
-print("painel gerado em docs/ —", len(listings), "imóveis no acumulado")
+
+# ================= DASHBOARD ANALÍTICO =================
+from collections import Counter, defaultdict
+known = load("known_urls.json", {})
+hoje_dt = datetime.now(timezone.utc).date()
+
+def dias_no_ar(l):
+    try:
+        d = datetime.strptime(l["detectado_em"], "%Y-%m-%d").date()
+        fim = datetime.strptime(l["removido_em"], "%Y-%m-%d").date() if l.get("removido_em") else hoje_dt
+        return max(0, (fim - d).days)
+    except Exception:
+        return 0
+
+ativos = [l for l in listings if not l.get("removido_em")]
+livres = [l for l in ativos if l.get("status", "livre") == "livre"]
+
+S = {}
+S["visao"] = {
+    "vigiados": sum(len(v) for v in known.values()),
+    "oportunidades": len(ativos),
+    "livres": len(livres),
+    "verificar": sum(1 for l in ativos if l.get("status") == "verificar"),
+    "captados_rede": sum(1 for l in ativos if l.get("status") == "captado"),
+    "removidos": len(listings) - len(ativos),
+    "quedas": sum(1 for l in listings if l.get("queda")),
+    "p1_livres": sum(1 for l in livres if l.get("prioridade") == 1),
+}
+S["por_status"] = dict(Counter((l.get("status") or "livre") for l in ativos))
+S["por_prioridade"] = dict(Counter("P%d" % (l.get("prioridade") or 4) for l in livres))
+S["por_bairro"] = dict(Counter(l["bairro"] for l in livres if l.get("bairro")).most_common(15))
+S["por_tipo"] = dict(Counter(l.get("tipo_imovel") or "n/ident." for l in livres).most_common(8))
+S["por_dorms"] = dict(sorted(Counter(str(l["dorms"]) for l in livres if l.get("dorms")).items()))
+
+faixas = [
+    ("até 400k",        0,        400_001),
+    ("401-650k",        400_001,  650_001),
+    ("651k-1M",         650_001,  1_000_001),
+    ("1M-1,5M",         1_000_001, 1_500_001),
+    ("1,5M-2M",         1_500_001, 2_000_001),
+    ("2M-2,5M",         2_000_001, 2_500_001),
+    ("2,5M-3M",         2_500_001, 3_000_001),
+    ("3M-5M",           3_000_001, 5_000_001),
+    ("5M-7M",           5_000_001, 7_000_001),
+    ("7M-10M",          7_000_001, 10_000_001),
+    ("10M-15M",         10_000_001, 15_000_001),
+    ("15M-20M",         15_000_001, 20_000_001),
+    ("20M+",            20_000_001, 1e15),
+]
+S["por_preco"] = {n: sum(1 for l in livres if l.get("preco_num") and lo <= l["preco_num"] < hi) for n,lo,hi in faixas}
+
+# preço médio do m² por bairro (venda, com área plausível)
+pm2 = defaultdict(list)
+for l in ativos:
+    if l.get("tipo") != "locacao" and l.get("preco_num") and l.get("area_num") and 20 <= l["area_num"] <= 2000:
+        v = l["preco_num"] / l["area_num"]
+        if 2000 <= v <= 60000 and l.get("bairro"):
+            pm2[l["bairro"]].append(v)
+S["preco_m2"] = {b: round(sum(v)/len(v)) for b, v in sorted(pm2.items(), key=lambda kv: -len(kv[1]))[:12] if len(v) >= 3}
+
+# tempo de estoque
+buckets = [("0-30d",0,30),("31-60d",31,60),("61-90d",61,90),("90d+",91,99999)]
+S["estoque_tempo"] = {n: sum(1 for l in ativos if lo <= dias_no_ar(l) <= hi) for n,lo,hi in buckets}
+
+# detecções por dia (últimos 30)
+por_dia = Counter(l["detectado_em"] for l in listings if l.get("origem") != "garimpo")
+dias_ord = sorted(por_dia)[-30:]
+S["timeline"] = {"labels": [d[5:].replace("-", "/") for d in dias_ord], "valores": [por_dia[d] for d in dias_ord]}
+
+# por imobiliária: oportunidades, % endereço, completude média, estoque vigiado
+imobs = {}
+for l in ativos:
+    k = l["imobiliaria"]
+    e = imobs.setdefault(k, {"ops": 0, "livres": 0, "end": 0, "comp": [], "dias": []})
+    e["ops"] += 1
+    e["livres"] += 1 if l.get("status", "livre") == "livre" else 0
+    e["end"] += 1 if (l.get("endereco_nivel") in ("completo", "rua+condominio")) else 0
+    if l.get("completude"): e["comp"].append(l["completude"])
+    e["dias"].append(dias_no_ar(l))
+sid2nome = {}
+for l in listings: sid2nome[l["site_id"]] = l["imobiliaria"]
+S["imobiliarias"] = [{
+    "nome": k, "ops": v["ops"], "livres": v["livres"],
+    "pct_end": round(100*v["end"]/v["ops"]) if v["ops"] else 0,
+    "comp_media": round(sum(v["comp"])/len(v["comp"])) if v["comp"] else 0,
+    "dias_medio": round(sum(v["dias"])/len(v["dias"])) if v["dias"] else 0,
+    "vigiados": len(known.get(next((s for s,n in sid2nome.items() if n==k), ""), [])),
+} for k, v in sorted(imobs.items(), key=lambda kv: -kv[1]["ops"])]
+
+with open(os.path.join(DOCS, "dash_data.js"), "w", encoding="utf-8") as f:
+    f.write("const STATS = "); json.dump(S, f, ensure_ascii=False)
+    f.write(";\nconst DGERADO = " + json.dumps(datetime.now(timezone.utc).strftime("%d/%m/%Y %H:%M UTC")) + ";")
+
+DASH = """<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Dashboard — Radar de Captação</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+:root{--acc:#0f4c81;--ink:#1a2230;--mut:#6b7686;--bg:#f5f6f8}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--acc);color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+header h1{font-size:18px;margin:0}
+header a{color:#fff;font-size:13px;font-weight:700;text-decoration:none;background:rgba(255,255,255,.15);padding:7px 14px;border-radius:8px}
+.wrap{max-width:1240px;margin:0 auto;padding:16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:#fff;border-radius:12px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.kpi .v{font-size:30px;font-weight:800;color:var(--acc)}
+.kpi.green .v{color:#1c7c4e}.kpi.red .v{color:#b3261e}
+.kpi .l{font-size:12px;color:var(--mut);margin-top:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:14px}
+.box{background:#fff;border-radius:12px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.box h2{font-size:14px;margin:0 0 10px;color:var(--ink)}
+.box canvas{max-height:260px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+td,th{padding:5px 7px;border-bottom:1px solid #eef1f5;text-align:left}
+th{color:var(--mut);font-weight:600}
+.funil{display:flex;gap:8px;flex-wrap:wrap}
+.fstep{flex:1;min-width:120px;text-align:center;padding:12px 6px;border-radius:10px;background:#eef3fa}
+.fstep b{display:block;font-size:24px;color:var(--acc)}
+.fstep small{color:var(--mut)}
+.note{font-size:11px;color:var(--mut);margin-top:6px}
+</style>
+</head>
+<body>
+<header><h1>📊 Dashboard — Radar de Captação</h1><div><a href="index.html">📡 Voltar ao painel</a> <small id="g" style="margin-left:8px"></small></div></header>
+<div class="wrap">
+  <div class="kpis" id="kpis"></div>
+  <div class="box" style="margin-bottom:14px"><h2>Funil de captação (status de gestão deste navegador)</h2><div class="funil" id="funil"></div>
+  <div class="note">O funil usa os status marcados nos cards por quem usa este navegador.</div></div>
+  <div class="grid">
+    <div class="box"><h2>Oportunidades livres por bairro</h2><canvas id="cBairro"></canvas></div>
+    <div class="box"><h2>Preço médio do m² por bairro (anúncios monitorados)</h2><canvas id="cM2"></canvas></div>
+    <div class="box"><h2>Tempo de estoque na concorrência</h2><canvas id="cTempo"></canvas></div>
+    <div class="box"><h2>Detecções de imóveis novos por dia</h2><canvas id="cTime"></canvas></div>
+    <div class="box"><h2>Livres por prioridade de endereço</h2><canvas id="cPrio"></canvas></div>
+    <div class="box"><h2>Livres por tipo de imóvel</h2><canvas id="cTipo"></canvas></div>
+    <div class="box"><h2>Livres por dormitórios</h2><canvas id="cDorm"></canvas></div>
+    <div class="box"><h2>Livres por faixa de preço</h2><canvas id="cPreco"></canvas></div>
+  </div>
+  <div class="box" style="margin-top:14px"><h2>Raio-x por imobiliária</h2><table id="tImob"></table></div>
+</div>
+<script src="dash_data.js"></script>
+<script>
+document.getElementById('g').textContent='Atualizado: '+DGERADO;
+const V=STATS.visao;
+const kpis=[[V.vigiados.toLocaleString('pt-BR'),'imóveis vigiados',''],[V.oportunidades,'oportunidades no painel',''],
+ [V.livres,'🟢 livres p/ captar','green'],[V.p1_livres,'🎯 P1 livres (eemovel)','green'],
+ [V.verificar,'🟡 a verificar',''],[V.captados_rede,'🔴 já na base/RGI',''],
+ [V.removidos,'⚫ saíram do ar','red'],[V.quedas,'💸 quedas de preço','']];
+document.getElementById('kpis').innerHTML=kpis.map(k=>`<div class="kpi ${k[2]}"><div class="v">${k[0]}</div><div class="l">${k[1]}</div></div>`).join('');
+// funil da gestão local
+const GEST=JSON.parse(localStorage.getItem('radar_gestao')||'{}');
+const fc={novo:0,contatado:0,negociando:0,captado_nosso:0,descartado:0};
+fc.novo=V.livres;Object.values(GEST).forEach(g=>{if(fc[g.st]!==undefined&&g.st!=='novo'){fc[g.st]++;fc.novo=Math.max(0,fc.novo-1)}});
+const fl=[['Livres (sem contato)',fc.novo],['📞 Contatados',fc.contatado],['🤝 Negociando',fc.negociando],['✅ Captados por nós',fc.captado_nosso],['🗑 Descartados',fc.descartado]];
+document.getElementById('funil').innerHTML=fl.map(f=>`<div class="fstep"><b>${f[1]}</b><small>${f[0]}</small></div>`).join('');
+const AZ='#0f4c81',PAL=['#0f4c81','#1c7c4e','#d4a017','#b3261e','#6b7686','#7c5cbf','#2a9d8f','#e76f51'];
+const bar=(id,obj,cor,fmt)=>new Chart(document.getElementById(id),{type:'bar',
+ data:{labels:Object.keys(obj),datasets:[{data:Object.values(obj),backgroundColor:cor||AZ}]},
+ options:{plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10}}},y:{beginAtZero:true,ticks:fmt?{callback:v=>fmt(v)}:{}}}}});
+bar('cBairro',STATS.por_bairro);
+bar('cM2',STATS.preco_m2,'#1c7c4e',v=>'R$ '+(v/1000).toFixed(0)+'k');
+bar('cTempo',STATS.estoque_tempo,'#d4a017');
+bar('cDorm',STATS.por_dorms);
+bar('cPreco',STATS.por_preco,'#7c5cbf');
+new Chart(document.getElementById('cPrio'),{type:'doughnut',data:{labels:Object.keys(STATS.por_prioridade),
+ datasets:[{data:Object.values(STATS.por_prioridade),backgroundColor:['#1c7c4e','#0f4c81','#d4a017','#9aa6ba']}]},
+ options:{plugins:{legend:{position:'right'}}}});
+new Chart(document.getElementById('cTipo'),{type:'doughnut',data:{labels:Object.keys(STATS.por_tipo),
+ datasets:[{data:Object.values(STATS.por_tipo),backgroundColor:PAL}]},options:{plugins:{legend:{position:'right'}}}});
+new Chart(document.getElementById('cTime'),{type:'line',data:{labels:STATS.timeline.labels,
+ datasets:[{data:STATS.timeline.valores,borderColor:AZ,backgroundColor:'rgba(15,76,129,.12)',fill:true,tension:.3}]},
+ options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
+document.getElementById('tImob').innerHTML='<tr><th>Imobiliária</th><th>Estoque vigiado</th><th>Oportunidades</th><th>🟢 Livres</th><th>% endereço localizável</th><th>Ficha média</th><th>Tempo médio no ar</th></tr>'+
+ STATS.imobiliarias.map(i=>`<tr><td>${i.nome}</td><td>${i.vigiados.toLocaleString('pt-BR')}</td><td>${i.ops}</td><td>${i.livres}</td><td>${i.pct_end}%</td><td>${i.comp_media}%</td><td>${i.dias_medio}d</td></tr>`).join('');
+</script>
+</body>
+</html>"""
+with open(os.path.join(DOCS, "dashboard.html"), "w", encoding="utf-8") as f:
+    f.write(DASH)
+print("painel + dashboard gerados em docs/ —", len(listings), "imóveis no acumulado")
