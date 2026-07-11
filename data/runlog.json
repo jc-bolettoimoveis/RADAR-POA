@@ -1,305 +1,424 @@
 {
- "executado_em": "2026-07-11T15:58:55Z",
+ "executado_em": "2026-07-11T16:34:25Z",
  "sites": {
   "auxiliadora": {
    "nome": "Auxiliadora Predial",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 6,
    "urls_imovel": 0,
-   "estoque_inicial": 0
+   "exemplos_urls": [
+    "https://www.auxiliadorapredial.com.br",
+    "https://www.auxiliadorapredial.com.br/agencias",
+    "https://www.auxiliadorapredial.com.br/condominios",
+    "https://www.auxiliadorapredial.com.br/fale-conosco",
+    "https://www.auxiliadorapredial.com.br/sobre-nos",
+    "https://www.auxiliadorapredial.com.br/trabalhe-conosco"
+   ]
   },
   "guarida": {
    "nome": "Guarida Imóveis",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 21649,
    "urls_imovel": 21631,
-   "estoque_inicial": 21631
+   "exemplo_imovel": [
+    "https://guarida.com.br/imovel/alugar/aberta-dos-morros-porto-alegre-rs/loja-ponto-comercial/21631",
+    "https://guarida.com.br/imovel/alugar/agronomia-porto-alegre-rs/apartamento/15636",
+    "https://guarida.com.br/imovel/alugar/agronomia-porto-alegre-rs/apartamento/24107"
+   ]
   },
   "creditoreal": {
    "nome": "Crédito Real",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
    "urls_coletadas": 0,
-   "urls_imovel": 0,
-   "estoque_inicial": 0
+   "urls_imovel": 0
   },
   "foxter": {
    "nome": "Foxter Cia Imobiliária",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 1085,
    "urls_imovel": 972,
-   "estoque_inicial": 972
+   "exemplo_imovel": [
+    "https://www.foxterciaimobiliaria.com.br/empreendimento/10030/condominio-arlete-r-cachoeirinha-vila-vista-alegre-condominio-vertical-zona-grande-porto-alegre",
+    "https://www.foxterciaimobiliaria.com.br/empreendimento/10064/empreendimento-residencial-florida-village-r-alvorada-bela-vista-condominio-vertical-zona-grande-porto-alegre",
+    "https://www.foxterciaimobiliaria.com.br/empreendimento/10095/jardim-di-napoli-r-cachoeirinha-distrito-industrial-condominio-horizontal-de-casas-zona-grande-porto-alegre"
+   ]
   },
   "ducati": {
    "nome": "Lopes Ducati",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
    "urls_coletadas": 0,
-   "urls_imovel": 0,
-   "estoque_inicial": 0
+   "urls_imovel": 0
   },
   "sperinde": {
    "nome": "Sperinde Imóveis",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 97,
-   "urls_imovel": 34,
-   "estoque_inicial": 34
+   "urls_coletadas": 98,
+   "urls_imovel": 35,
+   "exemplo_imovel": [
+    "https://www.sperinde.com/imovel/alugar/21015119/sala-com-63m-no-bairro-sao-pelegrino-em-caxias-do-sul/",
+    "https://www.sperinde.com/imovel/alugar/21015142/sala-com-45m-no-bairro-exposicao-em-caxias-do-sul/",
+    "https://www.sperinde.com/imovel/alugar/21018447/apartamento-com-52m-no-bairro-petropolis-em-porto-alegre/"
+   ]
   },
   "rial": {
    "nome": "Rial Imóveis",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 500,
    "urls_imovel": 0,
-   "estoque_inicial": 0
+   "exemplos_urls": [
+    "https://rial.com.br/",
+    "https://rial.com.br/autorizacao_vd.php",
+    "https://rial.com.br/cadastra_imovel.php",
+    "https://rial.com.br/contato.php",
+    "https://rial.com.br/debito_cond.php",
+    "https://rial.com.br/debito_loc.php",
+    "https://rial.com.br/desocupacao.php",
+    "https://rial.com.br/detalhes_loc.php?imovel=1074&amp;Google=Loja+JARDIM%20LEOPOLDINA+"
+   ]
   },
   "urban": {
    "nome": "Urban Company",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 9755,
    "urls_imovel": 6820,
-   "estoque_inicial": 6820
+   "exemplo_imovel": [
+    "https://www.urban.imb.br/empreendimento/10261/hotel-v3rso-by-emiliano-boa-vista-porto-alegre",
+    "https://www.urban.imb.br/empreendimento/10356/condominio-canto-dos-passaros-gafisa-jardim-carvalho-porto-alegre",
+    "https://www.urban.imb.br/empreendimento/10359/rossi-ideal-alto-petropolis-porto-alegre"
+   ]
   },
   "oneluxo": {
    "nome": "One Imóveis de Luxo",
-   "status": "linha_de_base",
-   "novos": 0,
+   "status": "ok",
+   "novos": 20,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 6,
-   "urls_imovel": 0,
-   "estoque_inicial": 0
+   "urls_coletadas": 137,
+   "urls_imovel": 26,
+   "exemplo_imovel": [
+    "https://oneluxo.com.br/imovel/one13640-aluguel-apartamento-moinhos-de-vento-porto-alegre-rs-imoveis-residenciais/",
+    "https://oneluxo.com.br/imovel/one13717-aluguel-apartamento-auxiliadora-porto-alegre-rs-imoveis-residenciais/",
+    "https://oneluxo.com.br/imovel/one18934-venda-apartamento-cristal-porto-alegre-rs-imoveis-residenciais/"
+   ]
   },
   "colnaghi": {
    "nome": "Colnaghi Imóveis",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 15,
    "urls_imovel": 0,
-   "estoque_inicial": 0
+   "exemplos_urls": [
+    "https://colnaghi.com.br/",
+    "https://colnaghi.com.br/anuncie",
+    "https://colnaghi.com.br/bairros",
+    "https://colnaghi.com.br/construtoras",
+    "https://colnaghi.com.br/corretores",
+    "https://colnaghi.com.br/depoimentos",
+    "https://colnaghi.com.br/empreendimentos",
+    "https://colnaghi.com.br/experiencias"
+   ]
   },
   "multiimob": {
    "nome": "MultiImob",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
    "urls_coletadas": 60,
    "urls_imovel": 19,
-   "estoque_inicial": 19
+   "exemplo_imovel": [
+    "https://www.multiimob.com.br/imovel/apartamento-com-102m-no-bairro-passo-da-areia-em-porto-alegre-para-comprar/24490/",
+    "https://www.multiimob.com.br/imovel/apartamento-com-136m-no-bairro-chacara-das-pedras-em-porto-alegre-para-comprar/22415/",
+    "https://www.multiimob.com.br/imovel/apartamento-com-138m-no-bairro-petropolis-em-porto-alegre-para-comprar/25251/"
+   ]
   },
   "bridge": {
    "nome": "Bridge Imóveis",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 6961,
    "urls_imovel": 6926,
-   "estoque_inicial": 6926
+   "exemplo_imovel": [
+    "https://www.bridgeimoveis.com.br/imovel/10050/with-inviting-home-libel-petropolis-porto-alegre",
+    "https://www.bridgeimoveis.com.br/imovel/10090/cobertura-3-dormitorios-auxiliadora-porto-alegre",
+    "https://www.bridgeimoveis.com.br/imovel/10174/chartres-concid-petropolis-porto-alegre"
+   ]
   },
   "verabernardes": {
    "nome": "Vera Bernardes",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 1293,
    "urls_imovel": 1171,
-   "estoque_inicial": 1171
+   "exemplo_imovel": [
+    "https://www.verabernardes.com.br/empreendimento/venda/41195/alphaville-vila-nova-porto-alegre/",
+    "https://www.verabernardes.com.br/empreendimento/venda/41196/pedra-bonita-cavalhada-porto-alegre/",
+    "https://www.verabernardes.com.br/empreendimento/venda/41225/poente-do-guaiba-cristal-porto-alegre/"
+   ]
   },
   "condotta": {
    "nome": "Condotta",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 250,
-   "urls_imovel": 214,
-   "estoque_inicial": 214
+   "urls_coletadas": 263,
+   "urls_imovel": 224,
+   "exemplo_imovel": [
+    "https://www.condotta.com.br/imovel/apartamento-porto-alegre-1-quarto-43-m/AP1456-COUI",
+    "https://www.condotta.com.br/imovel/apartamento-porto-alegre-2-quartos-38-m/AP1358-COUI",
+    "https://www.condotta.com.br/imovel/apartamento-porto-alegre-2-quartos-38-m/AP1360-COUI"
+   ]
   },
   "morano": {
    "nome": "Morano Imobiliária",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 1406,
    "urls_imovel": 799,
-   "estoque_inicial": 799
+   "exemplo_imovel": [
+    "https://www.morano.com.br/imovel/andar-corporativo/locacao/porto-alegre/rs/cristal/AC0010_MORA",
+    "https://www.morano.com.br/imovel/andar-corporativo/locacao/porto-alegre/rs/higienopolis/AC0015_MORA",
+    "https://www.morano.com.br/imovel/andar-corporativo/venda-e-locacao/porto-alegre/rs/centro-historico/AC0003_MORA"
+   ]
   },
   "reservaimob": {
    "nome": "Reserva Imob",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 879,
    "urls_imovel": 782,
-   "estoque_inicial": 782
+   "exemplo_imovel": [
+    "https://www.reservaimob.com.br/imovel/1/apartamento-a-venda-com-72m-no-bairro-auxiliadora-em-porto-alegre_poa/",
+    "https://www.reservaimob.com.br/imovel/10002/empreendimento-a-venda-no-bairro-centro-em-balneario-camboriu_bc/",
+    "https://www.reservaimob.com.br/imovel/10003/apartamento-a-venda-com-184m-no-bairro-centro-em-balneario-camboriu_bc/"
+   ]
   },
   "terracini": {
    "nome": "Imobiliária Terracini",
-   "status": "linha_de_base",
-   "novos": 0,
+   "status": "ok",
+   "novos": 27,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 394,
-   "urls_imovel": 358,
-   "estoque_inicial": 358
+   "urls_coletadas": 362,
+   "urls_imovel": 327,
+   "exemplo_imovel": [
+    "https://www.terracini.com.br/imovel/apartamento-garden-porto-alegre-2-quartos-102-m/GD0338-TESI",
+    "https://www.terracini.com.br/imovel/apartamento-garden-porto-alegre-2-quartos-113-m/GD0284-TESI",
+    "https://www.terracini.com.br/imovel/apartamento-garden-porto-alegre-2-quartos-126-m/GD0336-TESI"
+   ]
   },
   "cpimoveis": {
    "nome": "CP Imóveis",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 3910,
    "urls_imovel": 3009,
-   "estoque_inicial": 3009
+   "exemplo_imovel": [
+    "https://www.cpimoveis.com.br//busca/poa/modo/compra/categoria/Apartamentos,Coberturas,Loft/cidade/Porto,Alegre/bairro/Jardim%20Lind%C3%B3ia/0//",
+    "https://www.cpimoveis.com.br//busca/poa/modo/compra/categoria/Apartamentos,Coberturas,Loft/cidade/Porto,Alegre/bairro/Jardim%20Lind%C3%B3ia/140//",
+    "https://www.cpimoveis.com.br//busca/poa/modo/compra/categoria/Apartamentos,Coberturas,Loft/cidade/Porto,Alegre/bairro/Jardim%20Lind%C3%B3ia/175//"
+   ]
   },
   "portolar": {
    "nome": "Portolar Imóveis",
-   "status": "linha_de_base",
-   "novos": 0,
+   "status": "ok",
+   "novos": 224,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 290,
-   "urls_imovel": 0,
-   "estoque_inicial": 0
+   "urls_imovel": 264,
+   "exemplo_imovel": [
+    "https://portolar.com.br/detalhes_loc.php?Google=%20+Dep%C3%B3sito&amp;imovel=1070",
+    "https://portolar.com.br/detalhes_loc.php?Google=Barao%20do%20Cahy%20+Casa%20Comercial&amp;imovel=822",
+    "https://portolar.com.br/detalhes_loc.php?Google=Barao%20do%20Cahy%20+Casa&amp;imovel=826"
+   ]
   },
   "garcia": {
    "nome": "Garcia Imóveis",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 46,
    "urls_imovel": 0,
-   "estoque_inicial": 0
+   "exemplos_urls": [
+    "https://www.garciaimoveisrs.com.br/",
+    "https://www.garciaimoveisrs.com.br/anuncie-seu-imovel/",
+    "https://www.garciaimoveisrs.com.br/busca/comprar/cidade/alvorada/bairros/aparecida/1/",
+    "https://www.garciaimoveisrs.com.br/busca/comprar/cidade/alvorada/bairros/bela-vista/1/",
+    "https://www.garciaimoveisrs.com.br/busca/comprar/cidade/alvorada/bairros/jardim-algarve/1/",
+    "https://www.garciaimoveisrs.com.br/busca/comprar/cidade/alvorada/bairros/passo-do-feijo/1/",
+    "https://www.garciaimoveisrs.com.br/busca/comprar/cidade/alvorada/bairros/sumare/1/",
+    "https://www.garciaimoveisrs.com.br/busca/comprar/cidade/alvorada/bairros/tijuca/1/"
+   ]
   },
   "silveira": {
    "nome": "Silveira Imóveis",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
    "urls_coletadas": 0,
-   "urls_imovel": 0,
-   "estoque_inicial": 0
+   "urls_imovel": 0
   },
   "zonanorte": {
    "nome": "Imobiliária Zona Norte",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 185,
    "urls_imovel": 0,
-   "estoque_inicial": 0
+   "exemplos_urls": [
+    "https://imobiliariazonanorte.com.br/",
+    "https://imobiliariazonanorte.com.br/agenda_visita.php?imovel=0134&amp;mod=L",
+    "https://imobiliariazonanorte.com.br/agenda_visita.php?imovel=0136&amp;mod=L",
+    "https://imobiliariazonanorte.com.br/agenda_visita.php?imovel=0138&amp;mod=L",
+    "https://imobiliariazonanorte.com.br/agenda_visita.php?imovel=0252&amp;mod=L",
+    "https://imobiliariazonanorte.com.br/agenda_visita.php?imovel=0306&amp;mod=vd",
+    "https://imobiliariazonanorte.com.br/agenda_visita.php?imovel=0307&amp;mod=vd",
+    "https://imobiliariazonanorte.com.br/agenda_visita.php?imovel=0313&amp;mod=vd"
+   ]
   },
   "visualize": {
    "nome": "Visualize Imóveis",
-   "status": "linha_de_base",
-   "novos": 0,
+   "status": "ok",
+   "novos": 1,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 53,
-   "urls_imovel": 28,
-   "estoque_inicial": 28
+   "urls_coletadas": 51,
+   "urls_imovel": 26,
+   "exemplo_imovel": [
+    "https://visualizeimoveis.com/empreendimento/30331",
+    "https://visualizeimoveis.com/empreendimento/30533",
+    "https://visualizeimoveis.com/empreendimento/42283"
+   ]
   },
   "peta": {
    "nome": "PETA Imóveis",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 301,
    "urls_imovel": 27,
-   "estoque_inicial": 27
+   "exemplo_imovel": [
+    "https://petaimoveis.com.br/03-lotes-de-terreno-560000",
+    "https://petaimoveis.com.br/apartamento-2-dormitorios-para-locacao-por-r-3200-00-paraviana",
+    "https://petaimoveis.com.br/apartamento-com-2-dormitorios-a-venda-por-r-130000000-calunga-boa-vistarr"
+   ]
   },
   "private": {
    "nome": "Private Imóveis",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
    "urls_coletadas": 0,
-   "urls_imovel": 0,
-   "estoque_inicial": 0
+   "urls_imovel": 0
   },
   "dacas": {
    "nome": "Da Cás Imóveis",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 1,
    "urls_imovel": 0,
-   "estoque_inicial": 0
+   "exemplos_urls": [
+    "https://www.dacas.com.br/atrio-menino-deus"
+   ]
   },
   "housin": {
    "nome": "Housin 360 (Melnick)",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 52,
    "urls_imovel": 1,
-   "estoque_inicial": 1
+   "exemplo_imovel": [
+    "https://housin360.com.br/square-garden-housin360-a-imobiliaria-da-melnick/"
+   ]
   },
   "luxton": {
    "nome": "Luxton Imobiliária",
-   "status": "linha_de_base",
-   "novos": 0,
+   "status": "ok",
+   "novos": 3,
    "erro": null,
    "metodo": "listagem",
    "urls_coletadas": 38,
    "urls_imovel": 18,
-   "estoque_inicial": 18
+   "exemplo_imovel": [
+    "https://www.luxtonimoveis.com.br/imovel/15348/apartamento-com-145m-no-bairro-auxiliadora-em-porto-alegre_poa/venda/",
+    "https://www.luxtonimoveis.com.br/imovel/24827/apartamento-com-86m-no-bairro-bela-vista-em-porto-alegre_poa/venda/",
+    "https://www.luxtonimoveis.com.br/imovel/34246/apartamento-garden-com-221m-no-bairro-praia-de-belas-em-porto-alegre_poa/venda/"
+   ]
   },
   "albert": {
    "nome": "Albert Imóveis",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 87,
+   "urls_coletadas": 89,
    "urls_imovel": 18,
-   "estoque_inicial": 18
+   "exemplo_imovel": [
+    "https://www.albertimoveis.com.br/empreendimento/21512/tree-haus-porsche-consulting/",
+    "https://www.albertimoveis.com.br/empreendimento/23122/garden-haus-i-porsche-consulting/",
+    "https://www.albertimoveis.com.br/imovel/1548/apartamento-com-135m-no-bairro-bela-vista-porto-alegre/locacao/"
+   ]
   },
   "lyon": {
    "nome": "Lyon Imóveis",
-   "status": "linha_de_base",
+   "status": "ok",
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 2695,
    "urls_imovel": 2691,
-   "estoque_inicial": 2691
+   "exemplo_imovel": [
+    "https://lyonimoveis.com.br/imovel/2-dormitorios-e-2-vagas-no-menino-deus/AP1727",
+    "https://lyonimoveis.com.br/imovel/a-2-quadras-do-parcao/LF0009",
+    "https://lyonimoveis.com.br/imovel/adagio/AP1460"
+   ]
   }
  },
  "cruzamento": {
@@ -308,10 +427,10 @@
   "portal_rgi_urls": 21106,
   "portal_rgi": 21106,
   "base_total": 38826,
-  "mudancas_status": 0
+  "mudancas_status": 8
  },
  "alertas": {
-  "mensagens": 0,
-  "obs": "nada a reportar"
+  "mensagens": 34,
+  "obs": "nenhum canal configurado — mensagem apenas no log"
  }
 }
