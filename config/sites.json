@@ -79,7 +79,22 @@
       "id": "auxiliadora",
       "nome": "Auxiliadora Predial",
       "base": "https://www.auxiliadorapredial.com.br",
-      "enabled": true
+      "enabled": true,
+      "listing_paths": [
+        "/comprar/residencial/rs+porto-alegre+boa-vista",
+        "/comprar/residencial/rs+porto-alegre+bela-vista",
+        "/comprar/residencial/rs+porto-alegre+auxiliadora",
+        "/comprar/residencial/rs+porto-alegre+tres-figueiras",
+        "/comprar/residencial/rs+porto-alegre+chacara-das-pedras",
+        "/comprar/residencial/rs+porto-alegre+jardim-europa",
+        "/comprar/residencial/rs+porto-alegre+passo-da-areia",
+        "/comprar/residencial/rs+porto-alegre+mont-serrat",
+        "/comprar/residencial/rs+porto-alegre+moinhos-de-vento",
+        "/comprar/residencial/rs+porto-alegre+rio-branco",
+        "/comprar/residencial/rs+porto-alegre+independencia",
+        "/comprar/residencial/rs+porto-alegre+higienopolis",
+        "/comprar/residencial/rs+porto-alegre+petropolis"
+      ]
     },
     {
       "id": "guarida",
@@ -91,7 +106,12 @@
       "id": "creditoreal",
       "nome": "Crédito Real",
       "base": "https://www.creditoreal.com.br",
-      "enabled": true
+      "enabled": true,
+      "listing_paths": [
+        "/vendas/porto-alegre-rs",
+        "/vendas/porto-alegre-rs?pagina=2",
+        "/vendas/porto-alegre-rs?pagina=3"
+      ]
     },
     {
       "id": "foxter",
@@ -103,7 +123,12 @@
       "id": "ducati",
       "nome": "Lopes Ducati",
       "base": "https://www.imobiliariaducati.com.br",
-      "enabled": true
+      "enabled": true,
+      "listing_paths": [
+        "/comprar",
+        "/imoveis/venda",
+        "/venda"
+      ]
     },
     {
       "id": "sperinde",
@@ -127,7 +152,12 @@
       "id": "oneluxo",
       "nome": "One Imóveis de Luxo",
       "base": "https://oneluxo.com.br",
-      "enabled": true
+      "enabled": true,
+      "listing_paths": [
+        "/porto-alegre/",
+        "/comprar/",
+        "/imoveis/"
+      ]
     },
     {
       "id": "colnaghi",
@@ -187,7 +217,8 @@
       "id": "portolar",
       "nome": "Portolar Imóveis",
       "base": "https://portolar.com.br",
-      "enabled": true
+      "enabled": true,
+      "url_pattern": "detalhes_(vd|loc)\\.php\\?.*imovel=\\d+"
     },
     {
       "id": "garcia",
@@ -199,7 +230,12 @@
       "id": "silveira",
       "nome": "Silveira Imóveis",
       "base": "https://www.silveiraimoveiszn.com.br",
-      "enabled": true
+      "enabled": true,
+      "listing_paths": [
+        "/imoveis/venda",
+        "/imoveis",
+        "/venda"
+      ]
     },
     {
       "id": "zonanorte",
@@ -223,13 +259,22 @@
       "id": "private",
       "nome": "Private Imóveis",
       "base": "https://privateimoveis.com",
-      "enabled": true
+      "enabled": true,
+      "listing_paths": [
+        "/imoveis/status/venda/cidade/porto-alegre",
+        "/imoveis/status/venda/cidade/porto-alegre?pag=2"
+      ]
     },
     {
       "id": "dacas",
       "nome": "Da Cás Imóveis",
       "base": "https://www.dacas.com.br",
-      "enabled": true
+      "enabled": true,
+      "listing_paths": [
+        "/imoveis",
+        "/venda",
+        "/busca"
+      ]
     },
     {
       "id": "housin",

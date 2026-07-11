@@ -136,7 +136,8 @@ def collect_site_urls(site, session, log):
     if not urls:
         # fallback: varre a home + páginas de listagem óbvias, extrai links
         log["metodo"] = "listagem"
-        for path in ("/", "/venda", "/imoveis", "/comprar", "/imoveis/venda", "/busca"):
+        paths = site.get("listing_paths") or ("/", "/venda", "/imoveis", "/comprar", "/imoveis/venda", "/busca")
+        for path in paths:
             try:
                 html = fetch(urljoin(base, path), session)
                 for href in re.findall(r'href=["\']([^"\'#]+)', html):
@@ -246,6 +247,12 @@ def main():
             urls = collect_site_urls(site, session, log)
             props = {u for u in urls if is_property_url(u, site)}
             log["urls_imovel"] = len(props)
+            # autodiagnóstico: guarda exemplos p/ calibrar filtros
+            if props:
+                log["exemplo_imovel"] = sorted(props)[:3]
+            elif urls:
+                log["exemplos_urls"] = [u for u in sorted(urls)
+                                        if not re.search(r"\.(css|js|png|jpe?g|webp|xml|pdf)([?#]|$)", u)][:8]
 
             prev = set(known.get(sid, []))
             baseline = sid not in known
