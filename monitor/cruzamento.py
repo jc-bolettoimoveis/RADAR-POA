@@ -155,6 +155,22 @@ def base_de_sitemap(nome, base_url, fetch, session, collect_urls, enrich, cache,
     return itens
 
 # ------------------------------------------------------------------ matching
+def _rua_norm(endereco):
+    if not endereco:
+        return None
+    e = str(endereco).lower()
+    e = e.translate(str.maketrans("áàâãéêëíìóòôõúùüç", "aaaaeeeiiooooouuc"))
+    e = re.sub(r"^\s*(rua|r\.|av\.?|avenida|travessa|tv\.?|alameda|al\.?|estrada|est\.?)\s+", "", e.strip())
+    e = re.sub(r"\s+", " ", e.split(",")[0]).strip()
+    return e or None
+
+def _num_end(item):
+    if item.get("numero"):
+        return str(item["numero"])
+    m = re.search(r",\s*(\d{1,5})", item.get("endereco") or "")
+    return m.group(1) if m else None
+
+# ------------------------------------------------------------------ matching
 def score_match(radar, base):
     """radar/base: perfis com bairro,tipo,area,dorms,preco. Retorna pontuação."""
     s = 0
@@ -175,6 +191,17 @@ def score_match(radar, base):
     rp, bp = radar.get("preco"), base.get("preco")
     if rp and bp and abs(rp - bp) <= 0.07 * bp:
         s += 2
+    # confronto por endereço: decisivo quando os dois lados têm rua (e número)
+    rr, rb = _rua_norm(radar.get("endereco")), _rua_norm(base.get("endereco"))
+    if rr and rb and (rr in rb or rb in rr):
+        nr, nb = _num_end(radar), _num_end(base)
+        if nr and nb:
+            if nr == nb:
+                s += 5          # mesma rua, mesmo número: praticamente certeza
+            else:
+                return 0        # mesma rua, número diferente: imóvel distinto
+        else:
+            s += 2              # mesma rua, sem número dos dois lados
     return s
 
 def cruzar(listings, base_itens, bairros_alvo, match_bairro, today):
@@ -186,6 +213,8 @@ def cruzar(listings, base_itens, bairros_alvo, match_bairro, today):
         texto = " ".join(x for x in (l.get("titulo"), l.get("descricao"),
                                      l.get("url", "").split("/")[-1].replace("-", " ")) if x)
         perfil = {
+            "endereco": l.get("endereco"),
+            "numero": l.get("numero"),
             "bairro": l.get("bairro"),
             "tipo": _tipo(texto),
             "area": _area(texto),

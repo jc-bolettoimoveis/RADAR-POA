@@ -111,7 +111,9 @@
         "/vendas/porto-alegre-rs",
         "/vendas/porto-alegre-rs?pagina=2",
         "/vendas/porto-alegre-rs?pagina=3"
-      ]
+      ],
+      "obs": "Site JavaScript — coletado via navegador headless (Playwright).",
+      "render": true
     },
     {
       "id": "foxter",
@@ -125,10 +127,13 @@
       "base": "https://www.imobiliariaducati.com.br",
       "enabled": true,
       "listing_paths": [
+        "/imoveis/a-venda",
         "/comprar",
         "/imoveis/venda",
         "/venda"
-      ]
+      ],
+      "obs": "Site JavaScript — coletado via navegador headless (Playwright).",
+      "render": true
     },
     {
       "id": "sperinde",
@@ -140,7 +145,8 @@
       "id": "rial",
       "nome": "Rial Imóveis",
       "base": "https://www.rial.com.br",
-      "enabled": true
+      "enabled": true,
+      "url_pattern": "detalhes_(vd|loc)\\.php\\?.*imovel=\\d+"
     },
     {
       "id": "urban",
@@ -163,7 +169,11 @@
       "id": "colnaghi",
       "nome": "Colnaghi Imóveis",
       "base": "https://www.colnaghi.com.br",
-      "enabled": true
+      "enabled": true,
+      "listing_paths": [
+        "/empreendimentos",
+        "/bairros"
+      ]
     },
     {
       "id": "multiimob",
@@ -211,7 +221,8 @@
       "id": "cpimoveis",
       "nome": "CP Imóveis",
       "base": "https://www.cpimoveis.com.br",
-      "enabled": true
+      "enabled": true,
+      "url_pattern": "/imovel/"
     },
     {
       "id": "portolar",
@@ -224,7 +235,12 @@
       "id": "garcia",
       "nome": "Garcia Imóveis",
       "base": "https://www.garciaimoveisrs.com.br",
-      "enabled": true
+      "enabled": true,
+      "listing_paths": [
+        "/busca/comprar/cidade/porto-alegre/1/",
+        "/busca/comprar/cidade/porto-alegre/2/",
+        "/busca/alugar/cidade/porto-alegre/1/"
+      ]
     },
     {
       "id": "silveira",
@@ -232,16 +248,24 @@
       "base": "https://www.silveiraimoveiszn.com.br",
       "enabled": true,
       "listing_paths": [
+        "/",
         "/imoveis/venda",
-        "/imoveis",
-        "/venda"
-      ]
+        "/imoveis"
+      ],
+      "obs": "Site JavaScript — coletado via navegador headless (Playwright).",
+      "render": true
     },
     {
       "id": "zonanorte",
       "nome": "Imobiliária Zona Norte",
       "base": "https://imobiliariazonanorte.com.br",
-      "enabled": true
+      "enabled": true,
+      "url_pattern": "detalhes_(vd|loc)\\.php\\?.*imovel=\\d+",
+      "listing_paths": [
+        "/",
+        "/vendas.php",
+        "/locacao.php"
+      ]
     },
     {
       "id": "visualize",
@@ -253,7 +277,8 @@
       "id": "peta",
       "nome": "PETA Imóveis",
       "base": "https://www.petaimoveis.com.br",
-      "enabled": true
+      "enabled": false,
+      "obs": "Imobiliária de Boa Vista/RR (Roraima), não de Porto Alegre — removida da lista."
     },
     {
       "id": "private",
@@ -262,8 +287,11 @@
       "enabled": true,
       "listing_paths": [
         "/imoveis/status/venda/cidade/porto-alegre",
-        "/imoveis/status/venda/cidade/porto-alegre?pag=2"
-      ]
+        "/imoveis/status/venda/cidade/porto-alegre?pag=2",
+        "/imoveis/status/venda/cidade/porto-alegre?pag=3"
+      ],
+      "obs": "Site JavaScript — coletado via navegador headless (Playwright).",
+      "render": true
     },
     {
       "id": "dacas",

@@ -43,7 +43,8 @@ PROP_PAT  = re.compile(
 NUM_PAT   = re.compile(r"\d{2,}")
 EXCLUDE_PAT = re.compile(
     r"(blog|noticia|artigo|sobre|contato|equipe|politica|privacidade|trabalhe|"
-    r"login|admin|wp-|/tag/|/category/|/autor|\.(jpg|jpeg|png|gif|webp|pdf|css|js)($|\?))", re.I)
+    r"login|admin|wp-|/tag/|/category/|/autor|/busca/|/pesquisa|agenda_visita|"
+    r"\.(jpg|jpeg|png|gif|webp|pdf|css|js)($|\?))", re.I)
 PRICE_PAT = re.compile(r"R\$\s?[\d\.]{4,}(?:,\d{2})?")
 
 FICHA_CAMPOS = ("dorms", "suites", "vagas", "banheiros", "area", "area_total",
@@ -99,6 +100,7 @@ def parse_sitemap(content_bytes_or_text):
             text = gzip.GzipFile(fileobj=io.BytesIO(text)).read()
         text = text.decode("utf-8", errors="replace")
     locs = re.findall(r"<loc>\s*([^<\s]+)\s*</loc>", text)
+    locs = [u.replace("&amp;", "&") for u in locs]
     is_index = "<sitemapindex" in text
     return locs, is_index
 
@@ -106,6 +108,15 @@ def collect_site_urls(site, session, log):
     """Retorna set de URLs candidatas a página de imóvel."""
     base = site["base"]
     urls = set()
+    if site.get("render"):
+        try:
+            import render_js
+            urls = render_js.coletar(site, log)
+            log["urls_coletadas"] = len(urls)
+            return urls
+        except Exception as e:
+            log["render_erro"] = str(e)[:150]
+            # se a renderização falhar, cai no fluxo normal abaixo
     used_sitemap = False
     for sm in discover_sitemaps(base, session):
         try:
@@ -149,6 +160,20 @@ def collect_site_urls(site, session, log):
                 continue
     else:
         log["metodo"] = "sitemap"
+    if 0 < len(urls) < 10:
+        # sitemap existe mas é raso: complementa com as páginas de listagem
+        log["metodo"] = "sitemap+listagem"
+        paths = site.get("listing_paths") or ("/", "/venda", "/imoveis", "/comprar", "/imoveis/venda", "/busca")
+        for path in paths:
+            try:
+                html = fetch(urljoin(base, path), session)
+                for href in re.findall(r'href=["\']([^"\'#]+)', html):
+                    full = urljoin(base, href)
+                    if urlparse(full).netloc == urlparse(base).netloc:
+                        urls.add(full)
+                time.sleep(DELAY_BETWEEN_REQ)
+            except Exception:
+                continue
     log["urls_coletadas"] = len(urls)
     return urls
 
@@ -256,6 +281,9 @@ def main():
 
             prev = set(known.get(sid, []))
             baseline = sid not in known
+            if not baseline and len(props - prev) > 150:
+                baseline = True   # site recalibrado: refaz linha de base em vez de alertar em massa
+                log["obs"] = "recalibrado: nova linha de base"
             new_urls = sorted(props - prev)
             known[sid] = sorted(props | prev)   # nunca esquece URL já vista
 
