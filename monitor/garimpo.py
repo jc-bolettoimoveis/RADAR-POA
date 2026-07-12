@@ -27,7 +27,9 @@ def main():
     listings = m.load_json(os.path.join(m.DATA_DIR, "listings.json"), [])
     listing_urls = {l["url"] for l in listings}
     feito = m.load_json(os.path.join(m.DATA_DIR, "garimpo_feito.json"), {})
+    falhas = m.load_json(os.path.join(m.DATA_DIR, "garimpo_falhas.json"), {})
     nomes = {s["id"]: s["nome"] for s in cfg["sites"]}
+    ativos_ids = {s["id"] for s in cfg["sites"] if s.get("enabled")}
     render_ids = {s["id"] for s in cfg["sites"] if s.get("render") and s.get("enabled")}
     session = requests.Session()
 
@@ -45,6 +47,8 @@ def main():
     # monta fila priorizada, intercalando sites p/ espalhar a carga
     filas = {}
     for sid, urls in known.items():
+        if sid not in ativos_ids:
+            continue          # site desativado não entra no garimpo
         ja = set(feito.get(sid, []))
         pend = []
         for u in urls:
@@ -69,9 +73,16 @@ def main():
             if not fila or processados >= BATCH:
                 continue
             u = fila.pop(0)
-            feito.setdefault(sid, []).append(u)
             processados += 1
             info, tipo_html = m.enrich(u, session, bairros, render=sid in render_ids)
+            ficha_vazia = not any(info.get(k) for k in ("titulo", "preco", "dorms", "foto", "preco_venda"))
+            if ficha_vazia:
+                falhas[u] = falhas.get(u, 0) + 1
+                if falhas[u] < 2:
+                    continue      # leitura falhou: NÃO cadastra nem marca; tenta no próximo lote
+                feito.setdefault(sid, []).append(u)   # falhou 2x: desiste desta URL
+                continue
+            feito.setdefault(sid, []).append(u)
             tipo = m.url_tipo(u)
             if tipo == "indefinido" and tipo_html:
                 tipo = tipo_html
@@ -105,6 +116,7 @@ def main():
 
     m.save_json(os.path.join(m.DATA_DIR, "listings.json"), listings)
     m.save_json(os.path.join(m.DATA_DIR, "garimpo_feito.json"), feito)
+    m.save_json(os.path.join(m.DATA_DIR, "garimpo_falhas.json"), falhas)
 
     # resumo único no WhatsApp (sem spam)
     novos_g = [l for l in listings if l.get("origem") == "garimpo" and l.get("detectado_em") == hoje]

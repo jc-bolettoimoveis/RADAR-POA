@@ -394,5 +394,8 @@
     "Av. do Forte, 1261",
     "Rua Sapé, 835",
     "Av. São Pedro, 1728"
+  ],
+  "purgar_sites": [
+    "peta"
   ]
 }

@@ -262,6 +262,12 @@ def sanitizar(cfg, listings):
                 auto.add(end)
     FOTO_RUIM = _re.compile(r"logo|logotipo|icon|avatar|placeholder|selo|favicon|marca|\.svg", _re.I)
     limpos = fotos = 0
+    purgar = set(cfg.get("purgar_sites", []))
+    if purgar:
+        antes = len(listings)
+        listings[:] = [l for l in listings if l.get("site_id") not in purgar]
+        if len(listings) != antes:
+            print(f"purga: {antes - len(listings)} anúncios de sites removidos ({', '.join(purgar)})")
     try:
         import extrator
     except Exception:
