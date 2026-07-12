@@ -392,6 +392,15 @@ def main():
     if quedas_agora:
         print(f"Revisita: {len(quedas_agora)} queda(s) de preço detectada(s)")
 
+    # ---------------- faxina: remove cards que não são página de imóvel ----------------
+    scfg_val = {s["id"]: s for s in cfg["sites"]}
+    antes_val = len(listings)
+    listings[:] = [l for l in listings
+                   if is_property_url(l["url"], scfg_val.get(l.get("site_id"), {}))]
+    if len(listings) != antes_val:
+        listing_urls = {l["url"] for l in listings}
+        print(f"Faxina: {antes_val - len(listings)} cards inválidos removidos (ex.: páginas de busca)")
+
     # ---------------- cruzamento com base própria (Jetimob) e portal RGI ----------------
     try:
         sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

@@ -30,6 +30,7 @@ def main():
     falhas = m.load_json(os.path.join(m.DATA_DIR, "garimpo_falhas.json"), {})
     nomes = {s["id"]: s["nome"] for s in cfg["sites"]}
     ativos_ids = {s["id"] for s in cfg["sites"] if s.get("enabled")}
+    scfg = {s["id"]: s for s in cfg["sites"]}
     render_ids = {s["id"] for s in cfg["sites"] if s.get("render") and s.get("enabled")}
     session = requests.Session()
 
@@ -53,6 +54,9 @@ def main():
         pend = []
         for u in urls:
             if u in listing_urls or u in ja:
+                continue
+            if not m.is_property_url(u, scfg.get(sid, {})):
+                ja.add(u)         # lixo herdado (ex.: páginas de busca): descarta
                 continue
             pr = prioridade_slug(u)
             if pr is None:
