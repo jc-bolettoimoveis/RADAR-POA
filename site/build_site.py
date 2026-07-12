@@ -119,6 +119,16 @@ header h1{font-size:18px;margin:0}header small{opacity:.8}
     <select id="fcomp"><option value="">Ficha (qualquer)</option><option value="70">Completa (70%+)</option><option value="40">Média (40%+)</option><option value="-40">Incompleta (&lt;40%)</option></select>
     <select id="fprio"><option value="">Prioridade (todas)</option><option value="1">🎯 P1 — endereço completo</option><option value="2">📍 P2 — prédio identificado</option><option value="3">P3 — só rua</option><option value="4">P4 — só bairro</option></select>
     <select id="fgestao"><option value="">Gestão (todos)</option><option value="novo">Novos (sem contato)</option><option value="contatado">Contatados</option><option value="negociando">Negociando</option><option value="captado_nosso">Captados por nós ✅</option><option value="descartado">Descartados</option></select>
+    <select id="ford">
+      <option value="recentes">↕ Mais recentes</option>
+      <option value="prio">🎯 Prioridade (P1 primeiro)</option>
+      <option value="preco_asc">R$ menor → maior</option>
+      <option value="preco_desc">R$ maior → menor</option>
+      <option value="m2_asc">R$/m² menor → maior</option>
+      <option value="area_desc">Maior metragem</option>
+      <option value="tempo">⏳ Mais tempo no ar</option>
+      <option value="ficha">Ficha mais completa</option>
+    </select>
     <button class="btn" id="csv">⬇ Exportar CSV</button>
   </div>
   <div class="stats" id="stats"></div>
@@ -135,7 +145,7 @@ const uniq=a=>[...new Set(a.filter(Boolean))].sort();
 uniq(LISTINGS.map(l=>l.imobiliaria)).forEach(v=>fimob.add(new Option(v,v)));
 uniq(LISTINGS.map(l=>l.bairro)).forEach(v=>fbairro.add(new Option(v,v)));
 document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');days=+c.dataset.d;render()});
-['q','fimob','fbairro','ftipo','fstatus','fdorm','fsuite','fvaga','pmin','pmax','amin','amax','fcomp','fprio','fgestao'].forEach(id=>document.getElementById(id).oninput=render);
+['q','fimob','fbairro','ftipo','fstatus','fdorm','fsuite','fvaga','pmin','pmax','amin','amax','fcomp','fprio','fgestao','ford'].forEach(id=>document.getElementById(id).oninput=render);
 const daysAgo=d=>(Date.now()-new Date(d+'T00:00:00Z'))/864e5;
 const GEST=JSON.parse(localStorage.getItem('radar_gestao')||'{}');
 window.gDe=u=>GEST[u]||{st:'novo',tel:'',obs:''};
@@ -168,6 +178,17 @@ function specsDe(l){
 }
 function render(){
   filtradas=LISTINGS.filter(passa);
+  const ORD={
+    recentes:(a,b)=>(b.detectado_em||'').localeCompare(a.detectado_em||''),
+    prio:(a,b)=>(a.prioridade||4)-(b.prioridade||4)||(b.detectado_em||'').localeCompare(a.detectado_em||''),
+    preco_asc:(a,b)=>(a.preco_num||9e15)-(b.preco_num||9e15),
+    preco_desc:(a,b)=>(b.preco_num||0)-(a.preco_num||0),
+    m2_asc:(a,b)=>((a.preco_num&&a.area_num)?a.preco_num/a.area_num:9e15)-((b.preco_num&&b.area_num)?b.preco_num/b.area_num:9e15),
+    area_desc:(a,b)=>(b.area_num||0)-(a.area_num||0),
+    tempo:(a,b)=>daysAgo(b.detectado_em)-daysAgo(a.detectado_em),
+    ficha:(a,b)=>(b.completude||0)-(a.completude||0),
+  };
+  filtradas.sort(ORD[ford.value]||ORD.recentes);
   $('#stats').textContent=filtradas.length+' imóvel(is) · acumulado total: '+LISTINGS.length;
   $('#grid').innerHTML=filtradas.map(l=>{
     const hoje=daysAgo(l.detectado_em)<=1, comp=l.completude||0;
