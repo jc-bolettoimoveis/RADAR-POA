@@ -30,16 +30,16 @@
   "amostra": 10,
   "com_numero": 10,
   "com_coordenada": 10,
-  "com_empreendimento": 5,
+  "com_empreendimento": 7,
   "so_rua": 0,
   "so_bairro": 0,
   "erro": null
  },
  "Sperinde Imóveis": {
-  "amostra": 9,
-  "com_numero": 9,
+  "amostra": 0,
+  "com_numero": 0,
   "com_coordenada": 0,
-  "com_empreendimento": 9,
+  "com_empreendimento": 0,
   "so_rua": 0,
   "so_bairro": 0,
   "erro": null
@@ -93,16 +93,16 @@
   "amostra": 10,
   "com_numero": 0,
   "com_coordenada": 0,
-  "com_empreendimento": 10,
-  "so_rua": 0,
+  "com_empreendimento": 8,
+  "so_rua": 2,
   "so_bairro": 0,
   "erro": null
  },
  "Vera Bernardes": {
-  "amostra": 0,
-  "com_numero": 0,
+  "amostra": 10,
+  "com_numero": 10,
   "com_coordenada": 0,
-  "com_empreendimento": 0,
+  "com_empreendimento": 6,
   "so_rua": 0,
   "so_bairro": 0,
   "erro": null
@@ -111,7 +111,7 @@
   "amostra": 10,
   "com_numero": 0,
   "com_coordenada": 10,
-  "com_empreendimento": 1,
+  "com_empreendimento": 0,
   "so_rua": 0,
   "so_bairro": 0,
   "erro": null
@@ -129,7 +129,7 @@
   "amostra": 10,
   "com_numero": 10,
   "com_coordenada": 0,
-  "com_empreendimento": 9,
+  "com_empreendimento": 7,
   "so_rua": 0,
   "so_bairro": 0,
   "erro": null
@@ -162,10 +162,10 @@
   "erro": null
  },
  "Garcia Imóveis": {
-  "amostra": 0,
-  "com_numero": 0,
+  "amostra": 10,
+  "com_numero": 10,
   "com_coordenada": 0,
-  "com_empreendimento": 0,
+  "com_empreendimento": 2,
   "so_rua": 0,
   "so_bairro": 0,
   "erro": null
@@ -182,10 +182,10 @@
  "Visualize Imóveis": {
   "amostra": 10,
   "com_numero": 0,
-  "com_coordenada": 6,
+  "com_coordenada": 7,
   "com_empreendimento": 10,
   "so_rua": 0,
-  "so_bairro": 4,
+  "so_bairro": 3,
   "erro": null
  },
  "Private Imóveis": {
@@ -219,7 +219,7 @@
   "amostra": 10,
   "com_numero": 10,
   "com_coordenada": 0,
-  "com_empreendimento": 8,
+  "com_empreendimento": 9,
   "so_rua": 0,
   "so_bairro": 0,
   "erro": null
@@ -228,7 +228,7 @@
   "amostra": 10,
   "com_numero": 10,
   "com_coordenada": 0,
-  "com_empreendimento": 1,
+  "com_empreendimento": 0,
   "so_rua": 0,
   "so_bairro": 0,
   "erro": null
