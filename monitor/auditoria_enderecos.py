@@ -75,7 +75,7 @@ def main():
                     key=lambda kv: (pct(kv[1], "com_numero") + pct(kv[1], "com_coordenada")),
                     reverse=True)
     os.makedirs(os.path.join(m.ROOT, "docs"), exist_ok=True)
-    with open(os.path.join(m.ROOT, "docs", "auditoria.csv"), "w", encoding="utf-8") as f:
+    with open(os.path.join(m.ROOT, "docs", "auditoria.csv"), "w", encoding="utf-8-sig") as f:
         f.write("imobiliaria;amostra;% com numero;% com coordenada;% com predio;% so rua;% so bairro;erro\n")
         print("\n=========== RANKING: quem deixa o endereço vazar ===========")
         print(f"{'Imobiliária':32} {'nº':>4} {'núm%':>5} {'coord%':>6} {'prédio%':>7}")
