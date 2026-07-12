@@ -229,6 +229,9 @@ with open(os.path.join(DOCS, "index.html"), "w", encoding="utf-8") as f:
 # ================= DASHBOARD ANALÍTICO =================
 from collections import Counter, defaultdict
 known = load("known_urls.json", {})
+_cfg_path = os.path.join(ROOT, "config", "sites.json")
+_sites_cfg = json.load(open(_cfg_path, encoding="utf-8")) if os.path.exists(_cfg_path) else {"sites": []}
+NOME2SITE = {s["nome"]: s["base"] for s in _sites_cfg.get("sites", [])}
 hoje_dt = datetime.now(timezone.utc).date()
 
 def dias_no_ar(l):
@@ -307,7 +310,7 @@ for l in ativos:
 sid2nome = {}
 for l in listings: sid2nome[l["site_id"]] = l["imobiliaria"]
 S["imobiliarias"] = [{
-    "nome": k, "ops": v["ops"], "livres": v["livres"],
+    "nome": k, "site_url": NOME2SITE.get(k), "ops": v["ops"], "livres": v["livres"],
     "pct_end": round(100*v["end"]/v["ops"]) if v["ops"] else 0,
     "comp_media": round(sum(v["comp"])/len(v["comp"])) if v["comp"] else 0,
     "dias_medio": round(sum(v["dias"])/len(v["dias"])) if v["dias"] else 0,
@@ -402,7 +405,7 @@ new Chart(document.getElementById('cTime'),{type:'line',data:{labels:STATS.timel
  datasets:[{data:STATS.timeline.valores,borderColor:AZ,backgroundColor:'rgba(15,76,129,.12)',fill:true,tension:.3}]},
  options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
 document.getElementById('tImob').innerHTML='<tr><th>Imobiliária</th><th>Estoque vigiado</th><th>Oportunidades</th><th>🟢 Livres</th><th>% endereço localizável</th><th>Ficha média</th><th>Tempo médio no ar</th></tr>'+
- STATS.imobiliarias.map(i=>`<tr><td>${i.nome}</td><td>${i.vigiados.toLocaleString('pt-BR')}</td><td>${i.ops}</td><td>${i.livres}</td><td>${i.pct_end}%</td><td>${i.comp_media}%</td><td>${i.dias_medio}d</td></tr>`).join('');
+ STATS.imobiliarias.map(i=>`<tr><td>${i.site_url?`<a href="${i.site_url}" target="_blank" rel="noopener" style="color:var(--acc);font-weight:600">${i.nome} ↗</a>`:i.nome}</td><td>${i.vigiados.toLocaleString('pt-BR')}</td><td>${i.ops}</td><td>${i.livres}</td><td>${i.pct_end}%</td><td>${i.comp_media}%</td><td>${i.dias_medio}d</td></tr>`).join('');
 </script>
 </body>
 </html>"""

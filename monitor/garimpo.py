@@ -28,6 +28,7 @@ def main():
     listing_urls = {l["url"] for l in listings}
     feito = m.load_json(os.path.join(m.DATA_DIR, "garimpo_feito.json"), {})
     nomes = {s["id"]: s["nome"] for s in cfg["sites"]}
+    render_ids = {s["id"] for s in cfg["sites"] if s.get("render") and s.get("enabled")}
     session = requests.Session()
 
     variantes = [v.replace(" ", "-") for vs in bairros.values() for v in vs] + \
@@ -70,7 +71,7 @@ def main():
             u = fila.pop(0)
             feito.setdefault(sid, []).append(u)
             processados += 1
-            info, tipo_html = m.enrich(u, session, bairros)
+            info, tipo_html = m.enrich(u, session, bairros, render=sid in render_ids)
             tipo = m.url_tipo(u)
             if tipo == "indefinido" and tipo_html:
                 tipo = tipo_html

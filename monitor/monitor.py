@@ -207,12 +207,20 @@ def match_bairro(text, bairros_alvo):
     return None
 
 # ---------------------------------------------------------------- enriquecimento
-def enrich(url, session, bairros_alvo):
+def enrich(url, session, bairros_alvo, render=False):
     info = {"titulo": None, "foto": None, "preco": None, "bairro": None, "descricao": None}
-    try:
-        html = fetch(url, session)
-    except Exception:
-        return info, None
+    html = None
+    if render:
+        try:
+            import render_js
+            html = render_js.get_html(url)
+        except Exception:
+            html = None
+    if html is None:
+        try:
+            html = fetch(url, session)
+        except Exception:
+            return info, None
     def meta(prop):
         m = re.search(
             r'<meta[^>]+(?:property|name)=["\']%s["\'][^>]+content=["\']([^"\']+)' % re.escape(prop),
@@ -268,6 +276,7 @@ def main():
     novos_da_execucao, removidos_agora, quedas_agora = [], [], []
 
     session = requests.Session()
+    render_ids = {s["id"] for s in cfg["sites"] if s.get("render") and s.get("enabled")}
 
     for site in cfg["sites"]:
         if not site.get("enabled"):
@@ -306,7 +315,7 @@ def main():
                     tipo = url_tipo(u)
                     info, tipo_html = ({}, None)
                     if enriched < MAX_NEW_ENRICH:
-                        info, tipo_html = enrich(u, session, bairros_alvo)
+                        info, tipo_html = enrich(u, session, bairros_alvo, render=sid in render_ids)
                         enriched += 1
                         time.sleep(DELAY_BETWEEN_REQ)
                     if tipo == "indefinido" and tipo_html:
@@ -360,7 +369,8 @@ def main():
     ativos = [l for l in listings if not l.get("removido_em") and l.get("status") != "captado"]
     ativos.sort(key=lambda l: l.get("ultima_verificacao") or "")
     for l in ativos[:REVISITA_CAP]:
-        info, _ = enrich(l["url"], session, bairros_alvo)
+        info, _ = enrich(l["url"], session, bairros_alvo,
+                         render=l.get("site_id") in render_ids)
         l["ultima_verificacao"] = today()
         novo_p = info.get("preco")
         antigo_n, novo_n = _preco_num(l.get("preco")), _preco_num(novo_p)

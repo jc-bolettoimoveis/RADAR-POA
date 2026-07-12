@@ -35,10 +35,18 @@ def main():
             random.seed(42)
             amostra = random.sample(props, min(AMOSTRA, len(props))) if props else []
             for u in amostra:
-                try:
-                    html = m.fetch(u, session)
-                except Exception:
-                    continue
+                html = None
+                if site.get("render"):
+                    try:
+                        import render_js
+                        html = render_js.get_html(u)
+                    except Exception:
+                        html = None
+                if html is None:
+                    try:
+                        html = m.fetch(u, session)
+                    except Exception:
+                        continue
                 d = extrair(html, u)
                 stats["amostra"] += 1
                 if d.get("numero"):

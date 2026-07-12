@@ -33,3 +33,21 @@ def coletar(site, log):
         browser.close()
     log["metodo"] = "render(js)"
     return urls
+
+
+# --- leitura de página individual com navegador persistente (fichas de sites JS) ---
+_pw = {"p": None, "browser": None, "page": None}
+
+def get_html(url, timeout=35000):
+    """Retorna o HTML já renderizado (JavaScript executado). Reutiliza o navegador."""
+    from playwright.sync_api import sync_playwright
+    if _pw["p"] is None:
+        _pw["p"] = sync_playwright().start()
+        _pw["browser"] = _pw["p"].chromium.launch(
+            args=["--disable-blink-features=AutomationControlled"])
+        _pw["page"] = _pw["browser"].new_page(
+            user_agent=UA, viewport={"width": 1366, "height": 900})
+    pg = _pw["page"]
+    pg.goto(url, timeout=timeout, wait_until="domcontentloaded")
+    pg.wait_for_timeout(2500)
+    return pg.content()
