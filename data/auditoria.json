@@ -1,0 +1,245 @@
+{
+ "Auxiliadora Predial": {
+  "amostra": 0,
+  "com_numero": 0,
+  "com_coordenada": 0,
+  "com_empreendimento": 0,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Guarida Imóveis": {
+  "amostra": 10,
+  "com_numero": 1,
+  "com_coordenada": 10,
+  "com_empreendimento": 10,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Crédito Real": {
+  "amostra": 0,
+  "com_numero": 0,
+  "com_coordenada": 0,
+  "com_empreendimento": 0,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Foxter Cia Imobiliária": {
+  "amostra": 10,
+  "com_numero": 10,
+  "com_coordenada": 10,
+  "com_empreendimento": 5,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Sperinde Imóveis": {
+  "amostra": 9,
+  "com_numero": 9,
+  "com_coordenada": 0,
+  "com_empreendimento": 9,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Rial Imóveis": {
+  "amostra": 10,
+  "com_numero": 9,
+  "com_coordenada": 0,
+  "com_empreendimento": 10,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Urban Company": {
+  "amostra": 10,
+  "com_numero": 0,
+  "com_coordenada": 0,
+  "com_empreendimento": 8,
+  "so_rua": 2,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "One Imóveis de Luxo": {
+  "amostra": 10,
+  "com_numero": 0,
+  "com_coordenada": 10,
+  "com_empreendimento": 8,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Colnaghi Imóveis": {
+  "amostra": 0,
+  "com_numero": 0,
+  "com_coordenada": 0,
+  "com_empreendimento": 0,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "MultiImob": {
+  "amostra": 10,
+  "com_numero": 10,
+  "com_coordenada": 0,
+  "com_empreendimento": 8,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Bridge Imóveis": {
+  "amostra": 10,
+  "com_numero": 0,
+  "com_coordenada": 0,
+  "com_empreendimento": 10,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Vera Bernardes": {
+  "amostra": 0,
+  "com_numero": 0,
+  "com_coordenada": 0,
+  "com_empreendimento": 0,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Condotta": {
+  "amostra": 10,
+  "com_numero": 0,
+  "com_coordenada": 10,
+  "com_empreendimento": 1,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Morano Imobiliária": {
+  "amostra": 10,
+  "com_numero": 0,
+  "com_coordenada": 10,
+  "com_empreendimento": 5,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Reserva Imob": {
+  "amostra": 10,
+  "com_numero": 10,
+  "com_coordenada": 0,
+  "com_empreendimento": 9,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Imobiliária Terracini": {
+  "amostra": 10,
+  "com_numero": 0,
+  "com_coordenada": 10,
+  "com_empreendimento": 9,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "CP Imóveis": {
+  "amostra": 10,
+  "com_numero": 0,
+  "com_coordenada": 0,
+  "com_empreendimento": 0,
+  "so_rua": 0,
+  "so_bairro": 10,
+  "erro": null
+ },
+ "Portolar Imóveis": {
+  "amostra": 10,
+  "com_numero": 9,
+  "com_coordenada": 0,
+  "com_empreendimento": 10,
+  "so_rua": 0,
+  "so_bairro": 1,
+  "erro": null
+ },
+ "Garcia Imóveis": {
+  "amostra": 0,
+  "com_numero": 0,
+  "com_coordenada": 0,
+  "com_empreendimento": 0,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Imobiliária Zona Norte": {
+  "amostra": 10,
+  "com_numero": 0,
+  "com_coordenada": 0,
+  "com_empreendimento": 4,
+  "so_rua": 0,
+  "so_bairro": 9,
+  "erro": null
+ },
+ "Visualize Imóveis": {
+  "amostra": 10,
+  "com_numero": 0,
+  "com_coordenada": 6,
+  "com_empreendimento": 10,
+  "so_rua": 0,
+  "so_bairro": 4,
+  "erro": null
+ },
+ "Private Imóveis": {
+  "amostra": 0,
+  "com_numero": 0,
+  "com_coordenada": 0,
+  "com_empreendimento": 0,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Da Cás Imóveis": {
+  "amostra": 0,
+  "com_numero": 0,
+  "com_coordenada": 0,
+  "com_empreendimento": 0,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Housin 360 (Melnick)": {
+  "amostra": 1,
+  "com_numero": 0,
+  "com_coordenada": 0,
+  "com_empreendimento": 0,
+  "so_rua": 1,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Luxton Imobiliária": {
+  "amostra": 10,
+  "com_numero": 10,
+  "com_coordenada": 0,
+  "com_empreendimento": 8,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Albert Imóveis": {
+  "amostra": 10,
+  "com_numero": 10,
+  "com_coordenada": 0,
+  "com_empreendimento": 1,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ },
+ "Lyon Imóveis": {
+  "amostra": 10,
+  "com_numero": 10,
+  "com_coordenada": 10,
+  "com_empreendimento": 10,
+  "so_rua": 0,
+  "so_bairro": 0,
+  "erro": null
+ }
+}
