@@ -82,7 +82,7 @@ new Chart(document.getElementById('cTime'),{type:'line',data:{labels:STATS.timel
  datasets:[{data:STATS.timeline.valores,borderColor:AZ,backgroundColor:'rgba(15,76,129,.12)',fill:true,tension:.3}]},
  options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
 document.getElementById('tImob').innerHTML='<tr><th>Imobiliária</th><th>Estoque vigiado</th><th>Oportunidades</th><th>🟢 Livres</th><th>% endereço localizável</th><th>Ficha média</th><th>Tempo médio no ar</th></tr>'+
- STATS.imobiliarias.map(i=>`<tr><td>${i.nome}</td><td>${i.vigiados.toLocaleString('pt-BR')}</td><td>${i.ops}</td><td>${i.livres}</td><td>${i.pct_end}%</td><td>${i.comp_media}%</td><td>${i.dias_medio}d</td></tr>`).join('');
+ STATS.imobiliarias.map(i=>`<tr><td>${i.site_url?`<a href="${i.site_url}" target="_blank" rel="noopener" style="color:var(--acc);font-weight:600">${i.nome} ↗</a>`:i.nome}</td><td>${i.vigiados.toLocaleString('pt-BR')}</td><td>${i.ops}</td><td>${i.livres}</td><td>${i.pct_end}%</td><td>${i.comp_media}%</td><td>${i.dias_medio}d</td></tr>`).join('');
 </script>
 </body>
 </html>
