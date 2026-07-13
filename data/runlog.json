@@ -1,5 +1,5 @@
 {
- "executado_em": "2026-07-13T21:39:44Z",
+ "executado_em": "2026-07-13T22:09:40Z",
  "sites": {
   "auxiliadora": {
    "nome": "Auxiliadora Predial",
@@ -62,9 +62,9 @@
    "urls_coletadas": 98,
    "urls_imovel": 35,
    "exemplo_imovel": [
-    "https://www.sperinde.com/imovel/alugar/17775013/loja-com-475m-no-bairro-moinhos-de-vento-em-porto-alegre/",
     "https://www.sperinde.com/imovel/alugar/21001287/loja-com-32m-no-bairro-rio-branco-em-porto-alegre/",
-    "https://www.sperinde.com/imovel/alugar/21015119/sala-com-63m-no-bairro-sao-pelegrino-em-caxias-do-sul/"
+    "https://www.sperinde.com/imovel/alugar/21015119/sala-com-63m-no-bairro-sao-pelegrino-em-caxias-do-sul/",
+    "https://www.sperinde.com/imovel/alugar/21015142/sala-com-45m-no-bairro-exposicao-em-caxias-do-sul/"
    ]
   },
   "rial": {
@@ -84,7 +84,7 @@
   "urban": {
    "nome": "Urban Company",
    "status": "ok",
-   "novos": 11,
+   "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 9662,
@@ -98,15 +98,15 @@
   "oneluxo": {
    "nome": "One Imóveis de Luxo",
    "status": "ok",
-   "novos": 13,
+   "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 139,
-   "urls_imovel": 26,
+   "urls_coletadas": 135,
+   "urls_imovel": 25,
    "exemplo_imovel": [
-    "https://oneluxo.com.br/imovel/one16726-venda-cobertura-bela-vista-porto-alegre-rs-imoveis-residenciais/",
-    "https://oneluxo.com.br/imovel/one22266-venda-casa-em-condominio-boa-vista-porto-alegre-rs-imoveis-residenciais/",
-    "https://oneluxo.com.br/imovel/one33284-venda-apartamento-petropolis-porto-alegre-rs-imoveis-residenciais/"
+    "https://oneluxo.com.br/imovel/one13717-aluguel-apartamento-auxiliadora-porto-alegre-rs-imoveis-residenciais/",
+    "https://oneluxo.com.br/imovel/one18526-venda-apartamento-bela-vista-porto-alegre-rs-imoveis-residenciais/",
+    "https://oneluxo.com.br/imovel/one24062-venda-casa-petropolis-porto-alegre-rs-imoveis-residenciais/"
    ]
   },
   "colnaghi": {
@@ -267,8 +267,7 @@
     "https://www.garciaimoveisrs.com.br/imovel/10388/casa-para-comprar-ou-alugar-com-242m-no-bairro-ecoville-em-porto-alegre/",
     "https://www.garciaimoveisrs.com.br/imovel/21538/casa-para-alugar-com-200m-no-bairro-sarandi-em-porto-alegre/",
     "https://www.garciaimoveisrs.com.br/imovel/22315/apartamento-para-comprar-ou-alugar-com-50m-no-bairro-costa-e-silva-em-porto-alegre/"
-   ],
-   "removidos": 22
+   ]
   },
   "zonanorte": {
    "nome": "Imobiliária Zona Norte",
@@ -282,23 +281,22 @@
     "https://imobiliariazonanorte.com.br/detalhes_loc.php?imovel=0134",
     "https://imobiliariazonanorte.com.br/detalhes_loc.php?imovel=0136",
     "https://imobiliariazonanorte.com.br/detalhes_loc.php?imovel=0138"
-   ],
-   "removidos": 0
+   ]
   },
   "visualize": {
    "nome": "Visualize Imóveis",
    "status": "ok",
-   "novos": 1,
+   "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 51,
-   "urls_imovel": 26,
+   "urls_coletadas": 52,
+   "urls_imovel": 27,
    "exemplo_imovel": [
-    "https://visualizeimoveis.com/empreendimento/37723",
+    "https://visualizeimoveis.com/empreendimento/40226",
     "https://visualizeimoveis.com/empreendimento/42369",
-    "https://visualizeimoveis.com/empreendimento/43407"
+    "https://visualizeimoveis.com/empreendimento/58833"
    ],
-   "removidos": 0
+   "removidos": 1
   },
   "private": {
    "nome": "Private Imóveis",
@@ -344,9 +342,9 @@
    "urls_coletadas": 37,
    "urls_imovel": 17,
    "exemplo_imovel": [
-    "https://www.luxtonimoveis.com.br/imovel/13067/apartamento-com-202m-no-bairro-auxiliadora-em-porto-alegre_poa/locacao/",
     "https://www.luxtonimoveis.com.br/imovel/15348/apartamento-com-145m-no-bairro-auxiliadora-em-porto-alegre_poa/venda/",
-    "https://www.luxtonimoveis.com.br/imovel/34246/apartamento-garden-com-221m-no-bairro-praia-de-belas-em-porto-alegre_poa/venda/"
+    "https://www.luxtonimoveis.com.br/imovel/34246/apartamento-garden-com-221m-no-bairro-praia-de-belas-em-porto-alegre_poa/venda/",
+    "https://www.luxtonimoveis.com.br/imovel/34278/apartamento-garden-com-426m-no-bairro-bela-vista-em-porto-alegre_poa/venda/"
    ],
    "removidos": 3
   },
@@ -383,26 +381,26 @@
  },
  "cruzamento": {
   "saneamento": {
-   "enderecos_sede_removidos": 66,
+   "enderecos_sede_removidos": 58,
    "fotos_logo_removidas": 0,
    "sedes_auto_detectadas": 5,
-   "coordenadas_invalidas_removidas": 186
+   "coordenadas_invalidas_removidas": 187
   },
   "site_proprio_urls": 17599,
   "site_proprio": 17599,
   "portal_rgi_urls": 21105,
   "portal_rgi": 21105,
   "base_total": 38704,
-  "mudancas_status": 20,
+  "mudancas_status": 4,
   "localizacao": {
    "dicionario": 126,
-   "resolvidos_interno": 177,
-   "resolvidos_osm": 14,
+   "resolvidos_interno": 173,
+   "resolvidos_osm": 15,
    "osm_consultas": 20
   }
  },
  "alertas": {
-  "mensagens": 4,
-  "callmebot_enviadas": 4
+  "mensagens": 2,
+  "callmebot_enviadas": 2
  }
 }
