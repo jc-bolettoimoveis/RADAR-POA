@@ -9,6 +9,16 @@ DATA = os.path.join(ROOT, "data")
 DOCS = os.path.join(ROOT, "docs")
 os.makedirs(DOCS, exist_ok=True)
 
+import hashlib as _hl
+_pw_file = os.path.join(ROOT, "config", "senha_painel.txt")
+_senha = "boletto2026"
+if os.path.exists(_pw_file):
+    try:
+        _senha = open(_pw_file, encoding="utf-8").read().strip() or _senha
+    except Exception:
+        pass
+SENHA_HASH = _hl.sha256(_senha.encode()).hexdigest()
+
 def load(p, d):
     fp = os.path.join(DATA, p)
     return json.load(open(fp, encoding="utf-8")) if os.path.exists(fp) else d
@@ -117,6 +127,22 @@ header h1{font-size:18px;margin:0}header small{opacity:.8}
 </style>
 </head>
 <body>
+<div id="gate" style="position:fixed;inset:0;background:#0f4c81;z-index:999;display:flex;align-items:center;justify-content:center">
+  <div style="background:#fff;padding:28px 26px;border-radius:14px;max-width:320px;text-align:center;font-family:system-ui,Arial">
+    <div style="font-size:34px">📡</div>
+    <h2 style="margin:8px 0 4px;color:#1e2761">Radar de Captação</h2>
+    <p style="color:#6b7686;font-size:13px;margin:0 0 14px">Acesso restrito — Boletto Imóveis</p>
+    <input id="gpw" type="password" placeholder="Senha de acesso" style="width:100%;padding:10px;border:1px solid #d5dae2;border-radius:8px;font-size:14px" onkeydown="if(event.key==='Enter')gcheck()">
+    <button onclick="gcheck()" style="width:100%;margin-top:10px;padding:10px;border:0;border-radius:8px;background:#0f4c81;color:#fff;font-weight:700;cursor:pointer">Entrar</button>
+    <p id="gerr" style="color:#b3261e;font-size:12px;height:14px;margin:8px 0 0"></p>
+  </div>
+</div>
+<script>
+const GHASH = "__SENHA_HASH__";
+async function _sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
+async function gcheck(){const v=document.getElementById('gpw').value;if(await _sha(v)===GHASH){sessionStorage.setItem('gok','1');document.getElementById('gate').style.display='none';}else{document.getElementById('gerr').textContent='Senha incorreta';}}
+if(sessionStorage.getItem('gok')==='1'){document.addEventListener('DOMContentLoaded',()=>{const g=document.getElementById('gate');if(g)g.style.display='none';});}
+</script>
 <header><h1>📡 Radar de Captação — imóveis novos fora da RGI</h1>
 <div><a href="dashboard.html" style="color:#fff;font-size:13px;font-weight:700;text-decoration:none;background:rgba(255,255,255,.15);padding:7px 14px;border-radius:8px">📊 Dashboard</a>
 <small id="gen" style="margin-left:10px"></small></div></header>
@@ -310,7 +336,7 @@ render();
 </html>"""
 
 with open(os.path.join(DOCS, "index.html"), "w", encoding="utf-8") as f:
-    f.write(HTML)
+    f.write(HTML.replace("__SENHA_HASH__", SENHA_HASH))
 
 # ================= DASHBOARD ANALÍTICO =================
 from collections import Counter, defaultdict
@@ -441,6 +467,22 @@ th{color:var(--mut);font-weight:600}
 </style>
 </head>
 <body>
+<div id="gate" style="position:fixed;inset:0;background:#0f4c81;z-index:999;display:flex;align-items:center;justify-content:center">
+  <div style="background:#fff;padding:28px 26px;border-radius:14px;max-width:320px;text-align:center;font-family:system-ui,Arial">
+    <div style="font-size:34px">📡</div>
+    <h2 style="margin:8px 0 4px;color:#1e2761">Radar de Captação</h2>
+    <p style="color:#6b7686;font-size:13px;margin:0 0 14px">Acesso restrito — Boletto Imóveis</p>
+    <input id="gpw" type="password" placeholder="Senha de acesso" style="width:100%;padding:10px;border:1px solid #d5dae2;border-radius:8px;font-size:14px" onkeydown="if(event.key==='Enter')gcheck()">
+    <button onclick="gcheck()" style="width:100%;margin-top:10px;padding:10px;border:0;border-radius:8px;background:#0f4c81;color:#fff;font-weight:700;cursor:pointer">Entrar</button>
+    <p id="gerr" style="color:#b3261e;font-size:12px;height:14px;margin:8px 0 0"></p>
+  </div>
+</div>
+<script>
+const GHASH = "__SENHA_HASH__";
+async function _sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
+async function gcheck(){const v=document.getElementById('gpw').value;if(await _sha(v)===GHASH){sessionStorage.setItem('gok','1');document.getElementById('gate').style.display='none';}else{document.getElementById('gerr').textContent='Senha incorreta';}}
+if(sessionStorage.getItem('gok')==='1'){document.addEventListener('DOMContentLoaded',()=>{const g=document.getElementById('gate');if(g)g.style.display='none';});}
+</script>
 <header><h1>📊 Dashboard — Radar de Captação</h1><div><a href="index.html">📡 Voltar ao painel</a> <small id="g" style="margin-left:8px"></small></div></header>
 <div class="wrap">
   <div class="kpis" id="kpis"></div>
@@ -496,5 +538,5 @@ document.getElementById('tImob').innerHTML='<tr><th>Imobiliária</th><th>Estoque
 </body>
 </html>"""
 with open(os.path.join(DOCS, "dashboard.html"), "w", encoding="utf-8") as f:
-    f.write(DASH)
+    f.write(DASH.replace("__SENHA_HASH__", SENHA_HASH))
 print("painel + dashboard gerados em docs/ —", len(listings), "imóveis no acumulado")
