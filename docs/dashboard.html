@@ -32,6 +32,22 @@ th{color:var(--mut);font-weight:600}
 </style>
 </head>
 <body>
+<div id="gate" style="position:fixed;inset:0;background:#0f4c81;z-index:999;display:flex;align-items:center;justify-content:center">
+  <div style="background:#fff;padding:28px 26px;border-radius:14px;max-width:320px;text-align:center;font-family:system-ui,Arial">
+    <div style="font-size:34px">📡</div>
+    <h2 style="margin:8px 0 4px;color:#1e2761">Radar de Captação</h2>
+    <p style="color:#6b7686;font-size:13px;margin:0 0 14px">Acesso restrito — Boletto Imóveis</p>
+    <input id="gpw" type="password" placeholder="Senha de acesso" style="width:100%;padding:10px;border:1px solid #d5dae2;border-radius:8px;font-size:14px" onkeydown="if(event.key==='Enter')gcheck()">
+    <button onclick="gcheck()" style="width:100%;margin-top:10px;padding:10px;border:0;border-radius:8px;background:#0f4c81;color:#fff;font-weight:700;cursor:pointer">Entrar</button>
+    <p id="gerr" style="color:#b3261e;font-size:12px;height:14px;margin:8px 0 0"></p>
+  </div>
+</div>
+<script>
+const GHASH = "384862022cc46b21dff149f47b4d436de8839dbf0b5776a30b815b8fe9980ede";
+async function _sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
+async function gcheck(){const v=document.getElementById('gpw').value;if(await _sha(v)===GHASH){sessionStorage.setItem('gok','1');document.getElementById('gate').style.display='none';}else{document.getElementById('gerr').textContent='Senha incorreta';}}
+if(sessionStorage.getItem('gok')==='1'){document.addEventListener('DOMContentLoaded',()=>{const g=document.getElementById('gate');if(g)g.style.display='none';});}
+</script>
 <header><h1>📊 Dashboard — Radar de Captação</h1><div><a href="index.html">📡 Voltar ao painel</a> <small id="g" style="margin-left:8px"></small></div></header>
 <div class="wrap">
   <div class="kpis" id="kpis"></div>
