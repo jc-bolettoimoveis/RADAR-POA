@@ -258,6 +258,25 @@ def cruzar(listings, base_itens, bairros_alvo, match_bairro, today):
             l["status"] = "livre"
     return mudancas
 
+# centros aproximados dos bairros-alvo (validação de coerência do pin)
+CENTROS_BAIRRO = {
+    "Boa Vista": (-30.020, -51.157), "Bela Vista": (-30.031, -51.183),
+    "Auxiliadora": (-30.023, -51.187), "Três Figueiras": (-30.030, -51.157),
+    "Chácara das Pedras": (-30.035, -51.155), "Jardim Europa": (-30.022, -51.148),
+    "Passo da Areia": (-30.004, -51.170), "Mont Serrat": (-30.031, -51.175),
+    "Moinhos de Vento": (-30.026, -51.196), "Rio Branco": (-30.037, -51.192),
+    "Independência": (-30.028, -51.208), "Santa Cecília": (-30.043, -51.198),
+    "Vila Jardim": (-30.017, -51.140), "Higienópolis": (-30.013, -51.180),
+    "Petrópolis": (-30.040, -51.170),
+}
+RAIO_MAX_KM = 2.5
+
+def _dist_km(la1, lo1, la2, lo2):
+    # aproximação plana, suficiente para escala de bairro
+    dy = (la1 - la2) * 111.0
+    dx = (lo1 - lo2) * 96.5          # cos(-30°) * 111
+    return (dx * dx + dy * dy) ** 0.5
+
 def sanitizar(cfg, listings):
     """Remove endereços de SEDE de imobiliária atribuídos a imóveis (gera P1 falso)
     e fotos que são logo. Sedes: lista da config + detecção automática por repetição."""
@@ -276,7 +295,18 @@ def sanitizar(cfg, listings):
             if end and n >= 8 and n / tot >= 0.4:
                 auto.add(end)
     FOTO_RUIM = _re.compile(r"logo|logotipo|icon|avatar|placeholder|selo|favicon|marca|\.svg", _re.I)
-    limpos = fotos = 0
+    # coordenadas-padrão: mesmo pin repetido em vários anúncios do mesmo site
+    cfreq = defaultdict(Counter)
+    for l in listings:
+        if l.get("latitude") and not l.get("endereco_fonte"):
+            cfreq[l.get("site_id")][(round(l["latitude"], 4), round(l["longitude"], 4))] += 1
+    coords_padrao = set()
+    for sid, cont in cfreq.items():
+        tot = sum(cont.values())
+        for xy, n in cont.items():
+            if n >= 5 and n / tot >= 0.3:
+                coords_padrao.add((sid, xy))
+    limpos = fotos = coords_rem = 0
     purgar = set(cfg.get("purgar_sites", []))
     if purgar:
         antes = len(listings)
@@ -298,8 +328,22 @@ def sanitizar(cfg, listings):
         if l.get("foto") and FOTO_RUIM.search(l["foto"]):
             l["foto"] = None
             fotos += 1
+        # valida a coordenada: repetida no site OU incoerente com o bairro declarado
+        if l.get("latitude"):
+            xy = (round(l["latitude"], 4), round(l["longitude"], 4))
+            ruim = (l.get("site_id"), xy) in coords_padrao
+            centro = CENTROS_BAIRRO.get(l.get("bairro") or "")
+            if not ruim and centro and _dist_km(l["latitude"], l["longitude"],
+                                                centro[0], centro[1]) > RAIO_MAX_KM:
+                ruim = True
+            if ruim:
+                l["latitude"] = l["longitude"] = None
+                l.pop("endereco_fonte", None)
+                if extrator:
+                    extrator.classificar(l)
+                coords_rem += 1
     return {"enderecos_sede_removidos": limpos, "fotos_logo_removidas": fotos,
-            "sedes_auto_detectadas": len(auto)}
+            "sedes_auto_detectadas": len(auto), "coordenadas_invalidas_removidas": coords_rem}
 
 def executar(cfg, listings, session, fetch, collect_urls, enrich, match_bairro, today):
     cz = cfg.get("cruzamento", {})
@@ -323,4 +367,9 @@ def executar(cfg, listings, session, fetch, collect_urls, enrich, match_bairro, 
         json.dump(cache, f, ensure_ascii=False)
     log["base_total"] = len(base)
     log["mudancas_status"] = cruzar(listings, base, bairros_alvo, match_bairro, today)
+    try:
+        import geocodificador
+        log["localizacao"] = geocodificador.resolver(listings, bairros_alvo)
+    except Exception as e:
+        log["localizacao"] = {"erro": str(e)[:150]}
     return log
