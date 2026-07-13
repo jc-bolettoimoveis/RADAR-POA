@@ -102,7 +102,8 @@
       "id": "guarida",
       "nome": "Guarida Imóveis",
       "base": "https://guarida.com.br",
-      "enabled": true
+      "enabled": true,
+      "captura_total": true
     },
     {
       "id": "creditoreal",
@@ -157,7 +158,9 @@
       "id": "sperinde",
       "nome": "Sperinde Imóveis",
       "base": "https://www.sperinde.com",
-      "enabled": true
+      "enabled": true,
+      "captura_total": true,
+      "paginas_extra": 20
     },
     {
       "id": "rial",
@@ -181,7 +184,8 @@
         "/porto-alegre/",
         "/comprar/",
         "/imoveis/"
-      ]
+      ],
+      "paginas_extra": 15
     },
     {
       "id": "colnaghi",
@@ -200,7 +204,19 @@
       "id": "multiimob",
       "nome": "MultiImob",
       "base": "https://www.multiimob.com.br",
-      "enabled": true
+      "enabled": true,
+      "listing_paths": [
+        "/",
+        "/busca/comprar/cidade/porto-alegre/1/",
+        "/busca/comprar/cidade/porto-alegre/2/",
+        "/busca/comprar/cidade/porto-alegre/3/",
+        "/busca/comprar/cidade/porto-alegre/4/",
+        "/busca/comprar/cidade/porto-alegre/5/",
+        "/busca/alugar/cidade/porto-alegre/1/",
+        "/busca/alugar/cidade/porto-alegre/2/"
+      ],
+      "paginas_extra": 30,
+      "captura_total": true
     },
     {
       "id": "bridge",
@@ -230,7 +246,8 @@
       "id": "reservaimob",
       "nome": "Reserva Imob",
       "base": "https://www.reservaimob.com.br",
-      "enabled": true
+      "enabled": false,
+      "obs": "REMOVIDA — imóveis de Balneário Camboriú/SC, não de Porto Alegre."
     },
     {
       "id": "terracini",
@@ -292,7 +309,8 @@
       "id": "visualize",
       "nome": "Visualize Imóveis",
       "base": "https://visualizeimoveis.com",
-      "enabled": true
+      "enabled": true,
+      "paginas_extra": 15
     },
     {
       "id": "peta",
@@ -307,12 +325,31 @@
       "base": "https://privateimoveis.com",
       "enabled": true,
       "listing_paths": [
-        "/imoveis/status/venda/cidade/porto-alegre",
+        "/imoveis/status/venda/cidade/porto-alegre?pag=1",
         "/imoveis/status/venda/cidade/porto-alegre?pag=2",
-        "/imoveis/status/venda/cidade/porto-alegre?pag=3"
+        "/imoveis/status/venda/cidade/porto-alegre?pag=3",
+        "/imoveis/status/venda/cidade/porto-alegre?pag=4",
+        "/imoveis/status/venda/cidade/porto-alegre?pag=5",
+        "/imoveis/status/venda/cidade/porto-alegre?pag=6",
+        "/imoveis/status/venda/cidade/porto-alegre?pag=7",
+        "/imoveis/status/venda/cidade/porto-alegre?pag=8",
+        "/imoveis/status/venda/cidade/porto-alegre?pag=9",
+        "/imoveis/status/venda/cidade/porto-alegre?pag=10",
+        "/imoveis/status/venda/cidade/porto-alegre?pag=11",
+        "/imoveis/status/venda/cidade/porto-alegre?pag=12",
+        "/imoveis/status/venda/cidade/porto-alegre?pag=13",
+        "/imoveis/status/venda/cidade/porto-alegre?pag=14",
+        "/imoveis/status/venda/cidade/porto-alegre?pag=15",
+        "/imoveis/status/aluguel/cidade/porto-alegre?pag=1",
+        "/imoveis/status/aluguel/cidade/porto-alegre?pag=2",
+        "/imoveis/status/aluguel/cidade/porto-alegre?pag=3",
+        "/imoveis/status/aluguel/cidade/porto-alegre?pag=4",
+        "/imoveis/status/aluguel/cidade/porto-alegre?pag=5"
       ],
       "obs": "Site JavaScript — coletado via navegador headless (Playwright).",
-      "render": true
+      "render": true,
+      "paginas_extra": 30,
+      "captura_total": true
     },
     {
       "id": "dacas",
@@ -338,13 +375,25 @@
       "id": "luxton",
       "nome": "Luxton Imobiliária",
       "base": "https://www.luxtonimoveis.com.br",
-      "enabled": true
+      "enabled": true,
+      "listing_paths": [
+        "/",
+        "/busca/comprar/cidade/porto-alegre/1/",
+        "/busca/comprar/cidade/porto-alegre/2/"
+      ],
+      "paginas_extra": 15
     },
     {
       "id": "albert",
       "nome": "Albert Imóveis",
       "base": "https://www.albertimoveis.com.br",
-      "enabled": true
+      "enabled": true,
+      "listing_paths": [
+        "/",
+        "/comprar?cidades%5B%5D=porto-alegre-rs",
+        "/alugar?cidades%5B%5D=porto-alegre-rs"
+      ],
+      "paginas_extra": 15
     },
     {
       "id": "lyon",

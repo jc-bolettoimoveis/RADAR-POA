@@ -37,13 +37,15 @@ def main():
     variantes = [v.replace(" ", "-") for vs in bairros.values() for v in vs] + \
                 [v for vs in bairros.values() for v in vs]
 
-    def prioridade_slug(u):
+    total_ids = {s["id"] for s in cfg["sites"] if s.get("captura_total")}
+    def prioridade_slug(u, sid=None):
         s = u.lower()
         if m.LOC_PAT.search(s) and not monitorar.get("locacao"):
-            return None                      # locação com módulo desligado: pula
+            return None
+        prioritario = 0 if sid in total_ids else 1     # captura total primeiro
         alvo = 0 if any(v in s for v in variantes) else 1
         casa = 0 if re.search(r"casa|terreno|sobrado", s) else 1
-        return (alvo, casa)
+        return (prioritario, alvo, casa)
 
     # monta fila priorizada, intercalando sites p/ espalhar a carga
     filas = {}
@@ -58,7 +60,7 @@ def main():
             if not m.is_property_url(u, scfg.get(sid, {})):
                 ja.add(u)         # lixo herdado (ex.: páginas de busca): descarta
                 continue
-            pr = prioridade_slug(u)
+            pr = prioridade_slug(u, sid)
             if pr is None:
                 ja.add(u)                    # marca como visto (não interessa)
                 continue

@@ -177,6 +177,29 @@ def collect_site_urls(site, session, log):
                 time.sleep(DELAY_BETWEEN_REQ)
             except Exception:
                 continue
+    # -------- segunda onda: segue links de paginação encontrados --------
+    PAG_PAT = re.compile(r"([?&](?:pagina|pag|page|p)=\d+|/pagina/\d+/?$|/page/\d+/?$)", re.I)
+    LISTA_PAT = re.compile(r"busca|venda|comprar|alugar|imoveis|locacao", re.I)
+    max_pag = site.get("paginas_extra", 12)
+    candidatos = sorted(u for u in urls
+                        if PAG_PAT.search(u) and LISTA_PAT.search(u)
+                        and not is_property_url(u, site))[:max_pag]
+    for pu in candidatos:
+        try:
+            if site.get("render"):
+                import render_js
+                html = render_js.get_html(pu)
+            else:
+                html = fetch(pu, session)
+            for href in re.findall(r'href=["\']([^"\'#]+)', html):
+                full = urljoin(base, href)
+                if urlparse(full).netloc == urlparse(base).netloc:
+                    urls.add(full)
+            time.sleep(DELAY_BETWEEN_REQ)
+        except Exception:
+            continue
+    if candidatos:
+        log["paginas_extra_visitadas"] = len(candidatos)
     log["urls_coletadas"] = len(urls)
     return urls
 
@@ -427,6 +450,13 @@ def main():
     save_json(os.path.join(DATA_DIR, "known_urls.json"), known)
     save_json(os.path.join(DATA_DIR, "listings.json"), listings)
     save_json(os.path.join(DATA_DIR, "runlog.json"), runlog)
+    try:
+        import sheets_sync
+        runlog["sheets"] = sheets_sync.enviar(listings)
+        print("Google Sheets:", json.dumps(runlog["sheets"], ensure_ascii=False))
+    except Exception as e:
+        runlog["sheets"] = {"erro": str(e)[:150]}
+
     total_novos = sum(s["novos"] for s in runlog["sites"].values())
     print(f"\nConcluído. {total_novos} imóveis novos nesta execução.")
 

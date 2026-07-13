@@ -20,7 +20,7 @@ def coletar(site, log):
         for path in paths:
             try:
                 page.goto(urljoin(base, path), timeout=35000, wait_until="domcontentloaded")
-                page.wait_for_timeout(4000)
+                page.wait_for_timeout(5000)
                 for _ in range(4):                      # rolagem p/ carregar lazy-load
                     page.mouse.wheel(0, 4000)
                     page.wait_for_timeout(1200)
@@ -49,5 +49,20 @@ def get_html(url, timeout=35000):
             user_agent=UA, viewport={"width": 1366, "height": 900})
     pg = _pw["page"]
     pg.goto(url, timeout=timeout, wait_until="domcontentloaded")
-    pg.wait_for_timeout(2500)
+    try:
+        pg.wait_for_load_state("networkidle", timeout=15000)
+    except Exception:
+        pass
+    pg.wait_for_timeout(3500)
+    # rola para forçar carregamento tardio (endereço/mapa em SPA)
+    for _ in range(3):
+        try: pg.mouse.wheel(0, 3000)
+        except Exception: break
+        pg.wait_for_timeout(900)
+    # espera aparecer um logradouro no texto (até +6s)
+    import re as _re
+    for _ in range(6):
+        if _re.search(r"(Rua|Avenida|Av\.|Travessa|Estrada|Alameda)\s+[A-ZÀ-Ü]", pg.content()):
+            break
+        pg.wait_for_timeout(1000)
     return pg.content()

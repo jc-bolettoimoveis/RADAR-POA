@@ -215,8 +215,13 @@ def extrair(html, url=""):
         m = re.search(r"(?:refer[êe]ncia|c[óo]d(?:igo)?\.?|ref\.?)[:\s#]{0,3}([A-Z]{0,4}\d{2,8})", texto, re.I)
         d["codigo"] = m.group(1) if m else None
     if not d.get("endereco"):
-        m = re.search(r"((?:Rua|Av\.?|Avenida|Travessa|Alameda|Estrada)\s[^,\.;]{4,60}(?:,\s?\d{1,5})?)", texto)
-        d["endereco"] = m.group(1).strip() if m else None
+        VIA = r"(?:Rua|R\.|Av\.?|Avenida|Travessa|Tv\.?|Alameda|Al\.?|Estrada|Est\.?|Rodovia|Beco|Praça)"
+        # 1º tenta a forma COMPLETA "Via Nome, 275" (nome para antes de dígitos/Cód/traço)
+        m = re.search(VIA + r"\s+[A-ZÀ-Ü][^,\n]{2,45}?,\s*(?:n[ºo\.]*\s*)?\d{1,5}\b", texto)
+        if not m:
+            # 2º forma só via + nome, cortando em Cód/dígito/traço/quebra
+            m = re.search(VIA + r"\s+[A-ZÀ-Ü](?:(?!\s(?:C[óo]d|n[ºo])\b)[^,\n\d;\-])" + r"{2,45}", texto)
+        d["endereco"] = re.sub(r"\s+", " ", m.group(0)).strip(" ,-") if m else None
 
     # ------- localização detalhada -------
     ll = _latlong(html)
@@ -225,6 +230,32 @@ def extrair(html, url=""):
     d["tipo_imovel"] = _tipo_imovel((d.get("endereco") or "") + " " + texto[:3000]) or _tipo_imovel(url)
     m = re.search(r",\s?(\d{1,5})(?:\D|$)", d.get("endereco") or "")
     d["numero"] = m.group(1) if m else None
+    # formato "Bairro - Nome da Rua, 962 - Cidade" (número sem 'Rua' na frente)
+    if not d["numero"] and d.get("endereco"):
+        nucleo = re.sub(r"^(Rua|Av\.?|Avenida|Travessa|Tv\.?|Alameda|Al\.?|Estrada|Est\.?|Rodovia)\s+",
+                        "", d["endereco"], flags=re.I).strip()
+        toks = nucleo.split()
+        if len(toks) >= 1:
+            chave = re.escape(" ".join(toks[-2:]) if len(toks) >= 2 else toks[-1])
+            mm = re.search(chave + r"\s*,\s*(?:n[ºo\.]*\s*)?(\d{1,5})\b", texto, re.I)
+            if mm and not re.search(r"(R\$|\$)\s*[\d\.]*$", texto[:mm.start(1)][-8:]):
+                d["numero"] = mm.group(1)
+                if not re.search(r",\s*\d", d["endereco"]):
+                    d["endereco"] = d["endereco"].rstrip(", ") + ", " + d["numero"]
+    # formato genérico "Nome Sobrenome, 962 -" perto de traço de bairro
+    if not d["numero"]:
+        mm = re.search(r"-\s*([A-ZÀ-Ü][\wÀ-ü]+(?:\s+[A-ZÀ-Ü0-9][\wÀ-ü\.]+){0,3}),\s*(\d{1,5})\s*-", texto)
+        if mm and "R$" not in texto[max(0,mm.start()-4):mm.start(2)]:
+            d["numero"] = mm.group(2)
+            if not d.get("endereco"):
+                d["endereco"] = mm.group(1).strip() + ", " + mm.group(2)
+            elif not re.search(r",\s*\d", d["endereco"]):
+                d["endereco"] = d["endereco"].rstrip(", ") + ", " + d["numero"]
+    if d.get("endereco"):
+        end = re.sub(r"\s*[-–]?\s*R\$.*$", "", d["endereco"])
+        end = re.sub(r"\s+(?:C[óoÓO]D|COD|c[óo]digo)\b.*?(?=,\s*\d|$)", "", end, flags=re.I)
+        end = re.sub(r"\s+", " ", end).strip(" ,-")
+        d["endereco"] = end or None
     classificar(d)
     casa_terreno = (d.get("tipo_imovel") or "") in ("casa", "sobrado", "terreno")
     if d["endereco_nivel"] == "completo":
@@ -252,7 +283,7 @@ def extrair(html, url=""):
     campos = ["dorms", "suites", "vagas", "banheiros", "area", "preco_venda",
               "condominio", "iptu", "codigo", "endereco"]
     pontos = sum(1 for c in campos if d.get(c))
-    pontos += min(3, len(carac)) if carac else 0          # até 3 pontos por características
+    pontos += min(3, len(carac)) if carac else 0
     pontos += 1 if d.get("area_total") else 0
     pontos += 1 if d.get("preco_locacao") else 0
     d["completude"] = round(100 * pontos / 15)
