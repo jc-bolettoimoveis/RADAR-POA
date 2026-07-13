@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import monitor as m
 from extrator import extrair
 
-AMOSTRA = int(os.environ.get("AMOSTRA_POR_SITE", "10"))
+AMOSTRA = int(os.environ.get("AMOSTRA_POR_SITE") or "10")
 
 def main():
     cfg = m.load_json(m.CFG_PATH, None)
