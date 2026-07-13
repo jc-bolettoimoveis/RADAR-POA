@@ -22,9 +22,26 @@ def _num(preco):
     m = re.search(r"[\d\.]{4,}(?:,\d{2})?", str(preco or ""))
     return float(m.group(0).replace(".", "").replace(",", ".")) if m else None
 
+LEGADO_TIPO = {"garden": "apartamento garden", "jk": "apartamento jk",
+               "lote": "terreno", "ponto comercial": "loja"}
+FAM_DE = {}
+for _f, _ts in {
+    "Apartamentos": ["apartamento", "apartamento garden", "apartamento jk", "cobertura",
+                     "duplex", "triplex", "loft", "studio", "kitnet", "flat"],
+    "Casas": ["casa", "sobrado", "casa em condomínio"],
+    "Comercial": ["sala", "conjunto", "conjunto comercial", "loja", "casa comercial",
+                  "galpão", "pavilhão", "depósito", "prédio", "box", "garagem"],
+    "Terrenos": ["terreno", "fração"],
+    "Rural": ["sítio", "chácara"],
+}.items():
+    for _t in _ts:
+        FAM_DE[_t] = _f
 for l in listings:
     l["preco_num"] = l.get("preco_venda") or _num(l.get("preco"))
     l["area_num"] = l.get("area")
+    if l.get("tipo_imovel"):
+        l["tipo_imovel"] = LEGADO_TIPO.get(l["tipo_imovel"], l["tipo_imovel"])
+        l["tipo_fam"] = FAM_DE.get(l["tipo_imovel"], "Outros")
 listings.sort(key=lambda l: (l.get("detectado_em") or ""), reverse=True)
 
 with open(os.path.join(DOCS, "data.js"), "w", encoding="utf-8") as f:
@@ -100,6 +117,7 @@ header h1{font-size:18px;margin:0}header small{opacity:.8}
     <select id="fimob"><option value="">Todas as imobiliárias</option></select>
     <select id="fbairro"><option value="">Todos os bairros</option></select>
     <select id="ftipo"><option value="">Venda + Locação</option><option value="venda">Venda</option><option value="locacao">Locação</option></select>
+    <select id="ftimovel"><option value="">Tipo de imóvel (todos)</option></select>
     <select id="fstatus"><option value="">Todos os status</option><option value="livre">🟢 Livres p/ captar</option><option value="verificar">🟡 Verificar</option><option value="captado">🔴 Já captados</option><option value="removido">⚫ Removidos</option></select>
     <div class="chips">
       <button class="chip on" data-d="1">Hoje</button>
@@ -144,8 +162,18 @@ let days=1, filtradas=[];
 const uniq=a=>[...new Set(a.filter(Boolean))].sort();
 uniq(LISTINGS.map(l=>l.imobiliaria)).forEach(v=>fimob.add(new Option(v,v)));
 uniq(LISTINGS.map(l=>l.bairro)).forEach(v=>fbairro.add(new Option(v,v)));
+{
+  const fams={};
+  LISTINGS.forEach(l=>{if(l.tipo_imovel){(fams[l.tipo_fam||'Outros']=fams[l.tipo_fam||'Outros']||new Set()).add(l.tipo_imovel)}});
+  Object.keys(fams).sort().forEach(f=>{
+    const og=document.createElement('optgroup');og.label=f;
+    const all=new Option(`${f} — todos`,'fam:'+f);og.appendChild(all);
+    [...fams[f]].sort().forEach(t=>og.appendChild(new Option('   '+t.charAt(0).toUpperCase()+t.slice(1),t)));
+    ftimovel.appendChild(og);
+  });
+}
 document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');days=+c.dataset.d;render()});
-['q','fimob','fbairro','ftipo','fstatus','fdorm','fsuite','fvaga','pmin','pmax','amin','amax','fcomp','fprio','fgestao','ford'].forEach(id=>document.getElementById(id).oninput=render);
+['q','fimob','fbairro','ftipo','ftimovel','fstatus','fdorm','fsuite','fvaga','pmin','pmax','amin','amax','fcomp','fprio','fgestao','ford'].forEach(id=>document.getElementById(id).oninput=render);
 const daysAgo=d=>(Date.now()-new Date(d+'T00:00:00Z'))/864e5;
 const GEST=JSON.parse(localStorage.getItem('radar_gestao')||'{}');
 window.gDe=u=>GEST[u]||{st:'novo',tel:'',obs:''};
@@ -156,6 +184,10 @@ function passa(l){
   if(fimob.value&&l.imobiliaria!==fimob.value)return false;
   if(fbairro.value&&l.bairro!==fbairro.value)return false;
   if(ftipo.value&&l.tipo!==ftipo.value)return false;
+  if(ftimovel.value){
+    if(ftimovel.value.startsWith('fam:')){if((l.tipo_fam||'Outros')!==ftimovel.value.slice(4))return false}
+    else if(l.tipo_imovel!==ftimovel.value)return false;
+  }
   if(st){if(st==='removido'){if(!l.removido_em)return false}else{if((l.status||'livre')!==st||l.removido_em)return false}}
   if(days!==0&&daysAgo(l.detectado_em)>days)return false;
   if(fdorm.value&&!((l.dorms||0)>=+fdorm.value))return false;

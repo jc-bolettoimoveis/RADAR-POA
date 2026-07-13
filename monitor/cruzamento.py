@@ -171,6 +171,21 @@ def _num_end(item):
     return m.group(1) if m else None
 
 # ------------------------------------------------------------------ matching
+FAMILIAS = {
+    "apto": {"apartamento", "apartamento garden", "apartamento jk", "garden",
+             "cobertura", "duplex", "triplex", "loft", "studio", "kitnet", "jk", "flat"},
+    "casa": {"casa", "sobrado", "casa em condomínio", "casa em condominio"},
+    "comercial": {"sala", "loja", "conjunto", "conjunto comercial", "ponto comercial",
+                  "casa comercial", "pavilhão", "pavilhao", "galpão", "galpao",
+                  "depósito", "deposito", "prédio", "predio"},
+    "terreno": {"terreno", "lote", "sítio", "sitio", "chácara", "chacara"},
+}
+def _familia(t):
+    for fam, tipos in FAMILIAS.items():
+        if t in tipos:
+            return fam
+    return t
+
 def score_match(radar, base):
     """radar/base: perfis com bairro,tipo,area,dorms,preco. Retorna pontuação."""
     s = 0
@@ -179,7 +194,7 @@ def score_match(radar, base):
             return 0          # bairros conhecidos e diferentes: descarta
         s += 2
     if radar.get("tipo") and base.get("tipo"):
-        if radar["tipo"] != base["tipo"]:
+        if _familia(radar["tipo"]) != _familia(base["tipo"]):
             return 0
         s += 1
     ra, ba = radar.get("area"), base.get("area")

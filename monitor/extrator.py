@@ -90,9 +90,13 @@ def _jsonld(html):
             continue
     return out
 
-TIPOS_IMOVEL = ["apartamento", "cobertura", "casa em condominio", "casa em condomínio",
-                "casa", "sobrado", "terreno", "sala", "loja", "kitnet", "jk", "duplex",
-                "garden", "studio", "loft", "galpão", "galpao", "prédio", "predio"]
+# ordem importa: específicos antes dos genéricos ("apartamento garden" → garden)
+TIPOS_IMOVEL = ["casa em condominio", "casa em condomínio", "casa comercial", "sobrado",
+                "garden", "cobertura", "duplex", "triplex", "loft", "studio", "kitnet",
+                "jk", "flat", "apartamento", "conjunto comercial", "conjunto", "sala",
+                "loja", "ponto comercial", "casa", "terreno", "lote", "galpão", "galpao",
+                "pavilhão", "pavilhao", "depósito", "deposito", "prédio", "predio",
+                "box", "garagem", "fração", "fracao", "sítio", "sitio", "chácara", "chacara"]
 
 def _latlong(html):
     pats = [
@@ -119,12 +123,19 @@ def _empreendimento(texto):
                   r"[A-ZÀ-Ü][\w'À-ü-]+(?:\s+" + PARA + r"[A-ZÀ-Ü0-9][\w'À-ü-]+){0,3})", texto)
     return m.group(1).strip() if m else None
 
+CANONICO = {
+    "garden": "apartamento garden", "casa em condominio": "casa em condomínio",
+    "galpao": "galpão", "predio": "prédio", "pavilhao": "pavilhão",
+    "deposito": "depósito", "fracao": "fração", "sitio": "sítio",
+    "chacara": "chácara", "lote": "terreno", "jk": "apartamento jk",
+    "kitnet": "kitnet", "ponto comercial": "loja",
+}
+
 def _tipo_imovel(texto):
     tl = (texto or "").lower()
     for t in TIPOS_IMOVEL:
         if t in tl:
-            return {"casa em condominio": "casa em condomínio", "galpao": "galpão",
-                    "predio": "prédio"}.get(t, t)
+            return CANONICO.get(t, t)
     return None
 
 FOTO_RUIM = re.compile(r"logo|logotipo|icon|avatar|whatsapp|placeholder|selo|favicon|marca|og-?image-?default|\.svg", re.I)

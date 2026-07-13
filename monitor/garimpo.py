@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import monitor as m
 import requests
 
-BATCH = int(os.environ.get("GARIMPO_LOTE", "2000"))
+BATCH = int(os.environ.get("GARIMPO_LOTE") or "2000")
 DELAY = 0.7
 
 def main():
