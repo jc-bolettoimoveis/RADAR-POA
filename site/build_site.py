@@ -175,7 +175,7 @@ function makeMS(id,label,items){
   const btn=document.createElement('button');btn.type='button';btn.className='msbtn';
   const pan=document.createElement('div');pan.className='mspan';
   el.classList.add('ms');el.append(btn,pan);
-  const upd=()=>{const n=SEL[id].size;btn.textContent=label+(n?` (${n}) `:' (todos) ')+'▾';btn.classList.toggle('on',n>0);render();};
+  const upd=()=>{const n=SEL[id].size;btn.textContent=label+(n?` (${n}) `:' (todos) ')+'▾';btn.classList.toggle('on',n>0);if(window.__pronto)render();};
   items.forEach(it=>{
     const lab=document.createElement('label');if(it.kids)lab.className='mshead';
     const cb=document.createElement('input');cb.type='checkbox';
@@ -303,6 +303,7 @@ H.innerHTML='<tr><th>Imobiliária</th><th>Status</th><th>Método</th><th>URLs de
  Object.values(RUNLOG.sites||{}).map(s=>`<tr><td>${s.nome}</td>
  <td class="${s.status==='ok'?'ok':s.status==='erro'?'err':'base'}">${s.status}${s.erro?' — '+s.erro:''}</td>
  <td>${s.metodo||'—'}</td><td>${s.urls_imovel??'—'}</td><td>${s.novos??0}</td><td>${pctEnd(s.nome)}</td></tr>`).join('');
+window.__pronto=true;
 render();
 </script>
 </body>
