@@ -18,6 +18,15 @@ header h1{font-size:18px;margin:0}header small{opacity:.8}
 .chips{display:flex;gap:6px}.chip{padding:7px 12px;border-radius:999px;border:1px solid #d5dae2;background:#fff;cursor:pointer;font-size:13px}
 .chip.on{background:var(--acc);color:#fff;border-color:var(--acc)}
 .btn{padding:8px 14px;border-radius:8px;border:1px solid var(--acc);background:#fff;color:var(--acc);cursor:pointer;font-size:13px;font-weight:600}
+.ms{position:relative;display:inline-block}
+.msbtn{padding:8px 10px;border:1px solid #d5dae2;border-radius:8px;font-size:13px;background:#fff;cursor:pointer;white-space:nowrap}
+.msbtn.on{border-color:var(--acc);color:var(--acc);font-weight:700}
+.mspan{display:none;position:absolute;z-index:50;top:105%;left:0;background:#fff;border:1px solid #d5dae2;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.15);padding:8px;min-width:230px;max-height:300px;overflow:auto}
+.mspan.open{display:block}
+.mspan label{display:block;padding:4px 6px;font-size:13px;cursor:pointer;border-radius:6px;white-space:nowrap}
+.mspan label:hover{background:#f2f5fa}
+.mspan label.mshead{font-weight:700;color:var(--acc);border-top:1px solid #eef1f5;margin-top:4px}
+.mspan label.mshead:first-child{border-top:none;margin-top:0}
 .stats{font-size:13px;color:var(--mut);margin:6px 0 12px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
 .card{background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08);display:flex;flex-direction:column}
@@ -61,11 +70,11 @@ header h1{font-size:18px;margin:0}header small{opacity:.8}
 <div class="wrap">
   <div class="filters">
     <input type="text" id="q" placeholder="Buscar título, endereço, característica (ex.: churrasqueira)...">
-    <select id="fimob"><option value="">Todas as imobiliárias</option></select>
-    <select id="fbairro"><option value="">Todos os bairros</option></select>
+    <div id="msImob"></div>
+    <div id="msBairro"></div>
     <select id="ftipo"><option value="">Venda + Locação</option><option value="venda">Venda</option><option value="locacao">Locação</option></select>
-    <select id="ftimovel"><option value="">Tipo de imóvel (todos)</option></select>
-    <select id="fstatus"><option value="">Todos os status</option><option value="livre">🟢 Livres p/ captar</option><option value="verificar">🟡 Verificar</option><option value="captado">🔴 Já captados</option><option value="removido">⚫ Removidos</option></select>
+    <div id="msTipo"></div>
+    <div id="msStatus"></div>
     <div class="chips">
       <button class="chip on" data-d="1">Hoje</button>
       <button class="chip" data-d="7">7 dias</button>
@@ -82,8 +91,8 @@ header h1{font-size:18px;margin:0}header small{opacity:.8}
     <input class="mini" type="number" id="amin" placeholder="m² mín">
     <input class="mini" type="number" id="amax" placeholder="m² máx">
     <select id="fcomp"><option value="">Ficha (qualquer)</option><option value="70">Completa (70%+)</option><option value="40">Média (40%+)</option><option value="-40">Incompleta (&lt;40%)</option></select>
-    <select id="fprio"><option value="">Prioridade (todas)</option><option value="1">🎯 P1 — endereço completo</option><option value="2">📍 P2 — prédio identificado</option><option value="3">P3 — só rua</option><option value="4">P4 — só bairro</option></select>
-    <select id="fgestao"><option value="">Gestão (todos)</option><option value="novo">Novos (sem contato)</option><option value="contatado">Contatados</option><option value="negociando">Negociando</option><option value="captado_nosso">Captados por nós ✅</option><option value="descartado">Descartados</option></select>
+    <div id="msPrio"></div>
+    <div id="msGestao"></div>
     <select id="ford">
       <option value="recentes">↕ Mais recentes</option>
       <option value="prio">🎯 Prioridade (P1 primeiro)</option>
@@ -107,35 +116,58 @@ const $=s=>document.querySelector(s);
 $('#gen').textContent='Atualizado: '+GERADO_EM;
 let days=1, filtradas=[];
 const uniq=a=>[...new Set(a.filter(Boolean))].sort();
-uniq(LISTINGS.map(l=>l.imobiliaria)).forEach(v=>fimob.add(new Option(v,v)));
-uniq(LISTINGS.map(l=>l.bairro)).forEach(v=>fbairro.add(new Option(v,v)));
+const SEL={};
+function makeMS(id,label,items){
+  const el=document.getElementById(id);SEL[id]=new Set();
+  const btn=document.createElement('button');btn.type='button';btn.className='msbtn';
+  const pan=document.createElement('div');pan.className='mspan';
+  el.classList.add('ms');el.append(btn,pan);
+  const upd=()=>{const n=SEL[id].size;btn.textContent=label+(n?` (${n}) `:' (todos) ')+'▾';btn.classList.toggle('on',n>0);render();};
+  items.forEach(it=>{
+    const lab=document.createElement('label');if(it.kids)lab.className='mshead';
+    const cb=document.createElement('input');cb.type='checkbox';
+    cb.onchange=()=>{
+      if(it.kids){pan.querySelectorAll('input').forEach(o=>{if(o._v!==undefined&&it.kids.includes(o._v)){o.checked=cb.checked;cb.checked?SEL[id].add(o._v):SEL[id].delete(o._v);}});}
+      else{cb.checked?SEL[id].add(it.v):SEL[id].delete(it.v);}
+      upd();};
+    if(!it.kids)cb._v=it.v;
+    lab.append(cb,document.createTextNode(' '+it.t));pan.appendChild(lab);
+  });
+  btn.onclick=e=>{e.stopPropagation();document.querySelectorAll('.mspan.open').forEach(p=>{if(p!==pan)p.classList.remove('open')});pan.classList.toggle('open');};
+  pan.onclick=e=>e.stopPropagation();
+  upd();
+}
+document.addEventListener('click',()=>document.querySelectorAll('.mspan.open').forEach(p=>p.classList.remove('open')));
+makeMS('msImob','Imobiliárias',uniq(LISTINGS.map(l=>l.imobiliaria)).map(v=>({v,t:v})));
+makeMS('msBairro','Bairros',uniq(LISTINGS.map(l=>l.bairro)).map(v=>({v,t:v})));
 {
   const fams={};
   LISTINGS.forEach(l=>{if(l.tipo_imovel){(fams[l.tipo_fam||'Outros']=fams[l.tipo_fam||'Outros']||new Set()).add(l.tipo_imovel)}});
+  const items=[];
   Object.keys(fams).sort().forEach(f=>{
-    const og=document.createElement('optgroup');og.label=f;
-    const all=new Option(`${f} — todos`,'fam:'+f);og.appendChild(all);
-    [...fams[f]].sort().forEach(t=>og.appendChild(new Option('   '+t.charAt(0).toUpperCase()+t.slice(1),t)));
-    ftimovel.appendChild(og);
+    const kids=[...fams[f]].sort();
+    items.push({t:f+' — todos',kids});
+    kids.forEach(t=>items.push({v:t,t:' '+t.charAt(0).toUpperCase()+t.slice(1)}));
   });
+  makeMS('msTipo','Tipo de imóvel',items);
 }
+makeMS('msStatus','Status',[{v:'livre',t:'🟢 Livres p/ captar'},{v:'verificar',t:'🟡 Verificar'},{v:'captado',t:'🔴 Já captados'},{v:'removido',t:'⚫ Removidos'}]);
+makeMS('msPrio','Prioridade',[{v:'1',t:'🎯 P1 — endereço completo'},{v:'2',t:'📍 P2 — prédio identificado'},{v:'3',t:'P3 — só rua'},{v:'4',t:'P4 — só bairro'}]);
+makeMS('msGestao','Gestão',[{v:'novo',t:'⬜ Novos (sem contato)'},{v:'contatado',t:'📞 Contatados'},{v:'negociando',t:'🤝 Negociando'},{v:'captado_nosso',t:'✅ Captados por nós'},{v:'descartado',t:'🗑 Descartados'}]);
 document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');days=+c.dataset.d;render()});
-['q','fimob','fbairro','ftipo','ftimovel','fstatus','fdorm','fsuite','fvaga','pmin','pmax','amin','amax','fcomp','fprio','fgestao','ford'].forEach(id=>document.getElementById(id).oninput=render);
+['q','ftipo','fdorm','fsuite','fvaga','pmin','pmax','amin','amax','fcomp','ford'].forEach(id=>document.getElementById(id).oninput=render);
 const daysAgo=d=>(Date.now()-new Date(d+'T00:00:00Z'))/864e5;
 const GEST=JSON.parse(localStorage.getItem('radar_gestao')||'{}');
 window.gDe=u=>GEST[u]||{st:'novo',tel:'',obs:''};
 window.setG=(u,k,v)=>{const g=gDe(u);g[k]=v;GEST[u]=g;localStorage.setItem('radar_gestao',JSON.stringify(GEST));if(k==='st'||k==='tel')render();};
 window.scriptDe=l=>`Olá! Tudo bem? Sou da Boletto Imóveis, aqui de Porto Alegre. Vi que o imóvel ${l.titulo||''}${l.endereco?' na '+l.endereco:l.bairro?' no bairro '+l.bairro:''} está à venda. Trabalhamos com a Rede Gaúcha de Imóveis (60+ imobiliárias vendendo juntas) e temos clientes buscando nessa região. Posso te apresentar nossa proposta de divulgação, sem exclusividade obrigatória?`;
 function passa(l){
-  const q=$('#q').value.toLowerCase(), st=fstatus.value, comp=fcomp.value;
-  if(fimob.value&&l.imobiliaria!==fimob.value)return false;
-  if(fbairro.value&&l.bairro!==fbairro.value)return false;
+  const q=$('#q').value.toLowerCase(), comp=fcomp.value;
+  if(SEL.msImob.size&&!SEL.msImob.has(l.imobiliaria))return false;
+  if(SEL.msBairro.size&&!SEL.msBairro.has(l.bairro))return false;
   if(ftipo.value&&l.tipo!==ftipo.value)return false;
-  if(ftimovel.value){
-    if(ftimovel.value.startsWith('fam:')){if((l.tipo_fam||'Outros')!==ftimovel.value.slice(4))return false}
-    else if(l.tipo_imovel!==ftimovel.value)return false;
-  }
-  if(st){if(st==='removido'){if(!l.removido_em)return false}else{if((l.status||'livre')!==st||l.removido_em)return false}}
+  if(SEL.msTipo.size&&!SEL.msTipo.has(l.tipo_imovel))return false;
+  if(SEL.msStatus.size){const st=l.removido_em?'removido':(l.status||'livre');if(!SEL.msStatus.has(st))return false;}
   if(days!==0&&daysAgo(l.detectado_em)>days)return false;
   if(fdorm.value&&!((l.dorms||0)>=+fdorm.value))return false;
   if(fsuite.value&&!((l.suites||0)>=+fsuite.value))return false;
@@ -145,8 +177,8 @@ function passa(l){
   if(amin.value&&!(l.area_num&&l.area_num>=+amin.value))return false;
   if(amax.value&&!(l.area_num&&l.area_num<=+amax.value))return false;
   if(comp){const c=l.completude||0;if(comp==='-40'){if(c>=40)return false}else if(c<+comp)return false}
-  if(fprio.value&&String(l.prioridade||4)!==fprio.value)return false;
-  if(fgestao.value&&gDe(l.url).st!==fgestao.value)return false;
+  if(SEL.msPrio.size&&!SEL.msPrio.has(String(l.prioridade||4)))return false;
+  if(SEL.msGestao.size&&!SEL.msGestao.has(gDe(l.url).st))return false;
   if(q){const blob=((l.titulo||'')+' '+(l.bairro||'')+' '+(l.endereco||'')+' '+(l.descricao||'')+' '+((l.caracteristicas||[]).join(' '))+' '+l.url).toLowerCase();if(!blob.includes(q))return false}
   return true;
 }
@@ -191,7 +223,7 @@ function render(){
         <div class="preco">${l.preco||'—'}${l.preco_locacao_fmt?` <small>· aluguel ${l.preco_locacao_fmt}</small>`:''}</div>
         ${custos?`<div class="custos">${custos}</div>`:''}
         ${l.caracteristicas&&l.caracteristicas.length?`<div class="carac">✦ ${l.caracteristicas.join(', ')}</div>`:''}
-        ${l.endereco||l.empreendimento?`<div class="custos">📍 ${[l.empreendimento,l.endereco].filter(Boolean).join(' — ')}${l.latitude?` · <a href="https://www.google.com/maps?q=${l.latitude},${l.longitude}" target="_blank" rel="noopener">ver ponto exato 🗺</a>`:''}</div>`:l.latitude?`<div class="custos">🗺 <a href="https://www.google.com/maps?q=${l.latitude},${l.longitude}" target="_blank" rel="noopener">ponto exato no mapa</a></div>`:''}
+        ${l.endereco||l.empreendimento?`<div class="custos">📍 ${[l.empreendimento,l.endereco].filter(Boolean).join(' — ')}${l.endereco_fonte?' <span title="localização deduzida pelo nome do condomínio">🏢✓</span>':''}${l.latitude?` · <a href="https://www.google.com/maps?q=${l.latitude},${l.longitude}" target="_blank" rel="noopener">ver ponto exato 🗺</a>`:''}</div>`:l.latitude?`<div class="custos">🗺 <a href="https://www.google.com/maps?q=${l.latitude},${l.longitude}" target="_blank" rel="noopener">ponto exato no mapa</a></div>`:''}
         <div class="comp ${comp<40?'low':''}"><span>Ficha ${comp}%</span><div class="bar"><i style="width:${comp}%"></i></div>${l.codigo?`<span>ref ${l.codigo}</span>`:''}</div>
         <div class="src">${l.imobiliaria} · detectado ${l.detectado_em.split('-').reverse().join('/')} · no ar há ${Math.max(1,Math.round(daysAgo(l.detectado_em)))}d${l.status==='captado'&&l.match_fonte?` · na base: ${l.match_fonte==='portal_rgi'?'portal RGI':l.match_fonte}${l.match_ref?' (ref '+l.match_ref+')':''}`:''}</div>
         <div class="gestao">
