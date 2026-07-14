@@ -2,12 +2,12 @@ name: Garimpo do estoque
 
 on:
   schedule:
-    - cron: "30 1,4,7 * * *"   # 22:30, 01:30 e 04:30 de Brasília
+    - cron: "30 1,4,7 * * *"
   workflow_dispatch:
     inputs:
       lote:
-        description: "Anúncios por lote (padrão 2000)"
-        default: "2000"
+        description: "Anúncios por lote (padrão 1200)"
+        default: "1200"
 
 permissions:
   contents: write
