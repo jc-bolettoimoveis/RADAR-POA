@@ -117,11 +117,40 @@ def _latlong(html):
                 return la, lo
     return None
 
+FEAT_UI = re.compile(
+    r"fechad|abert[oa]|elevador|piscina|estacionament|g[áa]s\b|festas|fitness|churrasq|"
+    r"portaria|porteir|academia|playground|quadra|sauna|gourmet|mobiliad|spa\b|v[íi]deo|"
+    r"localiza|seguros|digital|conhe[çc]a|fotos|mapa|whatsapp|agende|visita|financ|"
+    r"lavanderia|brinquedoteca|coworking|solarium|jardim|hidro|deck|bicicletari|"
+    r"salão|salao|lazer|infantil|coletiv|adulto|aquecid|semimobil|reformad", re.I)
+
+def _endereco_valido(s):
+    """Rejeita strings que são lista de características/UI em vez de logradouro."""
+    if not s:
+        return None
+    s = re.sub(r"\s+", " ", s).strip(" ,-·")
+    if len(s) < 5 or len(s) > 70:
+        return None
+    if FEAT_UI.search(s):
+        return None
+    # precisa parecer logradouro: começa com via OU tem "Nome, número"
+    if not re.match(r"(?i)(Rua|R\.|Av\.?|Avenida|Travessa|Tv\.?|Alameda|Al\.?|Estrada|Est\.?|Rodovia|Beco|Pra[çc]a)\b", s)        and not re.search(r"[A-Za-zÀ-ü]{3,},\s*\d{1,5}", s):
+        return None
+    return s
+
 def _empreendimento(texto):
-    PARA = r"(?!(?:Rua|Av|Avenida|Travessa|Alameda|Estrada|Localizado|Situado|Em|No|Na)\b)"
-    m = re.search(r"(?:Condom[íi]nio|Edif[íi]cio|Residencial|Ed\.)\s+(" + PARA +
-                  r"[A-ZÀ-Ü][\w'À-ü-]+(?:\s+" + PARA + r"[A-ZÀ-Ü0-9][\w'À-ü-]+){0,3})", texto)
-    return m.group(1).strip() if m else None
+    STOP = r"(?!(?:Rua|R\.|Av|Avenida|Travessa|Alameda|Estrada|Rodovia|Beco|Pra[çc]a|C[óo]d|Venda|Aluguel|Loca[çc])\b)"
+    m = re.search(r"\b(Condom[íi]nio|Edif[íi]cio|Residencial|Ed\.)\s+"
+                  r"(" + STOP + r"[A-ZÀ-Ü][\wÀ-ü']+(?:\s+" + STOP + r"(?:d[aeo]s?\s+|e\s+)?[A-ZÀ-Ü0-9][\wÀ-ü'\.]+){0,4})", texto)
+    if not m:
+        return None
+    tipo = m.group(1).replace("Ed.", "Edifício")
+    nome = m.group(2).strip()
+    if FEAT_UI.search(nome) or FEAT_UI.search(nome.split()[0]):
+        return None            # "Condomínio Fechado ..." = característica, não nome
+    if nome.isupper() and len(nome) > 20:
+        return None            # texto de interface em caixa alta
+    return f"{tipo} {nome}"
 
 CANONICO = {
     "garden": "apartamento garden", "casa em condominio": "casa em condomínio",
@@ -221,8 +250,9 @@ def extrair(html, url=""):
         if not m:
             # 2º forma só via + nome, cortando em Cód/dígito/traço/quebra
             m = re.search(VIA + r"\s+[A-ZÀ-Ü](?:(?!\s(?:C[óo]d|n[ºo])\b)[^,\n\d;\-])" + r"{2,45}", texto)
-        d["endereco"] = re.sub(r"\s+", " ", m.group(0)).strip(" ,-") if m else None
+        d["endereco"] = _endereco_valido(m.group(0)) if m else None
 
+    d["endereco"] = _endereco_valido(d.get("endereco"))
     # ------- localização detalhada -------
     ll = _latlong(html)
     d["latitude"], d["longitude"] = (ll if ll else (None, None))
@@ -255,7 +285,7 @@ def extrair(html, url=""):
         end = re.sub(r"\s*[-–]?\s*R\$.*$", "", d["endereco"])
         end = re.sub(r"\s+(?:C[óoÓO]D|COD|c[óo]digo)\b.*?(?=,\s*\d|$)", "", end, flags=re.I)
         end = re.sub(r"\s+", " ", end).strip(" ,-")
-        d["endereco"] = end or None
+        d["endereco"] = _endereco_valido(end)
     classificar(d)
     casa_terreno = (d.get("tipo_imovel") or "") in ("casa", "sobrado", "terreno")
     if d["endereco_nivel"] == "completo":
@@ -270,6 +300,7 @@ def extrair(html, url=""):
     tl = texto.lower()
     carac = sorted({c for c in VOCAB if c in tl})
     d["caracteristicas"] = carac or None
+    d["cidade"] = "Porto Alegre"
 
     d["foto_boa"] = escolher_foto(html, d.pop("foto_jl", None))
 

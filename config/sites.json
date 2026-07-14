@@ -142,6 +142,92 @@
       "obs": "Sitemap traz só empreendimentos; listagens por bairro complementam com os avulsos."
     },
     {
+      "id": "noblesse",
+      "nome": "Noblesse Imóveis",
+      "base": "https://www.noblesse.com.br",
+      "enabled": true,
+      "captura_total": true,
+      "paginas_extra": 20,
+      "listing_paths": [
+        "/busca/comprar/cidade/porto-alegre/1/",
+        "/busca/comprar/cidade/porto-alegre/2/",
+        "/busca/comprar/cidade/porto-alegre/3/",
+        "/busca/alugar/cidade/porto-alegre/1/"
+      ],
+      "obs": "Alto padrão (Três Figueiras). Plataforma Vista/Tecimob — costuma dar endereço."
+    },
+    {
+      "id": "veronez",
+      "nome": "Veronez Imóveis",
+      "base": "https://www.veronezimoveis.com.br",
+      "enabled": true,
+      "listing_paths": [
+        "/buscar/comprar",
+        "/buscar/comprar/porto-alegre",
+        "/buscar/alugar",
+        "/imoveis"
+      ],
+      "paginas_extra": 20,
+      "obs": "Rua e bairro no anúncio."
+    },
+    {
+      "id": "jsimas",
+      "nome": "J Simas Imóveis",
+      "base": "https://www.jsimasimoveis.com.br",
+      "enabled": true,
+      "listing_paths": [
+        "/imoveis",
+        "/comprar",
+        "/venda",
+        "/busca"
+      ],
+      "paginas_extra": 20,
+      "obs": "Bairro e rua no anúncio."
+    },
+    {
+      "id": "novolar",
+      "nome": "Novo Lar Imóveis",
+      "base": "https://imobiliarianovolar.net",
+      "enabled": true,
+      "captura_total": true,
+      "listing_paths": [
+        "/imoveis",
+        "/comprar",
+        "/venda",
+        "/busca"
+      ],
+      "paginas_extra": 20,
+      "obs": "Rua, número, bairro e cidade na seção Localização."
+    },
+    {
+      "id": "don",
+      "nome": "Don Imóveis",
+      "base": "https://www.donimoveis.com.br",
+      "enabled": true,
+      "captura_total": true,
+      "listing_paths": [
+        "/imoveis?cidade=Porto Alegre",
+        "/imoveis",
+        "/comprar"
+      ],
+      "paginas_extra": 25,
+      "obs": "Endereço na seção Pontos de referência (alguns). Alto padrão."
+    },
+    {
+      "id": "casaporto",
+      "nome": "Casa Porto Imobiliária",
+      "base": "https://www.casaportoimobiliaria.com.br",
+      "enabled": true,
+      "listing_paths": [
+        "/imoveis",
+        "/comprar",
+        "/venda",
+        "/busca"
+      ],
+      "paginas_extra": 20,
+      "obs": "Rua e bairro no anúncio."
+    },
+    {
       "id": "ducati",
       "nome": "Lopes Ducati",
       "base": "https://www.imobiliariaducati.com.br",

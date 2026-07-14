@@ -364,13 +364,16 @@ def main():
                     novos_da_execucao.append(listings[-1])
                     log["novos"] += 1
                 print(f"   {len(new_urls)} URLs novas, {log['novos']} imóveis registrados")
-                # anúncios que sumiram do site (2 execuções seguidas ausentes = removido)
-                for l in listings:
+                # anúncios que sumiram (só se a coleta do site foi confiável nesta rodada)
+                prev_count = sum(1 for l in listings if l.get("site_id") == sid and not l.get("removido_em"))
+                coleta_ok = len(props) >= max(3, prev_count * 0.5)   # coletou ao menos metade do conhecido
+                faltas_necessarias = 3 if site.get("render") else 2  # sites JS: mais tolerância
+                for l in (listings if coleta_ok else []):
                     if l.get("site_id") != sid or l.get("removido_em"):
                         continue
                     if l["url"] not in props:
                         l["faltas"] = l.get("faltas", 0) + 1
-                        if l["faltas"] >= 2:
+                        if l["faltas"] >= faltas_necessarias:
                             l["removido_em"] = today()
                             removidos_agora.append(l)
                     else:

@@ -15,7 +15,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import monitor as m
 import requests
 
-BATCH = int(os.environ.get("GARIMPO_LOTE") or "2000")
+BATCH = int(os.environ.get("GARIMPO_LOTE") or "1200")
+RENDER_MAX = int(os.environ.get("GARIMPO_RENDER_MAX") or "200")   # máx. páginas JS por rodada
 DELAY = 0.7
 
 def main():
@@ -72,15 +73,20 @@ def main():
     total_pend = sum(len(f) for f in filas.values())
     print(f"Backlog restante: {total_pend} anúncios a garimpar")
 
-    processados = aproveitados = 0
+    processados = aproveitados = renders_feitos = 0
     hoje = m.today()
     while processados < BATCH and any(filas.values()):
         for sid, fila in filas.items():
             if not fila or processados >= BATCH:
                 continue
             u = fila.pop(0)
+            usa_render = sid in render_ids
+            if usa_render and renders_feitos >= RENDER_MAX:
+                continue      # cota de renderização esgotada: deixa p/ próxima rodada (não marca feito)
             processados += 1
-            info, tipo_html = m.enrich(u, session, bairros, render=sid in render_ids)
+            info, tipo_html = m.enrich(u, session, bairros, render=usa_render)
+            if usa_render:
+                renders_feitos += 1
             ficha_vazia = not any(info.get(k) for k in ("titulo", "preco", "dorms", "foto", "preco_venda"))
             if ficha_vazia:
                 falhas[u] = falhas.get(u, 0) + 1
