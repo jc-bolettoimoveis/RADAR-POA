@@ -43,6 +43,8 @@ header h1{font-size:18px;margin:0}header small{opacity:.8}
 .b.st-queda{background:#e7f0fd;color:#1b4fa0;font-weight:700}
 .specs{font-size:12.5px;color:#33415c;font-weight:600}
 .custos{font-size:12px;color:var(--mut)}
+.loc{font-size:12.5px;color:#33415c}.loc b{color:var(--acc)}
+.loc-sec{font-size:11.5px;color:var(--mut)}
 .preco{font-size:15px;font-weight:700;color:var(--acc)}
 .preco small{color:var(--mut);font-weight:400}
 .src{font-size:12px;color:var(--mut)}
@@ -239,7 +241,9 @@ function render(){
         <div class="preco">${l.preco||'—'}${l.preco_locacao_fmt?` <small>· aluguel ${l.preco_locacao_fmt}</small>`:''}</div>
         ${custos?`<div class="custos">${custos}</div>`:''}
         ${l.caracteristicas&&l.caracteristicas.length?`<div class="carac">✦ ${l.caracteristicas.join(', ')}</div>`:''}
-        ${l.endereco||l.empreendimento?`<div class="custos">📍 ${[l.empreendimento,l.endereco].filter(Boolean).join(' — ')}${l.endereco_fonte?' <span title="localização deduzida pelo nome do condomínio">🏢✓</span>':''}${l.latitude?` · <a href="https://www.google.com/maps?q=${l.latitude},${l.longitude}" target="_blank" rel="noopener">ver ponto exato 🗺</a>`:''}</div>`:l.latitude?`<div class="custos">🗺 <a href="https://www.google.com/maps?q=${l.latitude},${l.longitude}" target="_blank" rel="noopener">ponto exato no mapa</a></div>`:''}
+        ${l.empreendimento?`<div class="loc"><b>🏢 ${l.empreendimento}</b></div>`:''}
+        ${l.endereco?`<div class="loc">📍 ${l.endereco}${l.numero&&!/,\s*\d/.test(l.endereco)?', '+l.numero:''}${l.endereco_fonte?' <span title="localização deduzida pelo condomínio">🏢✓</span>':''}</div>`:''}
+        <div class="loc-sec">${[l.bairro,l.cidade||'Porto Alegre'].filter(Boolean).join(' · ')}${l.latitude?` · <a href="https://www.google.com/maps?q=${l.latitude},${l.longitude}" target="_blank" rel="noopener">📍 ponto no mapa</a>`:''}</div>
         <div class="comp ${comp<40?'low':''}"><span>Ficha ${comp}%</span><div class="bar"><i style="width:${comp}%"></i></div>${l.codigo?`<span>ref ${l.codigo}</span>`:''}</div>
         <div class="src">${l.imobiliaria} · detectado ${l.detectado_em.split('-').reverse().join('/')} · no ar há ${Math.max(1,Math.round(daysAgo(l.detectado_em)))}d${l.status==='captado'&&l.match_fonte?` · na base: ${l.match_fonte==='portal_rgi'?'portal RGI':l.match_fonte}${l.match_ref?' (ref '+l.match_ref+')':''}`:''}</div>
         <div class="gestao">
@@ -252,9 +256,9 @@ function render(){
   $('#empty').style.display=filtradas.length?'none':'block';
 }
 $('#csv').onclick=()=>{
-  const cols=['status','prioridade','endereco_nivel','tipo','tipo_imovel','bairro','titulo','dorms','suites','vagas','banheiros','area','preco_num','preco_locacao','condominio','iptu','empreendimento','endereco','numero','latitude','longitude','codigo','completude','imobiliaria','detectado_em','removido_em','url','gestao_status','gestao_tel','gestao_obs'];
+  const cols=['status','prioridade','imobiliaria','tipo_imovel','empreendimento','endereco','numero','bairro','cidade','dorms','suites','vagas','banheiros','area','preco_num','preco_locacao','condominio','iptu','codigo','completude','endereco_nivel','latitude','longitude','detectado_em','removido_em','url','gestao_status','gestao_tel','gestao_obs'];
   const esc=v=>'"'+String(v==null?'':Array.isArray(v)?v.join('; '):v).replace(/"/g,'""')+'"';
-  const csv=[cols.join(';')].concat(filtradas.map(l=>{const g=gDe(l.url);const r={...l,gestao_status:g.st,gestao_tel:g.tel,gestao_obs:g.obs};return cols.map(c=>esc(r[c])).join(';')})).join('\r\n');
+  const csv=[cols.join(';')].concat(filtradas.map(l=>{const g=gDe(l.url);const r={...l,cidade:l.cidade||'Porto Alegre',gestao_status:g.st,gestao_tel:g.tel,gestao_obs:g.obs};return cols.map(c=>esc(r[c])).join(';')})).join('\r\n');
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));
   a.download='radar_captacao.csv';a.click();
