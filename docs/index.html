@@ -75,7 +75,7 @@ header h1{font-size:18px;margin:0}header small{opacity:.8}
   </div>
 </div>
 <script>
-const GHASH = "384862022cc46b21dff149f47b4d436de8839dbf0b5776a30b815b8fe9980ede";
+const GHASH = "6fa890bffc7f225790fe72da03727f4401f00282dec35f460f75e82f8d89bfa5";
 async function _sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
 async function gcheck(){const v=document.getElementById('gpw').value;if(await _sha(v)===GHASH){sessionStorage.setItem('gok','1');document.getElementById('gate').style.display='none';}else{document.getElementById('gerr').textContent='Senha incorreta';}}
 if(sessionStorage.getItem('gok')==='1'){document.addEventListener('DOMContentLoaded',()=>{const g=document.getElementById('gate');if(g)g.style.display='none';});}
