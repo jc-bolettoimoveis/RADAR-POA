@@ -56,6 +56,7 @@ header h1{font-size:18px;margin:0}header small{opacity:.8}
 .gestao{display:flex;flex-direction:column;gap:5px;border-top:1px dashed #e2e6ec;padding-top:7px}
 .gestao select,.gestao input{padding:6px 8px;border:1px solid #d5dae2;border-radius:7px;font-size:12px}
 .gestao a.wa{text-align:center;padding:7px;border-radius:7px;background:#25d366;color:#fff;text-decoration:none;font-size:12.5px;font-weight:700}
+.captado{background:#e8f5ee;color:#1c7c4e;border-radius:6px;padding:5px 7px;font-size:12px;font-weight:600}
 .card a.go{margin-top:auto;text-align:center;padding:8px;border-radius:8px;background:var(--acc);color:#fff;text-decoration:none;font-size:13px;font-weight:600}
 .health{margin-top:26px;background:#fff;border-radius:12px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
 .health h2{font-size:15px;margin:0 0 10px}
@@ -176,8 +177,10 @@ document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{document.querySelec
 ['q','ftipo','fdorm','fsuite','fvaga','pmin','pmax','amin','amax','fcomp','ford'].forEach(id=>document.getElementById(id).oninput=render);
 const daysAgo=d=>(Date.now()-new Date(d+'T00:00:00Z'))/864e5;
 const GEST=JSON.parse(localStorage.getItem('radar_gestao')||'{}');
-window.gDe=u=>GEST[u]||{st:'novo',tel:'',obs:''};
-window.setG=(u,k,v)=>{const g=gDe(u);g[k]=v;GEST[u]=g;localStorage.setItem('radar_gestao',JSON.stringify(GEST));if(k==='st'||k==='tel')render();};
+window.gDe=u=>GEST[u]||{st:'novo',tel:'',obs:'',corretor:'',captado_em:''};
+window.setG=(u,k,v)=>{const g={...gDe(u)};g[k]=v;
+  if(k==='st'){g.captado_em=(v==='captado_nosso')?(g.captado_em||new Date().toISOString().slice(0,10)):(v==='descartado'?g.captado_em:'')}
+  GEST[u]=g;localStorage.setItem('radar_gestao',JSON.stringify(GEST));if(k==='st'||k==='tel'||k==='corretor')render();};
 window.scriptDe=l=>`Olá! Tudo bem? Sou da Boletto Imóveis, aqui de Porto Alegre. Vi que o imóvel ${l.titulo||''}${l.endereco?' na '+l.endereco:l.bairro?' no bairro '+l.bairro:''} está à venda. Trabalhamos com a Rede Gaúcha de Imóveis (60+ imobiliárias vendendo juntas) e temos clientes buscando nessa região. Posso te apresentar nossa proposta de divulgação, sem exclusividade obrigatória?`;
 function passa(l){
   const q=$('#q').value.toLowerCase(), comp=fcomp.value;
@@ -249,6 +252,8 @@ function render(){
         <div class="gestao">
           <select onchange="setG('${l.url}','st',this.value)">${['novo','contatado','negociando','captado_nosso','descartado'].map(s=>`<option value="${s}" ${gDe(l.url).st===s?'selected':''}>${{novo:'⬜ novo',contatado:'📞 contatado',negociando:'🤝 negociando',captado_nosso:'✅ captado por nós',descartado:'🗑 descartado'}[s]}</option>`).join('')}</select>
           <input placeholder="Tel. proprietário" value="${gDe(l.url).tel||''}" onchange="setG('${l.url}','tel',this.value)">
+          <input placeholder="Corretor que captou" value="${gDe(l.url).corretor||''}" onchange="setG('${l.url}','corretor',this.value)">
+          ${gDe(l.url).st==='captado_nosso'?`<div class="captado">✅ Captado${gDe(l.url).corretor?' por <b>'+gDe(l.url).corretor+'</b>':''}${gDe(l.url).captado_em?' em '+gDe(l.url).captado_em.split('-').reverse().join('/'):''}</div>`:''}
           ${gDe(l.url).tel?`<a class="wa" target="_blank" rel="noopener" href="https://wa.me/55${gDe(l.url).tel.replace(/\D/g,'')}?text=${encodeURIComponent(scriptDe(l))}">💬 Abrir WhatsApp c/ script</a>`:''}
         </div>
         <a class="go" href="${l.url}" target="_blank" rel="noopener">Ver anúncio ↗</a>
@@ -256,9 +261,9 @@ function render(){
   $('#empty').style.display=filtradas.length?'none':'block';
 }
 $('#csv').onclick=()=>{
-  const cols=['status','prioridade','imobiliaria','tipo_imovel','empreendimento','endereco','numero','bairro','cidade','dorms','suites','vagas','banheiros','area','preco_num','preco_locacao','condominio','iptu','codigo','completude','endereco_nivel','latitude','longitude','detectado_em','removido_em','url','gestao_status','gestao_tel','gestao_obs'];
+  const cols=['status','prioridade','imobiliaria','tipo_imovel','empreendimento','endereco','numero','bairro','cidade','dorms','suites','vagas','banheiros','area','preco_num','preco_locacao','condominio','iptu','codigo','completude','endereco_nivel','latitude','longitude','detectado_em','removido_em','url','gestao_status','gestao_corretor','gestao_captado_em','gestao_tel','gestao_obs'];
   const esc=v=>'"'+String(v==null?'':Array.isArray(v)?v.join('; '):v).replace(/"/g,'""')+'"';
-  const csv=[cols.join(';')].concat(filtradas.map(l=>{const g=gDe(l.url);const r={...l,cidade:l.cidade||'Porto Alegre',gestao_status:g.st,gestao_tel:g.tel,gestao_obs:g.obs};return cols.map(c=>esc(r[c])).join(';')})).join('\r\n');
+  const csv=[cols.join(';')].concat(filtradas.map(l=>{const g=gDe(l.url);const r={...l,cidade:l.cidade||'Porto Alegre',gestao_status:g.st,gestao_corretor:g.corretor,gestao_captado_em:g.captado_em,gestao_tel:g.tel,gestao_obs:g.obs};return cols.map(c=>esc(r[c])).join(';')})).join('\r\n');
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));
   a.download='radar_captacao.csv';a.click();
