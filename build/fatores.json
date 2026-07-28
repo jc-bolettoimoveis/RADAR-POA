@@ -1,0 +1,45 @@
+{
+ "centro": [
+  "2026-04-12",
+  "2026-04-26",
+  "2026-05-03",
+  "2026-05-10",
+  "2026-05-31"
+ ],
+ "feriados": {
+  "2026-01-04": "Ano Novo (semana)",
+  "2026-02-22": "Pós-Carnaval",
+  "2026-04-05": "Páscoa (Sexta Santa 03/04)",
+  "2026-04-19": "Tiradentes (21/04, ter)",
+  "2026-05-03": "Dia do Trabalho (01/05, sex)",
+  "2026-05-10": "Dia das Mães",
+  "2026-06-07": "Corpus Christi (04/06, qui)"
+ },
+ "copa": {
+  "2026-06-14": "Copa em andamento (Brasil jogou 13/06 sáb)",
+  "2026-06-21": "Copa (Brasil 19/06 sex e 24/06 qua)",
+  "2026-06-28": "Copa — mata-mata (jogos domingo 16h)",
+  "2026-07-05": "BRASIL x Noruega 17h — ELIMINAÇÃO",
+  "2026-07-12": "Copa — quartas de final (domingo)"
+ },
+ "notas": {
+  "2026-01-04": "Início do ano, pós-Réveillon",
+  "2026-01-11": "Férias escolares",
+  "2026-01-18": "Auge das férias — muitos viajando",
+  "2026-01-25": "Férias escolares — menor de janeiro",
+  "2026-02-01": "Volta gradual das férias",
+  "2026-02-22": "Retorno à rotina pós-Carnaval — MAIOR do ano",
+  "2026-04-05": "Feriadão da Páscoa",
+  "2026-04-12": "Centro de Eventos (local menor)",
+  "2026-04-19": "Feriado prolongado de Tiradentes",
+  "2026-04-26": "Centro de Eventos (local menor)",
+  "2026-05-03": "Feriadão + Centro de Eventos",
+  "2026-05-10": "Dia das Mães + Centro de Eventos — MENOR dia cheio",
+  "2026-05-17": "Volta ao Teatro",
+  "2026-05-31": "Centro de Eventos (local menor)",
+  "2026-06-07": "Feriadão de Corpus Christi",
+  "2026-06-28": "Jogos da Copa no horário do culto das 16h",
+  "2026-07-05": "Jogo do Brasil às 17h; cultos 18h/20h não registrados — MENOR total",
+  "2026-07-12": "Férias de julho + Copa"
+ }
+}

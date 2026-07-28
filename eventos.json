@@ -1,0 +1,19 @@
+{
+ "_leia": "Eventos por semana (domingo). t = tipo (feriado, copa, cafe, ferias, campanha). l = texto que aparece no gráfico. Edite à vontade para anotar campanhas/ações e entender as subidas e quedas.",
+ "2026-01-04": { "t": "ferias",  "l": "Ano Novo / pós-Réveillon" },
+ "2026-01-11": { "t": "ferias",  "l": "Férias escolares" },
+ "2026-01-18": { "t": "ferias",  "l": "Auge das férias — muitos viajando" },
+ "2026-01-25": { "t": "ferias",  "l": "Férias escolares" },
+ "2026-02-01": { "t": "cafe",    "l": "Café (pré-inscrição 07/02) + volta das férias" },
+ "2026-02-22": { "t": "campanha","l": "Pós-Carnaval — retorno à rotina (maior do ano)" },
+ "2026-04-05": { "t": "cafe",    "l": "Mutirão café + Páscoa (feriadão)" },
+ "2026-04-19": { "t": "feriado", "l": "Feriadão de Tiradentes" },
+ "2026-05-03": { "t": "feriado", "l": "Feriadão do Trabalho + Centro de Eventos" },
+ "2026-05-10": { "t": "feriado", "l": "Dia das Mães + Centro de Eventos" },
+ "2026-06-07": { "t": "feriado", "l": "Feriadão de Corpus Christi" },
+ "2026-06-14": { "t": "copa",    "l": "Copa — Brasil jogou 13/06" },
+ "2026-06-21": { "t": "copa",    "l": "Copa — Brasil 19 e 24/06" },
+ "2026-06-28": { "t": "copa",    "l": "Copa — jogos no horário do culto (16h)" },
+ "2026-07-05": { "t": "copa",    "l": "BRASIL x Noruega 17h — eliminação" },
+ "2026-07-12": { "t": "copa",    "l": "Copa (quartas) + férias de julho" }
+}
