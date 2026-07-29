@@ -80,6 +80,10 @@ header h1{font-size:18px;margin:0}header small{opacity:.8}
 .filters input.mini{width:96px}
 .chips{display:flex;gap:6px}.chip{padding:7px 12px;border-radius:999px;border:1px solid #d5dae2;background:#fff;cursor:pointer;font-size:13px}
 .chip.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.segtipo{display:inline-flex;border:1px solid var(--acc);border-radius:8px;overflow:hidden}
+.segt{padding:8px 14px;border:0;background:#fff;color:var(--acc);cursor:pointer;font-size:13px;font-weight:700;border-right:1px solid #d5dae2}
+.segt:last-child{border-right:0}
+.segt.on{background:var(--acc);color:#fff}
 .btn{padding:8px 14px;border-radius:8px;border:1px solid var(--acc);background:#fff;color:var(--acc);cursor:pointer;font-size:13px;font-weight:600}
 .ms{position:relative;display:inline-block}
 .msbtn{padding:8px 10px;border:1px solid #d5dae2;border-radius:8px;font-size:13px;background:#fff;cursor:pointer;white-space:nowrap}
@@ -154,7 +158,11 @@ if(sessionStorage.getItem('gok')==='1'){document.addEventListener('DOMContentLoa
     <input type="text" id="q" placeholder="Buscar título, endereço, característica (ex.: churrasqueira)...">
     <div id="msImob"></div>
     <div id="msBairro"></div>
-    <select id="ftipo"><option value="">Venda + Locação</option><option value="venda">Venda</option><option value="locacao">Locação</option></select>
+    <div class="segtipo">
+      <button class="segt on" data-t="">Ambos</button>
+      <button class="segt" data-t="venda">🏷️ Venda</button>
+      <button class="segt" data-t="locacao">🔑 Locação</button>
+    </div>
     <div id="msTipo"></div>
     <div id="msStatus"></div>
     <div class="chips">
@@ -170,6 +178,7 @@ if(sessionStorage.getItem('gok')==='1'){document.addEventListener('DOMContentLoa
     <select id="fvaga"><option value="">Vagas (qualquer)</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option><option value="5">5+</option><option value="6">6+</option></select>
     <input class="mini" type="number" id="pmin" placeholder="R$ mín (mil)">
     <input class="mini" type="number" id="pmax" placeholder="R$ máx (mil)">
+    <label id="lblcond" style="display:none;font-size:12px;color:var(--mut);align-items:center;gap:4px"><input type="checkbox" id="fcond"> +condomínio</label>
     <input class="mini" type="number" id="amin" placeholder="m² mín">
     <input class="mini" type="number" id="amax" placeholder="m² máx">
     <select id="fcomp"><option value="">Ficha (qualquer)</option><option value="70">Completa (70%+)</option><option value="40">Média (40%+)</option><option value="-40">Incompleta (&lt;40%)</option></select>
@@ -196,7 +205,7 @@ if(sessionStorage.getItem('gok')==='1'){document.addEventListener('DOMContentLoa
 <script>
 const $=s=>document.querySelector(s);
 $('#gen').textContent='Atualizado: '+GERADO_EM;
-let days=1, filtradas=[];
+let days=1, tipoSel='', filtradas=[];
 const uniq=a=>[...new Set(a.filter(Boolean))].sort();
 const SEL={};
 function makeMS(id,label,items){
@@ -237,7 +246,14 @@ makeMS('msStatus','Status',[{v:'livre',t:'🟢 Livres p/ captar'},{v:'verificar'
 makeMS('msPrio','Prioridade',[{v:'1',t:'🎯 P1 — endereço completo'},{v:'2',t:'📍 P2 — prédio identificado'},{v:'3',t:'P3 — só rua'},{v:'4',t:'P4 — só bairro'}]);
 makeMS('msGestao','Gestão',[{v:'novo',t:'⬜ Novos (sem contato)'},{v:'contatado',t:'📞 Contatados'},{v:'negociando',t:'🤝 Negociando'},{v:'captado_nosso',t:'✅ Captados por nós'},{v:'descartado',t:'🗑 Descartados'}]);
 document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');days=+c.dataset.d;render()});
-['q','ftipo','fdorm','fsuite','fvaga','pmin','pmax','amin','amax','fcomp','ford'].forEach(id=>document.getElementById(id).oninput=render);
+document.querySelectorAll('.segt').forEach(c=>c.onclick=()=>{document.querySelectorAll('.segt').forEach(x=>x.classList.remove('on'));c.classList.add('on');tipoSel=c.dataset.t;ajustaPreco();render()});
+function ajustaPreco(){
+  const loc=tipoSel==='locacao';
+  pmin.placeholder=loc?'Aluguel mín':'R$ mín (mil)';
+  pmax.placeholder=loc?'Aluguel máx':'R$ máx (mil)';
+  document.getElementById('lblcond').style.display=loc?'inline-flex':'none';
+}
+['q','fdorm','fsuite','fvaga','pmin','pmax','amin','amax','fcomp','ford','fcond'].forEach(id=>document.getElementById(id).oninput=render);
 const daysAgo=d=>(Date.now()-new Date(d+'T00:00:00Z'))/864e5;
 const GEST=JSON.parse(localStorage.getItem('radar_gestao')||'{}');
 window.gDe=u=>GEST[u]||{st:'novo',tel:'',obs:'',corretor:'',captado_em:''};
@@ -245,19 +261,28 @@ window.setG=(u,k,v)=>{const g={...gDe(u)};g[k]=v;
   if(k==='st'){g.captado_em=(v==='captado_nosso')?(g.captado_em||new Date().toISOString().slice(0,10)):(v==='descartado'?g.captado_em:'')}
   GEST[u]=g;localStorage.setItem('radar_gestao',JSON.stringify(GEST));if(k==='st'||k==='tel'||k==='corretor')render();};
 window.scriptDe=l=>`Olá! Tudo bem? Sou da Boletto Imóveis, aqui de Porto Alegre. Vi que o imóvel ${l.titulo||''}${l.endereco?' na '+l.endereco:l.bairro?' no bairro '+l.bairro:''} está à venda. Trabalhamos com a Rede Gaúcha de Imóveis (60+ imobiliárias vendendo juntas) e temos clientes buscando nessa região. Posso te apresentar nossa proposta de divulgação, sem exclusividade obrigatória?`;
+function valorDe(l){
+  if(l.tipo==='locacao'){const al=l.preco_locacao||0;return (fcond.checked&&l.condominio)?al+l.condominio:al;}
+  return l.preco_num||0;
+}
 function passa(l){
   const q=$('#q').value.toLowerCase(), comp=fcomp.value;
+  const emLoc=tipoSel==='locacao';
   if(SEL.msImob.size&&!SEL.msImob.has(l.imobiliaria))return false;
   if(SEL.msBairro.size&&!SEL.msBairro.has(l.bairro))return false;
-  if(ftipo.value&&l.tipo!==ftipo.value)return false;
+  if(tipoSel&&l.tipo!==tipoSel)return false;
   if(SEL.msTipo.size&&!SEL.msTipo.has(l.tipo_imovel))return false;
   if(SEL.msStatus.size){const st=l.removido_em?'removido':(l.status||'livre');if(!SEL.msStatus.has(st))return false;}
   if(days!==0&&daysAgo(l.detectado_em)>days)return false;
   if(fdorm.value&&!((l.dorms||0)>=+fdorm.value))return false;
   if(fsuite.value&&!((l.suites||0)>=+fsuite.value))return false;
   if(fvaga.value&&!((l.vagas||0)>=+fvaga.value))return false;
-  if(pmin.value&&!(l.preco_num&&l.preco_num>=+pmin.value*1000))return false;
-  if(pmax.value&&!(l.preco_num&&l.preco_num<=+pmax.value*1000))return false;
+  if(pmin.value||pmax.value){
+    const v=valorDe(l), mult=emLoc?1:1000;   // locação: R$ absoluto · venda: milhares
+    if(!v)return false;
+    if(pmin.value&&v<+pmin.value*mult)return false;
+    if(pmax.value&&v>+pmax.value*mult)return false;
+  }
   if(amin.value&&!(l.area_num&&l.area_num>=+amin.value))return false;
   if(amax.value&&!(l.area_num&&l.area_num<=+amax.value))return false;
   if(comp){const c=l.completude||0;if(comp==='-40'){if(c>=40)return false}else if(c<+comp)return false}
@@ -304,8 +329,12 @@ function render(){
         </div>
         <div class="t">${l.titulo||l.url.split('/').slice(-1)[0].replace(/-/g,' ')}</div>
         ${specsDe(l)?`<div class="specs">${specsDe(l)}</div>`:''}
-        <div class="preco">${l.preco||'—'}${l.preco_locacao_fmt?` <small>· aluguel ${l.preco_locacao_fmt}</small>`:''}</div>
-        ${custos?`<div class="custos">${custos}</div>`:''}
+        ${l.tipo==='locacao'?`
+          <div class="preco">${l.preco_locacao_fmt||l.preco||'—'} <small>/mês</small></div>
+          <div class="custos">${l.condominio_fmt?'Cond. '+l.condominio_fmt+' · ':''}${(l.preco_locacao&&l.condominio)?'<b style=\'color:#1c7c4e\'>Total R$ '+((l.preco_locacao+l.condominio).toLocaleString('pt-BR'))+'/mês</b>':''}${l.iptu_fmt?' · IPTU '+l.iptu_fmt:''}</div>`
+        :`
+          <div class="preco">${l.preco||'—'}</div>
+          ${custos?`<div class="custos">${custos}</div>`:''}`}
         ${l.caracteristicas&&l.caracteristicas.length?`<div class="carac">✦ ${l.caracteristicas.join(', ')}</div>`:''}
         ${l.empreendimento?`<div class="loc"><b>🏢 ${l.empreendimento}</b></div>`:''}
         ${l.endereco?`<div class="loc">📍 ${l.endereco}${l.numero&&!/,\s*\d/.test(l.endereco)?', '+l.numero:''}${l.endereco_fonte?' <span title="localização deduzida pelo condomínio">🏢✓</span>':''}</div>`:''}

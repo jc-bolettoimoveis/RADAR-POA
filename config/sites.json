@@ -1,7 +1,7 @@
 {
   "monitorar": {
     "venda": true,
-    "locacao": false
+    "locacao": true
   },
   "somente_bairros_alvo": true,
   "bairros_alvo": {
