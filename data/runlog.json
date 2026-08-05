@@ -1,10 +1,10 @@
 {
- "executado_em": "2026-08-05T16:12:29Z",
+ "executado_em": "2026-08-05T20:47:35Z",
  "sites": {
   "auxiliadora": {
    "nome": "Auxiliadora Predial",
    "status": "ok",
-   "novos": 2,
+   "novos": 11,
    "erro": null,
    "metodo": "render(js)",
    "urls_coletadas": 431,
@@ -14,7 +14,7 @@
     "https://www.auxiliadorapredial.com.br/imovel/venda/11395/casa+Porto+Alegre+Rio+Grande+do+Sul",
     "https://www.auxiliadorapredial.com.br/imovel/venda/128065/casa+Porto+Alegre+Rio+Grande+do+Sul"
    ],
-   "removidos": 10
+   "removidos": 2
   },
   "guarida": {
    "nome": "Guarida Imóveis",
@@ -45,22 +45,22 @@
   "foxter": {
    "nome": "Foxter Cia Imobiliária",
    "status": "ok",
-   "novos": 81,
+   "novos": 0,
    "erro": null,
    "metodo": "sitemap+listagem",
-   "urls_coletadas": 1003,
-   "urls_imovel": 953,
+   "urls_coletadas": 1043,
+   "urls_imovel": 993,
    "exemplo_imovel": [
     "https://www.foxterciaimobiliaria.com.br/empreendimento/10064/empreendimento-residencial-florida-village-r-alvorada-bela-vista-condominio-vertical-zona-grande-porto-alegre",
     "https://www.foxterciaimobiliaria.com.br/empreendimento/10675/condominio-primavera-alvorada-r-alvorada-formoza-condominio-horizontal-de-casas-zona-grande-porto-alegre",
     "https://www.foxterciaimobiliaria.com.br/empreendimento/10677/condominio-mediterraneo-alvorada-r-alvorada-passo-do-feijo-condominio-vertical-zona-grande-porto-alegre"
    ],
-   "removidos": 2
+   "removidos": 605
   },
   "noblesse": {
    "nome": "Noblesse Imóveis",
    "status": "ok",
-   "novos": 5,
+   "novos": 0,
    "erro": null,
    "metodo": "listagem",
    "urls_coletadas": 55,
@@ -75,22 +75,22 @@
   "veronez": {
    "nome": "Veronez Imóveis",
    "status": "ok",
-   "novos": 2,
+   "novos": 3,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 1064,
-   "urls_imovel": 793,
+   "urls_coletadas": 1066,
+   "urls_imovel": 795,
    "exemplo_imovel": [
     "https://www.veronezimoveis.com.br/imovel/14535/apartamento-2-dormitorios-sao-joao-porto-alegre",
     "https://www.veronezimoveis.com.br/imovel/14574/apartamento-3-dormitorios-passo-da-areia-porto-alegre",
     "https://www.veronezimoveis.com.br/imovel/14576/apartamento-1-dormitorio-petropolis-porto-alegre"
    ],
-   "removidos": 0
+   "removidos": 2
   },
   "jsimas": {
    "nome": "J Simas Imóveis",
    "status": "ok",
-   "novos": 5,
+   "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 905,
@@ -100,67 +100,67 @@
     "https://www.jsimasimoveis.com.br/imovel/4211361/apartamento-venda-porto-alegre-rs-vila-sao-jose",
     "https://www.jsimasimoveis.com.br/imovel/4211461/apartamento-venda-porto-alegre-rs-humaita"
    ],
-   "removidos": 0
+   "removidos": 3
   },
   "novolar": {
    "nome": "Novo Lar Imóveis",
    "status": "ok",
-   "novos": 9,
+   "novos": 15,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 3862,
-   "urls_imovel": 3651,
+   "urls_coletadas": 3877,
+   "urls_imovel": 3666,
    "exemplo_imovel": [
     "https://imobiliarianovolar.net/imovel/10010/",
     "https://imobiliarianovolar.net/imovel/10011/",
     "https://imobiliarianovolar.net/imovel/10016/"
    ],
-   "removidos": 3
+   "removidos": 1
   },
   "don": {
    "nome": "Don Imóveis",
    "status": "ok",
-   "novos": 0,
+   "novos": 1,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 2554,
-   "urls_imovel": 1669,
+   "urls_coletadas": 2556,
+   "urls_imovel": 1670,
    "exemplo_imovel": [
     "https://donimoveis.com.br/empreendimentos/925-independencia",
     "https://donimoveis.com.br/empreendimentos/artur-rocha-1133",
     "https://donimoveis.com.br/empreendimentos/atilio-1407-fase-2"
    ],
-   "removidos": 0
+   "removidos": 1
   },
   "casaporto": {
    "nome": "Casa Porto Imobiliária",
    "status": "ok",
-   "novos": 0,
+   "novos": 1,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 4795,
-   "urls_imovel": 3312,
+   "urls_coletadas": 4796,
+   "urls_imovel": 3313,
    "exemplo_imovel": [
     "https://casaportoimobiliaria.com.br/empreendimento/366129",
     "https://casaportoimobiliaria.com.br/empreendimento/366131",
     "https://casaportoimobiliaria.com.br/empreendimento/366145"
    ],
-   "removidos": 3
+   "removidos": 18
   },
   "sperinde": {
    "nome": "Sperinde Imóveis",
    "status": "ok",
-   "novos": 2,
+   "novos": 3,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 75,
-   "urls_imovel": 16,
+   "urls_coletadas": 98,
+   "urls_imovel": 35,
    "exemplo_imovel": [
-    "https://www.sperinde.com/imovel/alugar/21022675/apartamento-com-86m-no-bairro-medianeira-em-porto-alegre/",
-    "https://www.sperinde.com/imovel/alugar/21031453/apartamento-com-86m-no-bairro-petropolis-em-porto-alegre/",
-    "https://www.sperinde.com/imovel/alugar/21031457/apartamento-com-120m-no-bairro-pioneiro-em-caxias-do-sul/"
+    "https://www.sperinde.com/imovel/alugar/21001287/loja-com-32m-no-bairro-rio-branco-em-porto-alegre/",
+    "https://www.sperinde.com/imovel/alugar/21014907/apartamento-com-60m-no-bairro-petropolis-em-porto-alegre/",
+    "https://www.sperinde.com/imovel/alugar/21015119/sala-com-63m-no-bairro-sao-pelegrino-em-caxias-do-sul/"
    ],
-   "removidos": 5
+   "removidos": 0
   },
   "rial": {
    "nome": "Rial Imóveis",
@@ -180,17 +180,17 @@
   "urban": {
    "nome": "Urban Company",
    "status": "ok",
-   "novos": 5,
+   "novos": 8,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 12673,
-   "urls_imovel": 9175,
+   "urls_coletadas": 12666,
+   "urls_imovel": 9169,
    "exemplo_imovel": [
     "https://www.urban.imb.br/empreendimento/10261/hotel-v3rso-by-emiliano-boa-vista-porto-alegre",
     "https://www.urban.imb.br/empreendimento/10356/condominio-canto-dos-passaros-gafisa-jardim-carvalho-porto-alegre",
     "https://www.urban.imb.br/empreendimento/10359/rossi-ideal-alto-petropolis-porto-alegre"
    ],
-   "removidos": 2
+   "removidos": 19
   },
   "oneluxo": {
    "nome": "One Imóveis de Luxo",
@@ -198,14 +198,14 @@
    "novos": 4,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 125,
+   "urls_coletadas": 123,
    "urls_imovel": 17,
    "exemplo_imovel": [
+    "https://oneluxo.com.br/imovel/one13640-aluguel-apartamento-moinhos-de-vento-porto-alegre-rs-imoveis-residenciais/",
     "https://oneluxo.com.br/imovel/one13717-aluguel-apartamento-auxiliadora-porto-alegre-rs-imoveis-residenciais/",
-    "https://oneluxo.com.br/imovel/one16063-venda-casa-boa-vista-porto-alegre-rs-imoveis-residenciais/",
-    "https://oneluxo.com.br/imovel/one19098-venda-apartamento-rio-branco-porto-alegre-rs-imoveis-residenciais/"
+    "https://oneluxo.com.br/imovel/one18526-venda-apartamento-bela-vista-porto-alegre-rs-imoveis-residenciais/"
    ],
-   "removidos": 2
+   "removidos": 4
   },
   "colnaghi": {
    "nome": "Colnaghi Imóveis",
@@ -241,7 +241,7 @@
     "https://www.multiimob.com.br/imovel/apartamento-com-105m-no-bairro-petropolis-em-porto-alegre-para-comprar/34851/",
     "https://www.multiimob.com.br/imovel/apartamento-com-106m-no-bairro-passo-da-areia-em-porto-alegre-para-comprar-ou-alugar/16251/"
    ],
-   "removidos": 0
+   "removidos": 1
   },
   "bridge": {
    "nome": "Bridge Imóveis",
@@ -256,7 +256,7 @@
     "https://www.bridgeimoveis.com.br/imovel/10090/cobertura-3-dormitorios-auxiliadora-porto-alegre",
     "https://www.bridgeimoveis.com.br/imovel/10174/chartres-concid-petropolis-porto-alegre"
    ],
-   "removidos": 6
+   "removidos": 16
   },
   "verabernardes": {
    "nome": "Vera Bernardes",
@@ -264,8 +264,8 @@
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 1310,
-   "urls_imovel": 1186,
+   "urls_coletadas": 1311,
+   "urls_imovel": 1187,
    "exemplo_imovel": [
     "https://www.verabernardes.com.br/empreendimento/venda/41195/alphaville-vila-nova-porto-alegre/",
     "https://www.verabernardes.com.br/empreendimento/venda/41196/pedra-bonita-cavalhada-porto-alegre/",
@@ -291,11 +291,11 @@
   "morano": {
    "nome": "Morano Imobiliária",
    "status": "ok",
-   "novos": 0,
+   "novos": 5,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 1375,
-   "urls_imovel": 778,
+   "urls_coletadas": 1380,
+   "urls_imovel": 783,
    "exemplo_imovel": [
     "https://www.morano.com.br/imovel/andar-corporativo/locacao/porto-alegre/rs/cristal/AC0010_MORA",
     "https://www.morano.com.br/imovel/andar-corporativo/locacao/porto-alegre/rs/higienopolis/AC0015_MORA",
@@ -306,7 +306,7 @@
   "terracini": {
    "nome": "Imobiliária Terracini",
    "status": "ok",
-   "novos": 75,
+   "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 451,
@@ -316,7 +316,7 @@
     "https://www.terracini.com.br/imovel/apartamento-canoas-1-quarto-42-m/AP9799-TESI",
     "https://www.terracini.com.br/imovel/apartamento-canoas-1-quarto-43-m/AP24174-TESI"
    ],
-   "removidos": 0
+   "removidos": 41
   },
   "cpimoveis": {
    "nome": "CP Imóveis",
@@ -351,15 +351,15 @@
   "garcia": {
    "nome": "Garcia Imóveis",
    "status": "ok",
-   "novos": 13,
+   "novos": 0,
    "erro": null,
    "metodo": "listagem",
    "urls_coletadas": 68,
    "urls_imovel": 36,
    "exemplo_imovel": [
     "https://www.garciaimoveisrs.com.br/imovel/10717/terreno-para-comprar-com-300m-no-bairro-ecoville-em-porto-alegre/",
-    "https://www.garciaimoveisrs.com.br/imovel/18814/box-garagem-para-comprar-com-12m-no-bairro-centro-historico-em-porto-alegre/",
-    "https://www.garciaimoveisrs.com.br/imovel/18822/box-garagem-para-comprar-com-12m-no-bairro-centro-historico-em-porto-alegre/"
+    "https://www.garciaimoveisrs.com.br/imovel/14288/cobertura-para-comprar-com-85m-no-bairro-sao-sebastiao-em-porto-alegre/",
+    "https://www.garciaimoveisrs.com.br/imovel/18814/box-garagem-para-comprar-com-12m-no-bairro-centro-historico-em-porto-alegre/"
    ],
    "removidos": 0
   },
@@ -387,9 +387,9 @@
    "urls_coletadas": 52,
    "urls_imovel": 27,
    "exemplo_imovel": [
-    "https://visualizeimoveis.com/empreendimento/30331",
-    "https://visualizeimoveis.com/empreendimento/42283",
-    "https://visualizeimoveis.com/empreendimento/42513"
+    "https://visualizeimoveis.com/empreendimento/23166",
+    "https://visualizeimoveis.com/empreendimento/43407",
+    "https://visualizeimoveis.com/empreendimento/47313"
    ],
    "removidos": 0
   },
@@ -437,11 +437,11 @@
    "urls_coletadas": 37,
    "urls_imovel": 18,
    "exemplo_imovel": [
-    "https://www.luxtonimoveis.com.br/imovel/18684/casa-com-281m-no-bairro-chacara-das-pedras-em-porto-alegre_poa/venda/",
     "https://www.luxtonimoveis.com.br/imovel/23105/pavilhao-com-195m-no-bairro-sarandi-em-porto-alegre_poa/venda/",
-    "https://www.luxtonimoveis.com.br/imovel/30300/casa-comercial-com-207m-no-bairro-moinhos-de-vento-em-porto-alegre_poa/venda/"
+    "https://www.luxtonimoveis.com.br/imovel/30300/casa-comercial-com-207m-no-bairro-moinhos-de-vento-em-porto-alegre_poa/venda/",
+    "https://www.luxtonimoveis.com.br/imovel/34520/cobertura-com-618m-no-bairro-bela-vista-em-porto-alegre_poa/venda/"
    ],
-   "removidos": 0
+   "removidos": 1
   },
   "albert": {
    "nome": "Albert Imóveis",
@@ -449,53 +449,53 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 88,
+   "urls_coletadas": 86,
    "urls_imovel": 20,
    "exemplo_imovel": [
     "https://www.albertimoveis.com.br/empreendimento/21512/tree-haus-porsche-consulting/",
     "https://www.albertimoveis.com.br/empreendimento/21572/the-arch/",
     "https://www.albertimoveis.com.br/empreendimento/23122/garden-haus-i-porsche-consulting/"
    ],
-   "removidos": 0
+   "removidos": 1
   },
   "lyon": {
    "nome": "Lyon Imóveis",
    "status": "ok",
-   "novos": 0,
+   "novos": 3,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 2776,
-   "urls_imovel": 2772,
+   "urls_coletadas": 2779,
+   "urls_imovel": 2775,
    "exemplo_imovel": [
     "https://lyonimoveis.com.br/imovel/2-dormitorios-e-2-vagas-no-menino-deus/AP1727",
     "https://lyonimoveis.com.br/imovel/a-2-quadras-do-parcao/LF0009",
     "https://lyonimoveis.com.br/imovel/adagio/AP1460"
    ],
-   "removidos": 5
+   "removidos": 0
   }
  },
  "cruzamento": {
   "saneamento": {
-   "enderecos_sede_removidos": 3008,
+   "enderecos_sede_removidos": 2642,
    "fotos_logo_removidas": 0,
-   "sedes_auto_detectadas": 6,
-   "coordenadas_invalidas_removidas": 192
+   "sedes_auto_detectadas": 2,
+   "coordenadas_invalidas_removidas": 126
   },
-  "site_proprio_urls": 16630,
-  "site_proprio": 16630,
+  "site_proprio_urls": 16615,
+  "site_proprio": 16615,
   "portal_rgi_urls": 20023,
   "portal_rgi": 20023,
-  "base_total": 36653,
-  "mudancas_status": 108,
+  "base_total": 36638,
+  "mudancas_status": 68,
   "localizacao": {
-   "dicionario": 536,
-   "resolvidos_interno": 105,
-   "resolvidos_osm": 2615,
+   "dicionario": 542,
+   "resolvidos_interno": 2751,
+   "resolvidos_osm": 38,
    "osm_consultas": 20
   }
  },
  "alertas": {
-  "mensagens": 18,
-  "callmebot_enviadas": 18
+  "mensagens": 5,
+  "callmebot_enviadas": 5
  }
 }
