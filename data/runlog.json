@@ -1,5 +1,5 @@
 {
- "executado_em": "2026-08-09T20:03:10Z",
+ "executado_em": "2026-08-09T22:03:18Z",
  "sites": {
   "auxiliadora": {
    "nome": "Auxiliadora Predial",
@@ -42,7 +42,7 @@
     "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-bom-fim-porto-alegre-ag-78-cod-74170779",
     "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-humaita-porto-alegre-ag-78-cod-74169829"
    ],
-   "removidos": 2
+   "removidos": 1
   },
   "foxter": {
    "nome": "Foxter Cia Imobiliária",
@@ -50,8 +50,8 @@
    "novos": 0,
    "erro": null,
    "metodo": "sitemap+listagem",
-   "urls_coletadas": 1045,
-   "urls_imovel": 995,
+   "urls_coletadas": 997,
+   "urls_imovel": 947,
    "exemplo_imovel": [
     "https://www.foxterciaimobiliaria.com.br/empreendimento/10064/empreendimento-residencial-florida-village-r-alvorada-bela-vista-condominio-vertical-zona-grande-porto-alegre",
     "https://www.foxterciaimobiliaria.com.br/empreendimento/10675/condominio-primavera-alvorada-r-alvorada-formoza-condominio-horizontal-de-casas-zona-grande-porto-alegre",
@@ -147,31 +147,36 @@
     "https://casaportoimobiliaria.com.br/empreendimento/366131",
     "https://casaportoimobiliaria.com.br/empreendimento/366145"
    ],
-   "removidos": 0
+   "removidos": 326
   },
   "sperinde": {
    "nome": "Sperinde Imóveis",
    "status": "ok",
-   "novos": 13,
+   "novos": 10,
    "erro": null,
    "metodo": "listagem",
    "urls_coletadas": 98,
    "urls_imovel": 35,
    "exemplo_imovel": [
+    "https://www.sperinde.com/imovel/alugar/17294022/deposito-com-286m-no-bairro-navegantes-em-porto-alegre/",
     "https://www.sperinde.com/imovel/alugar/17775013/loja-com-475m-no-bairro-moinhos-de-vento-em-porto-alegre/",
-    "https://www.sperinde.com/imovel/alugar/21015142/sala-com-45m-no-bairro-exposicao-em-caxias-do-sul/",
-    "https://www.sperinde.com/imovel/alugar/21018447/apartamento-com-52m-no-bairro-petropolis-em-porto-alegre/"
+    "https://www.sperinde.com/imovel/alugar/21014907/apartamento-com-60m-no-bairro-petropolis-em-porto-alegre/"
    ],
-   "removidos": 0
+   "removidos": 10
   },
   "rial": {
    "nome": "Rial Imóveis",
    "status": "ok",
    "novos": 0,
    "erro": null,
-   "metodo": "listagem",
-   "urls_coletadas": 0,
-   "urls_imovel": 0,
+   "metodo": "sitemap",
+   "urls_coletadas": 500,
+   "urls_imovel": 482,
+   "exemplo_imovel": [
+    "https://rial.com.br/detalhes_loc.php?imovel=1074&Google=Loja+JARDIM%20LEOPOLDINA+",
+    "https://rial.com.br/detalhes_loc.php?imovel=11&Google=Casa+JARDIM%20LINDOIA+",
+    "https://rial.com.br/detalhes_loc.php?imovel=1170&Google=Apartamento+JARDIM%20LEOPOLDINA+"
+   ],
    "removidos": 0
   },
   "urban": {
@@ -180,8 +185,8 @@
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 12181,
-   "urls_imovel": 8760,
+   "urls_coletadas": 12230,
+   "urls_imovel": 8803,
    "exemplo_imovel": [
     "https://www.urban.imb.br/empreendimento/10261/hotel-v3rso-by-emiliano-boa-vista-porto-alegre",
     "https://www.urban.imb.br/empreendimento/10356/condominio-canto-dos-passaros-gafisa-jardim-carvalho-porto-alegre",
@@ -195,13 +200,8 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 95,
-   "urls_imovel": 17,
-   "exemplo_imovel": [
-    "https://oneluxo.com.br/imovel/one18526-venda-apartamento-bela-vista-porto-alegre-rs-imoveis-residenciais/",
-    "https://oneluxo.com.br/imovel/one20990-venda-casa-rio-branco-porto-alegre-rs-imoveis-residenciais/",
-    "https://oneluxo.com.br/imovel/one21141-venda-casa-boa-vista-porto-alegre-rs-imoveis-residenciais/"
-   ],
+   "urls_coletadas": 0,
+   "urls_imovel": 0,
    "removidos": 0
   },
   "colnaghi": {
@@ -231,8 +231,13 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 0,
-   "urls_imovel": 0,
+   "urls_coletadas": 79,
+   "urls_imovel": 32,
+   "exemplo_imovel": [
+    "https://www.multiimob.com.br/imovel/apartamento-com-105m-no-bairro-boa-vista-em-porto-alegre-para-comprar/5540/",
+    "https://www.multiimob.com.br/imovel/apartamento-com-105m-no-bairro-petropolis-em-porto-alegre-para-comprar/34851/",
+    "https://www.multiimob.com.br/imovel/apartamento-com-106m-no-bairro-petropolis-em-porto-alegre-para-comprar/18766/"
+   ],
    "removidos": 0
   },
   "bridge": {
@@ -335,9 +340,14 @@
    "status": "ok",
    "novos": 0,
    "erro": null,
-   "metodo": "listagem",
-   "urls_coletadas": 0,
-   "urls_imovel": 0,
+   "metodo": "sitemap",
+   "urls_coletadas": 290,
+   "urls_imovel": 264,
+   "exemplo_imovel": [
+    "https://portolar.com.br/detalhes_loc.php?Google=%20+Dep%C3%B3sito&imovel=1070",
+    "https://portolar.com.br/detalhes_loc.php?Google=Barao%20do%20Cahy%20+Casa%20Comercial&imovel=822",
+    "https://portolar.com.br/detalhes_loc.php?Google=Barao%20do%20Cahy%20+Casa&imovel=826"
+   ],
    "removidos": 0
   },
   "garcia": {
@@ -360,9 +370,14 @@
    "status": "ok",
    "novos": 0,
    "erro": null,
-   "metodo": "listagem",
-   "urls_coletadas": 0,
-   "urls_imovel": 0,
+   "metodo": "sitemap",
+   "urls_coletadas": 185,
+   "urls_imovel": 82,
+   "exemplo_imovel": [
+    "https://imobiliariazonanorte.com.br/detalhes_loc.php?imovel=0134",
+    "https://imobiliariazonanorte.com.br/detalhes_loc.php?imovel=0136",
+    "https://imobiliariazonanorte.com.br/detalhes_loc.php?imovel=0138"
+   ],
    "removidos": 0
   },
   "visualize": {
@@ -374,9 +389,9 @@
    "urls_coletadas": 52,
    "urls_imovel": 27,
    "exemplo_imovel": [
-    "https://visualizeimoveis.com/empreendimento/30331",
-    "https://visualizeimoveis.com/empreendimento/40226",
-    "https://visualizeimoveis.com/empreendimento/42369"
+    "https://visualizeimoveis.com/empreendimento/37723",
+    "https://visualizeimoveis.com/empreendimento/42283",
+    "https://visualizeimoveis.com/empreendimento/64624"
    ],
    "removidos": 0
   },
@@ -420,7 +435,7 @@
   "luxton": {
    "nome": "Luxton Imobiliária",
    "status": "ok",
-   "novos": 0,
+   "novos": 1,
    "erro": null,
    "metodo": "listagem",
    "urls_coletadas": 37,
@@ -438,7 +453,7 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 87,
+   "urls_coletadas": 84,
    "urls_imovel": 20,
    "exemplo_imovel": [
     "https://www.albertimoveis.com.br/empreendimento/21512/tree-haus-porsche-consulting/",
@@ -465,20 +480,20 @@
  },
  "cruzamento": {
   "saneamento": {
-   "enderecos_sede_removidos": 2794,
+   "enderecos_sede_removidos": 2788,
    "fotos_logo_removidas": 0,
    "sedes_auto_detectadas": 3,
-   "coordenadas_invalidas_removidas": 133
+   "coordenadas_invalidas_removidas": 129
   },
-  "site_proprio_urls": 16570,
-  "site_proprio": 16570,
+  "site_proprio_urls": 16569,
+  "site_proprio": 16569,
   "portal_rgi_urls": 19836,
   "portal_rgi": 19836,
-  "base_total": 36406,
-  "mudancas_status": 2,
+  "base_total": 36405,
+  "mudancas_status": 1,
   "localizacao": {
    "dicionario": 613,
-   "resolvidos_interno": 107,
+   "resolvidos_interno": 181,
    "resolvidos_osm": 2769,
    "osm_consultas": 20
   }
