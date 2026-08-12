@@ -1,5 +1,5 @@
 {
- "executado_em": "2026-08-12T19:59:04Z",
+ "executado_em": "2026-08-12T21:39:36Z",
  "sites": {
   "auxiliadora": {
    "nome": "Auxiliadora Predial",
@@ -55,12 +55,12 @@
     "https://www.foxterciaimobiliaria.com.br/empreendimento/10675/condominio-primavera-alvorada-r-alvorada-formoza-condominio-horizontal-de-casas-zona-grande-porto-alegre",
     "https://www.foxterciaimobiliaria.com.br/empreendimento/10677/condominio-mediterraneo-alvorada-r-alvorada-passo-do-feijo-condominio-vertical-zona-grande-porto-alegre"
    ],
-   "removidos": 2
+   "removidos": 0
   },
   "noblesse": {
    "nome": "Noblesse Imóveis",
    "status": "ok",
-   "novos": 0,
+   "novos": 2,
    "erro": null,
    "metodo": "listagem",
    "urls_coletadas": 55,
@@ -75,7 +75,7 @@
   "veronez": {
    "nome": "Veronez Imóveis",
    "status": "ok",
-   "novos": 2,
+   "novos": 1,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 1073,
@@ -85,7 +85,7 @@
     "https://www.veronezimoveis.com.br/imovel/14574/apartamento-3-dormitorios-passo-da-areia-porto-alegre",
     "https://www.veronezimoveis.com.br/imovel/14576/apartamento-1-dormitorio-petropolis-porto-alegre"
    ],
-   "removidos": 0
+   "removidos": 2
   },
   "jsimas": {
    "nome": "J Simas Imóveis",
@@ -105,11 +105,11 @@
   "novolar": {
    "nome": "Novo Lar Imóveis",
    "status": "ok",
-   "novos": 0,
+   "novos": 13,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 3890,
-   "urls_imovel": 3680,
+   "urls_coletadas": 4029,
+   "urls_imovel": 3817,
    "exemplo_imovel": [
     "https://imobiliarianovolar.net/imovel/10010/",
     "https://imobiliarianovolar.net/imovel/10011/",
@@ -145,22 +145,22 @@
     "https://casaportoimobiliaria.com.br/empreendimento/366131",
     "https://casaportoimobiliaria.com.br/empreendimento/366145"
    ],
-   "removidos": 1257
+   "removidos": 7
   },
   "sperinde": {
    "nome": "Sperinde Imóveis",
    "status": "ok",
-   "novos": 4,
+   "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 75,
-   "urls_imovel": 16,
+   "urls_coletadas": 98,
+   "urls_imovel": 35,
    "exemplo_imovel": [
-    "https://www.sperinde.com/imovel/alugar/21000581/cobertura-com-304m-no-bairro-petropolis-em-porto-alegre/",
-    "https://www.sperinde.com/imovel/alugar/21004744/predio-com-646m-no-bairro-azenha-em-porto-alegre/",
-    "https://www.sperinde.com/imovel/alugar/21004899/apartamento-com-204m-no-bairro-bela-vista-em-porto-alegre/"
+    "https://www.sperinde.com/imovel/alugar/17775013/loja-com-475m-no-bairro-moinhos-de-vento-em-porto-alegre/",
+    "https://www.sperinde.com/imovel/alugar/21014907/apartamento-com-60m-no-bairro-petropolis-em-porto-alegre/",
+    "https://www.sperinde.com/imovel/alugar/21015119/sala-com-63m-no-bairro-sao-pelegrino-em-caxias-do-sul/"
    ],
-   "removidos": 4
+   "removidos": 6
   },
   "rial": {
    "nome": "Rial Imóveis",
@@ -180,30 +180,30 @@
   "urban": {
    "nome": "Urban Company",
    "status": "ok",
-   "novos": 7,
+   "novos": 4,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 12273,
-   "urls_imovel": 8826,
+   "urls_coletadas": 12272,
+   "urls_imovel": 8825,
    "exemplo_imovel": [
     "https://www.urban.imb.br/empreendimento/10261/hotel-v3rso-by-emiliano-boa-vista-porto-alegre",
     "https://www.urban.imb.br/empreendimento/10356/condominio-canto-dos-passaros-gafisa-jardim-carvalho-porto-alegre",
     "https://www.urban.imb.br/empreendimento/10359/rossi-ideal-alto-petropolis-porto-alegre"
    ],
-   "removidos": 0
+   "removidos": 3
   },
   "oneluxo": {
    "nome": "One Imóveis de Luxo",
    "status": "ok",
-   "novos": 0,
+   "novos": 3,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 94,
-   "urls_imovel": 16,
+   "urls_coletadas": 122,
+   "urls_imovel": 17,
    "exemplo_imovel": [
-    "https://oneluxo.com.br/imovel/one11849-venda-studio-boa-vista-porto-alegre-rs-imoveis-residenciais/",
-    "https://oneluxo.com.br/imovel/one13717-aluguel-apartamento-auxiliadora-porto-alegre-rs-imoveis-residenciais/",
-    "https://oneluxo.com.br/imovel/one18258-venda-apartamento-bela-vista-porto-alegre-rs-imoveis-residenciais/"
+    "https://oneluxo.com.br/imovel/one13333-venda-apartamento-garden-petropolis-porto-alegre-rs-imoveis-residenciais/",
+    "https://oneluxo.com.br/imovel/one13640-aluguel-apartamento-moinhos-de-vento-porto-alegre-rs-imoveis-residenciais/",
+    "https://oneluxo.com.br/imovel/one20747-venda-cobertura-auxiliadora-porto-alegre-rs-imoveis-residenciais/"
    ],
    "removidos": 0
   },
@@ -241,7 +241,7 @@
     "https://www.multiimob.com.br/imovel/apartamento-com-106m-no-bairro-petropolis-em-porto-alegre-para-comprar/18766/",
     "https://www.multiimob.com.br/imovel/apartamento-com-107m-no-bairro-petropolis-em-porto-alegre-para-comprar/17763/"
    ],
-   "removidos": 1
+   "removidos": 0
   },
   "bridge": {
    "nome": "Bridge Imóveis",
@@ -311,17 +311,17 @@
   "terracini": {
    "nome": "Imobiliária Terracini",
    "status": "ok",
-   "novos": 7,
+   "novos": 1,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 198,
-   "urls_imovel": 116,
+   "urls_coletadas": 201,
+   "urls_imovel": 117,
    "exemplo_imovel": [
+    "https://www.terracini.com.br/imovel/apartamento-triplex-porto-alegre-4-quartos-476-m/AT0004-TESI",
     "https://www.terracini.com.br/imovel/casa-canoas-2-quartos-100-m/CA1463-TESI",
-    "https://www.terracini.com.br/imovel/casa-canoas-2-quartos-103-m/CA24038-TESI",
-    "https://www.terracini.com.br/imovel/casa-canoas-2-quartos-126-m/CA24015-TESI"
+    "https://www.terracini.com.br/imovel/casa-canoas-2-quartos-103-m/CA24038-TESI"
    ],
-   "removidos": 33
+   "removidos": 0
   },
   "cpimoveis": {
    "nome": "CP Imóveis",
@@ -356,7 +356,7 @@
   "garcia": {
    "nome": "Garcia Imóveis",
    "status": "ok",
-   "novos": 11,
+   "novos": 0,
    "erro": null,
    "metodo": "listagem",
    "urls_coletadas": 67,
@@ -389,12 +389,12 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 52,
-   "urls_imovel": 27,
+   "urls_coletadas": 51,
+   "urls_imovel": 26,
    "exemplo_imovel": [
-    "https://visualizeimoveis.com/empreendimento/30533",
-    "https://visualizeimoveis.com/empreendimento/48339",
-    "https://visualizeimoveis.com/empreendimento/49860"
+    "https://visualizeimoveis.com/empreendimento/23166",
+    "https://visualizeimoveis.com/empreendimento/40226",
+    "https://visualizeimoveis.com/empreendimento/42369"
    ],
    "removidos": 0
   },
@@ -425,9 +425,12 @@
    "status": "ok",
    "novos": 0,
    "erro": null,
-   "metodo": "listagem",
-   "urls_coletadas": 0,
-   "urls_imovel": 0,
+   "metodo": "sitemap",
+   "urls_coletadas": 54,
+   "urls_imovel": 1,
+   "exemplo_imovel": [
+    "https://housin360.com.br/square-garden-housin360-a-imobiliaria-da-melnick/"
+   ],
    "removidos": 0
   },
   "luxton": {
@@ -436,12 +439,12 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 36,
-   "urls_imovel": 17,
+   "urls_coletadas": 37,
+   "urls_imovel": 18,
    "exemplo_imovel": [
     "https://www.luxtonimoveis.com.br/imovel/15348/apartamento-com-145m-no-bairro-auxiliadora-em-porto-alegre_poa/venda/",
-    "https://www.luxtonimoveis.com.br/imovel/21019/pavilhao-com-715m-no-bairro-sao-joao-em-porto-alegre_poa/locacao/",
-    "https://www.luxtonimoveis.com.br/imovel/34246/apartamento-garden-com-221m-no-bairro-praia-de-belas-em-porto-alegre_poa/venda/"
+    "https://www.luxtonimoveis.com.br/imovel/34246/apartamento-garden-com-221m-no-bairro-praia-de-belas-em-porto-alegre_poa/venda/",
+    "https://www.luxtonimoveis.com.br/imovel/36668/casa-em-condominio-com-340m-no-bairro-tres-figueiras-em-porto-alegre_poa/locacao/"
    ],
    "removidos": 0
   },
@@ -451,14 +454,14 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 89,
+   "urls_coletadas": 88,
    "urls_imovel": 20,
    "exemplo_imovel": [
     "https://www.albertimoveis.com.br/empreendimento/21512/tree-haus-porsche-consulting/",
     "https://www.albertimoveis.com.br/empreendimento/21572/the-arch/",
     "https://www.albertimoveis.com.br/empreendimento/23122/garden-haus-i-porsche-consulting/"
    ],
-   "removidos": 0
+   "removidos": 1
   },
   "lyon": {
    "nome": "Lyon Imóveis",
@@ -478,21 +481,21 @@
  },
  "cruzamento": {
   "saneamento": {
-   "enderecos_sede_removidos": 2635,
+   "enderecos_sede_removidos": 2634,
    "fotos_logo_removidas": 0,
    "sedes_auto_detectadas": 3,
-   "coordenadas_invalidas_removidas": 147
+   "coordenadas_invalidas_removidas": 143
   },
-  "site_proprio_urls": 16617,
-  "site_proprio": 16617,
+  "site_proprio_urls": 16621,
+  "site_proprio": 16621,
   "portal_rgi_urls": 19763,
   "portal_rgi": 19763,
-  "base_total": 36380,
-  "mudancas_status": 18,
+  "base_total": 36384,
+  "mudancas_status": 17,
   "localizacao": {
-   "dicionario": 621,
+   "dicionario": 623,
    "resolvidos_interno": 106,
-   "resolvidos_osm": 2631,
+   "resolvidos_osm": 2635,
    "osm_consultas": 20
   }
  },
