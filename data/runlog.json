@@ -1,10 +1,10 @@
 {
- "executado_em": "2026-08-17T17:21:42Z",
+ "executado_em": "2026-08-17T19:23:11Z",
  "sites": {
   "auxiliadora": {
    "nome": "Auxiliadora Predial",
    "status": "ok",
-   "novos": 1,
+   "novos": 6,
    "erro": null,
    "metodo": "render(js)",
    "urls_coletadas": 431,
@@ -14,7 +14,7 @@
     "https://www.auxiliadorapredial.com.br/imovel/venda/11395/casa+Porto+Alegre+Rio+Grande+do+Sul",
     "https://www.auxiliadorapredial.com.br/imovel/venda/128065/casa+Porto+Alegre+Rio+Grande+do+Sul"
    ],
-   "removidos": 6
+   "removidos": 2
   },
   "guarida": {
    "nome": "Guarida Imóveis",
@@ -105,7 +105,7 @@
   "novolar": {
    "nome": "Novo Lar Imóveis",
    "status": "ok",
-   "novos": 4,
+   "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 4130,
@@ -115,7 +115,7 @@
     "https://imobiliarianovolar.net/imovel/10011/",
     "https://imobiliarianovolar.net/imovel/10016/"
    ],
-   "removidos": 0
+   "removidos": 4
   },
   "don": {
    "nome": "Don Imóveis",
@@ -123,8 +123,8 @@
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 2657,
-   "urls_imovel": 1735,
+   "urls_coletadas": 2624,
+   "urls_imovel": 1704,
    "exemplo_imovel": [
     "https://donimoveis.com.br/empreendimentos/925-independencia-porto-alegre",
     "https://donimoveis.com.br/empreendimentos/artur-rocha-1133-porto-alegre",
@@ -150,17 +150,17 @@
   "sperinde": {
    "nome": "Sperinde Imóveis",
    "status": "ok",
-   "novos": 2,
+   "novos": 0,
    "erro": null,
    "metodo": "listagem",
    "urls_coletadas": 98,
    "urls_imovel": 35,
    "exemplo_imovel": [
-    "https://www.sperinde.com/imovel/alugar/21015119/sala-com-63m-no-bairro-sao-pelegrino-em-caxias-do-sul/",
-    "https://www.sperinde.com/imovel/alugar/21017764/apartamento-com-70m-no-bairro-chacara-das-pedras-em-porto-alegre/",
-    "https://www.sperinde.com/imovel/alugar/21017794/apartamento-com-72m-no-bairro-chacara-das-pedras-em-porto-alegre/"
+    "https://www.sperinde.com/imovel/alugar/21001287/loja-com-32m-no-bairro-rio-branco-em-porto-alegre/",
+    "https://www.sperinde.com/imovel/alugar/21014907/apartamento-com-60m-no-bairro-petropolis-em-porto-alegre/",
+    "https://www.sperinde.com/imovel/alugar/21015142/sala-com-45m-no-bairro-exposicao-em-caxias-do-sul/"
    ],
-   "removidos": 2
+   "removidos": 1
   },
   "rial": {
    "nome": "Rial Imóveis",
@@ -180,30 +180,30 @@
   "urban": {
    "nome": "Urban Company",
    "status": "ok",
-   "novos": 4,
+   "novos": 0,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 12268,
+   "urls_coletadas": 12269,
    "urls_imovel": 8827,
    "exemplo_imovel": [
     "https://www.urban.imb.br/empreendimento/10261/hotel-v3rso-by-emiliano-boa-vista-porto-alegre",
     "https://www.urban.imb.br/empreendimento/10356/condominio-canto-dos-passaros-gafisa-jardim-carvalho-porto-alegre",
     "https://www.urban.imb.br/empreendimento/10359/rossi-ideal-alto-petropolis-porto-alegre"
    ],
-   "removidos": 3
+   "removidos": 8
   },
   "oneluxo": {
    "nome": "One Imóveis de Luxo",
    "status": "ok",
-   "novos": 0,
+   "novos": 3,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 124,
-   "urls_imovel": 17,
+   "urls_coletadas": 117,
+   "urls_imovel": 16,
    "exemplo_imovel": [
-    "https://oneluxo.com.br/imovel/one13640-aluguel-apartamento-moinhos-de-vento-porto-alegre-rs-imoveis-residenciais/",
-    "https://oneluxo.com.br/imovel/one17040-venda-cobertura-petropolis-porto-alegre-rs-imoveis-residenciais/",
-    "https://oneluxo.com.br/imovel/one18526-venda-apartamento-bela-vista-porto-alegre-rs-imoveis-residenciais/"
+    "https://oneluxo.com.br/imovel/one21363-venda-casa-chacara-das-pedras-porto-alegre-rs-imoveis-residenciais/",
+    "https://oneluxo.com.br/imovel/one21618-venda-apartamento-bela-vista-porto-alegre-rs-imoveis-residenciais/",
+    "https://oneluxo.com.br/imovel/one22448-venda-apartamento-petropolis-porto-alegre-rs-imoveis-residenciais/"
    ],
    "removidos": 0
   },
@@ -291,11 +291,11 @@
   "morano": {
    "nome": "Morano Imobiliária",
    "status": "ok",
-   "novos": 0,
+   "novos": 2,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 1404,
-   "urls_imovel": 797,
+   "urls_coletadas": 1405,
+   "urls_imovel": 798,
    "exemplo_imovel": [
     "https://www.morano.com.br/imovel/andar-corporativo/locacao/porto-alegre/rs/cristal/AC0010_MORA",
     "https://www.morano.com.br/imovel/andar-corporativo/locacao/porto-alegre/rs/higienopolis/AC0015_MORA",
@@ -384,12 +384,12 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 52,
-   "urls_imovel": 27,
+   "urls_coletadas": 51,
+   "urls_imovel": 26,
    "exemplo_imovel": [
-    "https://visualizeimoveis.com/empreendimento/23166",
-    "https://visualizeimoveis.com/empreendimento/42283",
-    "https://visualizeimoveis.com/empreendimento/42369"
+    "https://visualizeimoveis.com/empreendimento/42369",
+    "https://visualizeimoveis.com/empreendimento/43407",
+    "https://visualizeimoveis.com/empreendimento/56383"
    ],
    "removidos": 0
   },
@@ -434,12 +434,12 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 36,
-   "urls_imovel": 17,
+   "urls_coletadas": 37,
+   "urls_imovel": 18,
    "exemplo_imovel": [
+    "https://www.luxtonimoveis.com.br/imovel/15348/apartamento-com-145m-no-bairro-auxiliadora-em-porto-alegre_poa/venda/",
     "https://www.luxtonimoveis.com.br/imovel/21019/pavilhao-com-715m-no-bairro-sao-joao-em-porto-alegre_poa/locacao/",
-    "https://www.luxtonimoveis.com.br/imovel/34511/apartamento-garden-com-232m-no-bairro-petropolis-em-porto-alegre_poa/venda/",
-    "https://www.luxtonimoveis.com.br/imovel/35583/apartamento-com-134m-no-bairro-chacara-das-pedras-em-porto-alegre_poa/venda/"
+    "https://www.luxtonimoveis.com.br/imovel/34511/apartamento-garden-com-232m-no-bairro-petropolis-em-porto-alegre_poa/venda/"
    ],
    "removidos": 0
   },
@@ -449,7 +449,7 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 90,
+   "urls_coletadas": 86,
    "urls_imovel": 20,
    "exemplo_imovel": [
     "https://www.albertimoveis.com.br/empreendimento/21512/tree-haus-porsche-consulting/",
@@ -476,21 +476,21 @@
  },
  "cruzamento": {
   "saneamento": {
-   "enderecos_sede_removidos": 2601,
+   "enderecos_sede_removidos": 2598,
    "fotos_logo_removidas": 0,
    "sedes_auto_detectadas": 2,
-   "coordenadas_invalidas_removidas": 158
+   "coordenadas_invalidas_removidas": 151
   },
-  "site_proprio_urls": 16553,
-  "site_proprio": 16553,
+  "site_proprio_urls": 16575,
+  "site_proprio": 16575,
   "portal_rgi_urls": 19650,
   "portal_rgi": 19650,
-  "base_total": 36203,
-  "mudancas_status": 8,
+  "base_total": 36225,
+  "mudancas_status": 7,
   "localizacao": {
    "dicionario": 648,
    "resolvidos_interno": 109,
-   "resolvidos_osm": 2624,
+   "resolvidos_osm": 2622,
    "osm_consultas": 20
   }
  },
