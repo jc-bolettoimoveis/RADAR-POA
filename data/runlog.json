@@ -1,10 +1,10 @@
 {
- "executado_em": "2026-08-24T11:21:57Z",
+ "executado_em": "2026-08-24T13:45:59Z",
  "sites": {
   "auxiliadora": {
    "nome": "Auxiliadora Predial",
    "status": "ok",
-   "novos": 0,
+   "novos": 2,
    "erro": null,
    "metodo": "render(js)",
    "urls_coletadas": 431,
@@ -32,30 +32,27 @@
   "creditoreal": {
    "nome": "Crédito Real",
    "status": "ok",
-   "novos": 3,
+   "novos": 0,
    "erro": null,
-   "metodo": "render(js)",
-   "urls_coletadas": 56,
-   "urls_imovel": 18,
-   "exemplo_imovel": [
-    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-azenha-porto-alegre-ag-296-cod-9930798",
-    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-cavalhada-porto-alegre-ag-8-cod-74201285",
-    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-centro-historico-porto-alegre-ag-238-cod-74204094"
-   ]
+   "render_erro": "It looks like you are using Playwright Sync API inside the asyncio loop.\nPlease use the Async API instead.",
+   "metodo": "listagem",
+   "urls_coletadas": 0,
+   "urls_imovel": 0
   },
   "foxter": {
    "nome": "Foxter Cia Imobiliária",
    "status": "ok",
-   "novos": 0,
+   "novos": 4,
    "erro": null,
    "metodo": "sitemap+listagem",
-   "urls_coletadas": 1864,
-   "urls_imovel": 1724,
+   "urls_coletadas": 1662,
+   "urls_imovel": 1522,
    "exemplo_imovel": [
     "https://www.foxterciaimobiliaria.com.br/empreendimento/10030/condominio-arlete-r-cachoeirinha-vila-vista-alegre-condominio-vertical-zona-grande-porto-alegre",
     "https://www.foxterciaimobiliaria.com.br/empreendimento/10064/empreendimento-residencial-florida-village-r-alvorada-bela-vista-condominio-vertical-zona-grande-porto-alegre",
     "https://www.foxterciaimobiliaria.com.br/empreendimento/10095/jardim-di-napoli-r-cachoeirinha-distrito-industrial-condominio-horizontal-de-casas-zona-grande-porto-alegre"
-   ]
+   ],
+   "removidos": 2
   },
   "noblesse": {
    "nome": "Noblesse Imóveis",
@@ -69,21 +66,18 @@
     "https://www.noblesse.com.br/imovel/apartamento-garden-para-comprar-petropolis-porto-alegre/33086/",
     "https://www.noblesse.com.br/imovel/apartamento-para-comprar-bela-vista-porto-alegre/35363/",
     "https://www.noblesse.com.br/imovel/apartamento-para-comprar-bela-vista-porto-alegre/36649/"
-   ]
+   ],
+   "removidos": 0
   },
   "veronez": {
    "nome": "Veronez Imóveis",
    "status": "ok",
    "novos": 0,
    "erro": null,
-   "metodo": "sitemap",
-   "urls_coletadas": 1072,
-   "urls_imovel": 799,
-   "exemplo_imovel": [
-    "https://www.veronezimoveis.com.br/imovel/14535/apartamento-2-dormitorios-sao-joao-porto-alegre",
-    "https://www.veronezimoveis.com.br/imovel/14574/apartamento-3-dormitorios-passo-da-areia-porto-alegre",
-    "https://www.veronezimoveis.com.br/imovel/14576/apartamento-1-dormitorio-petropolis-porto-alegre"
-   ]
+   "metodo": "listagem",
+   "urls_coletadas": 0,
+   "urls_imovel": 0,
+   "removidos": 0
   },
   "jsimas": {
    "nome": "J Simas Imóveis",
@@ -97,7 +91,8 @@
     "https://www.jsimasimoveis.com.br/imovel/4211284/cobertura-venda-porto-alegre-rs-menino-deus",
     "https://www.jsimasimoveis.com.br/imovel/4211361/apartamento-venda-porto-alegre-rs-vila-sao-jose",
     "https://www.jsimasimoveis.com.br/imovel/4211461/apartamento-venda-porto-alegre-rs-humaita"
-   ]
+   ],
+   "removidos": 0
   },
   "novolar": {
    "nome": "Novo Lar Imóveis",
@@ -111,26 +106,28 @@
     "https://imobiliarianovolar.net/imovel/10010/",
     "https://imobiliarianovolar.net/imovel/10011/",
     "https://imobiliarianovolar.net/imovel/10016/"
-   ]
+   ],
+   "removidos": 0
   },
   "don": {
    "nome": "Don Imóveis",
    "status": "ok",
-   "novos": 0,
+   "novos": 1,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 2661,
-   "urls_imovel": 1728,
+   "urls_coletadas": 2662,
+   "urls_imovel": 1729,
    "exemplo_imovel": [
     "https://donimoveis.com.br/empreendimentos/925-independencia-porto-alegre",
     "https://donimoveis.com.br/empreendimentos/artur-rocha-1133-porto-alegre",
     "https://donimoveis.com.br/empreendimentos/atilio-1407-fase-2-porto-alegre"
-   ]
+   ],
+   "removidos": 0
   },
   "casaporto": {
    "nome": "Casa Porto Imobiliária",
    "status": "ok",
-   "novos": 2,
+   "novos": 8,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 4814,
@@ -140,20 +137,20 @@
     "https://casaportoimobiliaria.com.br/empreendimento/366131",
     "https://casaportoimobiliaria.com.br/empreendimento/366145"
    ],
-   "removidos": 6
+   "removidos": 40
   },
   "sperinde": {
    "nome": "Sperinde Imóveis",
    "status": "ok",
-   "novos": 0,
+   "novos": 1,
    "erro": null,
    "metodo": "listagem",
    "urls_coletadas": 98,
    "urls_imovel": 35,
    "exemplo_imovel": [
+    "https://www.sperinde.com/imovel/alugar/1642376/apartamento-com-44m-no-bairro-vila-jardim-em-porto-alegre/",
     "https://www.sperinde.com/imovel/alugar/21001287/loja-com-32m-no-bairro-rio-branco-em-porto-alegre/",
-    "https://www.sperinde.com/imovel/alugar/21014907/apartamento-com-60m-no-bairro-petropolis-em-porto-alegre/",
-    "https://www.sperinde.com/imovel/alugar/21015119/sala-com-63m-no-bairro-sao-pelegrino-em-caxias-do-sul/"
+    "https://www.sperinde.com/imovel/alugar/21014907/apartamento-com-60m-no-bairro-petropolis-em-porto-alegre/"
    ],
    "removidos": 0
   },
@@ -175,22 +172,17 @@
   "urban": {
    "nome": "Urban Company",
    "status": "ok",
-   "novos": 1,
+   "novos": 0,
    "erro": null,
-   "metodo": "sitemap",
-   "urls_coletadas": 12535,
-   "urls_imovel": 8924,
-   "exemplo_imovel": [
-    "https://www.urban.imb.br/empreendimento/10261/hotel-v3rso-by-emiliano-boa-vista-porto-alegre",
-    "https://www.urban.imb.br/empreendimento/10356/condominio-canto-dos-passaros-gafisa-jardim-carvalho-porto-alegre",
-    "https://www.urban.imb.br/empreendimento/10359/rossi-ideal-alto-petropolis-porto-alegre"
-   ],
+   "metodo": "listagem",
+   "urls_coletadas": 0,
+   "urls_imovel": 0,
    "removidos": 0
   },
   "oneluxo": {
    "nome": "One Imóveis de Luxo",
    "status": "ok",
-   "novos": 2,
+   "novos": 0,
    "erro": null,
    "metodo": "listagem",
    "urls_coletadas": 115,
@@ -200,7 +192,7 @@
     "https://oneluxo.com.br/imovel/one18526-venda-apartamento-bela-vista-porto-alegre-rs-imoveis-residenciais/",
     "https://oneluxo.com.br/imovel/one22448-venda-apartamento-petropolis-porto-alegre-rs-imoveis-residenciais/"
    ],
-   "removidos": 0
+   "removidos": 3
   },
   "colnaghi": {
    "nome": "Colnaghi Imóveis",
@@ -241,7 +233,7 @@
   "bridge": {
    "nome": "Bridge Imóveis",
    "status": "ok",
-   "novos": 2,
+   "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 6902,
@@ -251,7 +243,7 @@
     "https://www.bridgeimoveis.com.br/imovel/10090/cobertura-3-dormitorios-auxiliadora-porto-alegre",
     "https://www.bridgeimoveis.com.br/imovel/10174/chartres-concid-petropolis-porto-alegre"
    ],
-   "removidos": 0
+   "removidos": 1
   },
   "verabernardes": {
    "nome": "Vera Bernardes",
@@ -301,7 +293,7 @@
   "terracini": {
    "nome": "Imobiliária Terracini",
    "status": "ok",
-   "novos": 61,
+   "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 2188,
@@ -311,7 +303,7 @@
     "https://www.terracini.com.br/imovel/apartamento-cachoeirinha-2-quartos-43-m/AP2246-TESI",
     "https://www.terracini.com.br/imovel/apartamento-canoas-1-quarto-42-m/AP24137-TESI"
    ],
-   "removidos": 0
+   "removidos": 1
   },
   "cpimoveis": {
    "nome": "CP Imóveis",
@@ -376,17 +368,17 @@
   "visualize": {
    "nome": "Visualize Imóveis",
    "status": "ok",
-   "novos": 2,
+   "novos": 0,
    "erro": null,
    "metodo": "listagem",
    "urls_coletadas": 51,
    "urls_imovel": 26,
    "exemplo_imovel": [
-    "https://visualizeimoveis.com/empreendimento/30533",
-    "https://visualizeimoveis.com/empreendimento/42369",
-    "https://visualizeimoveis.com/empreendimento/49860"
+    "https://visualizeimoveis.com/empreendimento/19134",
+    "https://visualizeimoveis.com/empreendimento/23166",
+    "https://visualizeimoveis.com/empreendimento/42283"
    ],
-   "removidos": 0
+   "removidos": 10
   },
   "private": {
    "nome": "Private Imóveis",
@@ -429,11 +421,11 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 37,
-   "urls_imovel": 18,
+   "urls_coletadas": 36,
+   "urls_imovel": 17,
    "exemplo_imovel": [
-    "https://www.luxtonimoveis.com.br/imovel/11632/cobertura-com-327m-no-bairro-bela-vista-em-porto-alegre_poa/venda/",
     "https://www.luxtonimoveis.com.br/imovel/17635/apartamento-com-202m-no-bairro-bela-vista-em-porto-alegre_poa/venda/",
+    "https://www.luxtonimoveis.com.br/imovel/21019/pavilhao-com-715m-no-bairro-sao-joao-em-porto-alegre_poa/locacao/",
     "https://www.luxtonimoveis.com.br/imovel/34432/apartamento-com-346m-no-bairro-moinhos-de-vento-em-porto-alegre_poa/venda/"
    ],
    "removidos": 0
@@ -441,7 +433,7 @@
   "albert": {
    "nome": "Albert Imóveis",
    "status": "ok",
-   "novos": 1,
+   "novos": 0,
    "erro": null,
    "metodo": "listagem",
    "urls_coletadas": 88,
@@ -466,40 +458,31 @@
     "https://lyonimoveis.com.br/imovel/a-2-quadras-do-parcao/LF0009",
     "https://lyonimoveis.com.br/imovel/adagio/AP1460"
    ],
-   "removidos": 8
+   "removidos": 4
   }
  },
  "cruzamento": {
   "saneamento": {
-   "enderecos_sede_removidos": 2546,
+   "enderecos_sede_removidos": 2557,
    "fotos_logo_removidas": 0,
    "sedes_auto_detectadas": 2,
-   "coordenadas_invalidas_removidas": 230
+   "coordenadas_invalidas_removidas": 159
   },
-  "site_proprio_urls": 16635,
-  "site_proprio": 16635,
+  "site_proprio_urls": 16622,
+  "site_proprio": 16622,
   "portal_rgi_urls": 19533,
   "portal_rgi": 19533,
-  "base_total": 36168,
-  "mudancas_status": 49,
+  "base_total": 36155,
+  "mudancas_status": 27,
   "localizacao": {
    "dicionario": 679,
-   "resolvidos_interno": 120,
+   "resolvidos_interno": 115,
    "resolvidos_osm": 2567,
-   "osm_consultas": 2
+   "osm_consultas": 0
   }
  },
  "alertas": {
-  "mensagens": 6,
-  "erros": [
-   "callmebot 555191510553: HTTPSConnectionPool(host='api.callmebot.com', port=443): Read timed out. (read timeout=20)",
-   "callmebot 555191510553: HTTPSConnectionPool(host='api.callmebot.com', port=443): Read timed out. (read timeout=20)",
-   "callmebot 555191510553: HTTPSConnectionPool(host='api.callmebot.com', port=443): Read timed out. (read timeout=20)",
-   "callmebot 555191510553: HTTPSConnectionPool(host='api.callmebot.com', port=443): Read timed out. (read timeout=20)",
-   "callmebot 555191510553: HTTPSConnectionPool(host='api.callmebot.com', port=443): Read timed out. (read timeout=20)",
-   "callmebot 555191510553: HTTPSConnectionPool(host='api.callmebot.com', port=443): Read timed out. (read timeout=20)"
-  ],
-  "callmebot_enviadas": 0,
-  "obs": "nenhum canal configurado — mensagem apenas no log"
+  "mensagens": 3,
+  "callmebot_enviadas": 3
  }
 }
