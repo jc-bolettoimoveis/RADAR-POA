@@ -1,5 +1,5 @@
 {
- "executado_em": "2026-09-06T22:51:12Z",
+ "executado_em": "2026-09-07T00:37:44Z",
  "sites": {
   "auxiliadora": {
    "nome": "Auxiliadora Predial",
@@ -32,17 +32,17 @@
   "creditoreal": {
    "nome": "Crédito Real",
    "status": "ok",
-   "novos": 5,
+   "novos": 4,
    "erro": null,
    "metodo": "render(js)",
-   "urls_coletadas": 73,
-   "urls_imovel": 36,
+   "urls_coletadas": 55,
+   "urls_imovel": 18,
    "exemplo_imovel": [
-    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-alto-petropolis-porto-alegre-ag-61-cod-74176907",
-    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-cavalhada-porto-alegre-ag-61-cod-74189752",
-    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-centro-historico-porto-alegre-ag-61-cod-74018541"
+    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-auxiliadora-porto-alegre-ag-100-cod-74182802",
+    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-auxiliadora-porto-alegre-ag-243-cod-74210763",
+    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-cavalhada-porto-alegre-ag-33-cod-74197839"
    ],
-   "removidos": 2
+   "removidos": 7
   },
   "foxter": {
    "nome": "Foxter Cia Imobiliária",
@@ -50,8 +50,8 @@
    "novos": 0,
    "erro": null,
    "metodo": "sitemap+listagem",
-   "urls_coletadas": 1724,
-   "urls_imovel": 1585,
+   "urls_coletadas": 1964,
+   "urls_imovel": 1825,
    "exemplo_imovel": [
     "https://www.foxterciaimobiliaria.com.br/empreendimento/10030/condominio-arlete-r-cachoeirinha-vila-vista-alegre-condominio-vertical-zona-grande-porto-alegre",
     "https://www.foxterciaimobiliaria.com.br/empreendimento/10064/empreendimento-residencial-florida-village-r-alvorada-bela-vista-condominio-vertical-zona-grande-porto-alegre",
@@ -77,11 +77,11 @@
   "veronez": {
    "nome": "Veronez Imóveis",
    "status": "ok",
-   "novos": 0,
+   "novos": 1,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 1065,
-   "urls_imovel": 789,
+   "urls_coletadas": 1066,
+   "urls_imovel": 790,
    "exemplo_imovel": [
     "https://www.veronezimoveis.com.br/imovel/14535/apartamento-2-dormitorios-sao-joao-porto-alegre",
     "https://www.veronezimoveis.com.br/imovel/14574/apartamento-3-dormitorios-passo-da-areia-porto-alegre",
@@ -107,11 +107,11 @@
   "novolar": {
    "nome": "Novo Lar Imóveis",
    "status": "ok",
-   "novos": 0,
+   "novos": 2,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 4050,
-   "urls_imovel": 3833,
+   "urls_coletadas": 4052,
+   "urls_imovel": 3835,
    "exemplo_imovel": [
     "https://imobiliarianovolar.net/imovel/10010/",
     "https://imobiliarianovolar.net/imovel/10011/",
@@ -140,7 +140,7 @@
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 4965,
+   "urls_coletadas": 4825,
    "urls_imovel": 3363,
    "exemplo_imovel": [
     "https://casaportoimobiliaria.com.br/empreendimento/366129",
@@ -200,12 +200,12 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 121,
-   "urls_imovel": 16,
+   "urls_coletadas": 120,
+   "urls_imovel": 15,
    "exemplo_imovel": [
     "https://oneluxo.com.br/imovel/one13640-aluguel-apartamento-moinhos-de-vento-porto-alegre-rs-imoveis-residenciais/",
-    "https://oneluxo.com.br/imovel/one19479-venda-casa-chacara-das-pedras-porto-alegre-rs-imoveis-residenciais/",
-    "https://oneluxo.com.br/imovel/one33233-venda-casa-em-condominio-tres-figueiras-porto-alegre-rs-imoveis-residenciais/"
+    "https://oneluxo.com.br/imovel/one22448-venda-apartamento-petropolis-porto-alegre-rs-imoveis-residenciais/",
+    "https://oneluxo.com.br/imovel/one23358-venda-cobertura-bela-vista-porto-alegre-rs-imoveis-residenciais/"
    ],
    "removidos": 0
   },
@@ -311,8 +311,8 @@
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 2651,
-   "urls_imovel": 2180,
+   "urls_coletadas": 2588,
+   "urls_imovel": 2117,
    "exemplo_imovel": [
     "https://www.terracini.com.br/empreendimento/nova-olaria-residences-apartamentos-porto-alegre-3-quartos-90-m/17547716-TESI",
     "https://www.terracini.com.br/imovel/apartamento-cachoeirinha-1-quarto-49-m/AP6092-TESI",
@@ -386,12 +386,12 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 51,
-   "urls_imovel": 26,
+   "urls_coletadas": 50,
+   "urls_imovel": 25,
    "exemplo_imovel": [
-    "https://visualizeimoveis.com/empreendimento/23166",
+    "https://visualizeimoveis.com/empreendimento/30533",
     "https://visualizeimoveis.com/empreendimento/37723",
-    "https://visualizeimoveis.com/empreendimento/40226"
+    "https://visualizeimoveis.com/empreendimento/42283"
    ],
    "removidos": 0
   },
@@ -440,8 +440,8 @@
    "urls_imovel": 18,
    "exemplo_imovel": [
     "https://www.luxtonimoveis.com.br/imovel/18684/casa-com-281m-no-bairro-chacara-das-pedras-em-porto-alegre_poa/venda/",
-    "https://www.luxtonimoveis.com.br/imovel/34247/apartamento-garden-com-230m-no-bairro-praia-de-belas-em-porto-alegre_poa/venda/",
-    "https://www.luxtonimoveis.com.br/imovel/34358/apartamento-com-98m-no-bairro-jardim-botanico-em-porto-alegre_poa/venda/"
+    "https://www.luxtonimoveis.com.br/imovel/21019/pavilhao-com-715m-no-bairro-sao-joao-em-porto-alegre_poa/locacao/",
+    "https://www.luxtonimoveis.com.br/imovel/34247/apartamento-garden-com-230m-no-bairro-praia-de-belas-em-porto-alegre_poa/venda/"
    ],
    "removidos": 0
   },
@@ -451,7 +451,7 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 84,
+   "urls_coletadas": 87,
    "urls_imovel": 20,
    "exemplo_imovel": [
     "https://www.albertimoveis.com.br/empreendimento/21512/tree-haus-porsche-consulting/",
@@ -463,37 +463,37 @@
   "lyon": {
    "nome": "Lyon Imóveis",
    "status": "ok",
-   "novos": 2,
+   "novos": 1,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 2858,
-   "urls_imovel": 2854,
+   "urls_coletadas": 2856,
+   "urls_imovel": 2852,
    "exemplo_imovel": [
     "https://lyonimoveis.com.br/imovel/2-dormitorios-e-2-vagas-no-menino-deus/AP1727",
     "https://lyonimoveis.com.br/imovel/a-2-quadras-do-parcao/LF0009",
     "https://lyonimoveis.com.br/imovel/adagio/AP1460"
    ],
-   "removidos": 0
+   "removidos": 10
   }
  },
  "cruzamento": {
   "saneamento": {
-   "enderecos_sede_removidos": 2424,
+   "enderecos_sede_removidos": 2426,
    "fotos_logo_removidas": 0,
    "sedes_auto_detectadas": 2,
-   "coordenadas_invalidas_removidas": 189
+   "coordenadas_invalidas_removidas": 184
   },
-  "site_proprio_urls": 16720,
-  "site_proprio": 16720,
+  "site_proprio_urls": 16719,
+  "site_proprio": 16719,
   "portal_rgi_urls": 19386,
   "portal_rgi": 19386,
-  "base_total": 36106,
-  "mudancas_status": 0,
+  "base_total": 36105,
+  "mudancas_status": 5,
   "localizacao": {
    "dicionario": 715,
-   "resolvidos_interno": 120,
+   "resolvidos_interno": 119,
    "resolvidos_osm": 2458,
-   "osm_consultas": 0
+   "osm_consultas": 1
   }
  },
  "alertas": {
