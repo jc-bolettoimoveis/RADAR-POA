@@ -1,5 +1,5 @@
 {
- "executado_em": "2026-09-20T17:52:29Z",
+ "executado_em": "2026-09-20T21:09:06Z",
  "sites": {
   "auxiliadora": {
    "nome": "Auxiliadora Predial",
@@ -13,8 +13,7 @@
     "https://www.auxiliadorapredial.com.br/imovel/venda/10577/apartamento+Porto+Alegre+Rio+Grande+do+Sul",
     "https://www.auxiliadorapredial.com.br/imovel/venda/11970/apartamento+Porto+Alegre+Rio+Grande+do+Sul",
     "https://www.auxiliadorapredial.com.br/imovel/venda/129328/apartamento+Porto+Alegre+Rio+Grande+do+Sul"
-   ],
-   "removidos": 1
+   ]
   },
   "guarida": {
    "nome": "Guarida Imóveis",
@@ -28,23 +27,22 @@
     "https://guarida.com.br/imovel/alugar/aberta-dos-morros-porto-alegre-rs/casa-sobrado/26190",
     "https://guarida.com.br/imovel/alugar/aberta-dos-morros-porto-alegre-rs/loja-ponto-comercial/21631",
     "https://guarida.com.br/imovel/alugar/agronomia-porto-alegre-rs/apartamento/25543"
-   ],
-   "removidos": 0
+   ]
   },
   "creditoreal": {
    "nome": "Crédito Real",
    "status": "ok",
-   "novos": 3,
+   "novos": 6,
    "erro": null,
    "metodo": "render(js)",
    "urls_coletadas": 55,
    "urls_imovel": 18,
    "exemplo_imovel": [
-    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-bela-vista-porto-alegre-ag-169-cod-74207048",
-    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-medianeira-porto-alegre-ag-8-cod-74210280",
-    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-moinhos-de-vento-porto-alegre-ag-169-cod-74205655"
+    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-alto-petropolis-porto-alegre-ag-243-cod-74006416",
+    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-centro-historico-porto-alegre-ag-48-cod-74193557",
+    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-jardim-botanico-porto-alegre-ag-210-cod-74188000"
    ],
-   "removidos": 4
+   "removidos": 1
   },
   "foxter": {
    "nome": "Foxter Cia Imobiliária",
@@ -52,8 +50,8 @@
    "novos": 0,
    "erro": null,
    "metodo": "sitemap+listagem",
-   "urls_coletadas": 1567,
-   "urls_imovel": 1420,
+   "urls_coletadas": 1639,
+   "urls_imovel": 1492,
    "exemplo_imovel": [
     "https://www.foxterciaimobiliaria.com.br/empreendimento/10030/condominio-arlete-r-cachoeirinha-vila-vista-alegre-condominio-vertical-zona-grande-porto-alegre",
     "https://www.foxterciaimobiliaria.com.br/empreendimento/10064/empreendimento-residencial-florida-village-r-alvorada-bela-vista-condominio-vertical-zona-grande-porto-alegre",
@@ -119,16 +117,16 @@
     "https://imobiliarianovolar.net/imovel/10011/",
     "https://imobiliarianovolar.net/imovel/10016/"
    ],
-   "removidos": 3
+   "removidos": 0
   },
   "don": {
    "nome": "Don Imóveis",
    "status": "ok",
-   "novos": 0,
+   "novos": 1,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 2540,
-   "urls_imovel": 1708,
+   "urls_coletadas": 2541,
+   "urls_imovel": 1709,
    "exemplo_imovel": [
     "https://donimoveis.com.br/empreendimentos/925-independencia-porto-alegre",
     "https://donimoveis.com.br/empreendimentos/artur-rocha-1133-porto-alegre",
@@ -194,7 +192,7 @@
     "https://www.urban.imb.br/empreendimento/10261/hotel-v3rso-by-emiliano-boa-vista-porto-alegre",
     "https://www.urban.imb.br/empreendimento/10356/condominio-canto-dos-passaros-gafisa-jardim-carvalho-porto-alegre"
    ],
-   "removidos": 2
+   "removidos": 0
   },
   "oneluxo": {
    "nome": "One Imóveis de Luxo",
@@ -260,7 +258,7 @@
     "https://www.bridgeimoveis.com.br/imovel/10090/cobertura-3-dormitorios-auxiliadora-porto-alegre",
     "https://www.bridgeimoveis.com.br/imovel/10174/chartres-concid-petropolis-porto-alegre"
    ],
-   "removidos": 2
+   "removidos": 0
   },
   "verabernardes": {
    "nome": "Vera Bernardes",
@@ -283,8 +281,8 @@
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 795,
-   "urls_imovel": 555,
+   "urls_coletadas": 766,
+   "urls_imovel": 533,
    "exemplo_imovel": [
     "https://www.condotta.com.br/imovel/andar-corporativo-canoas-100-m/AC0020-COUI",
     "https://www.condotta.com.br/imovel/andar-corporativo-canoas-337-m/AC0019-COUI",
@@ -391,9 +389,9 @@
    "urls_coletadas": 51,
    "urls_imovel": 25,
    "exemplo_imovel": [
+    "https://visualizeimoveis.com/empreendimento/23166",
     "https://visualizeimoveis.com/empreendimento/30331",
-    "https://visualizeimoveis.com/empreendimento/42369",
-    "https://visualizeimoveis.com/empreendimento/43407"
+    "https://visualizeimoveis.com/empreendimento/37723"
    ],
    "removidos": 0
   },
@@ -441,9 +439,9 @@
    "urls_coletadas": 37,
    "urls_imovel": 18,
    "exemplo_imovel": [
+    "https://www.luxtonimoveis.com.br/imovel/21019/pavilhao-com-715m-no-bairro-sao-joao-em-porto-alegre_poa/locacao/",
     "https://www.luxtonimoveis.com.br/imovel/27960/pavilhao-com-9000m-no-bairro-anchieta-em-porto-alegre_poa/venda/",
-    "https://www.luxtonimoveis.com.br/imovel/34246/apartamento-garden-com-221m-no-bairro-praia-de-belas-em-porto-alegre_poa/venda/",
-    "https://www.luxtonimoveis.com.br/imovel/35329/apartamento-com-150m-no-bairro-petropolis-em-porto-alegre_poa/venda/"
+    "https://www.luxtonimoveis.com.br/imovel/32486/apartamento-com-105m-no-bairro-boa-vista-em-porto-alegre_poa/venda/"
    ],
    "removidos": 0
   },
@@ -453,7 +451,7 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 89,
+   "urls_coletadas": 87,
    "urls_imovel": 20,
    "exemplo_imovel": [
     "https://www.albertimoveis.com.br/empreendimento/21512/tree-haus-porsche-consulting/",
@@ -465,41 +463,41 @@
   "lyon": {
    "nome": "Lyon Imóveis",
    "status": "ok",
-   "novos": 0,
+   "novos": 3,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 2872,
-   "urls_imovel": 2868,
+   "urls_coletadas": 2871,
+   "urls_imovel": 2867,
    "exemplo_imovel": [
     "https://lyonimoveis.com.br/imovel/2-dormitorios-e-2-vagas-no-menino-deus/AP1727",
     "https://lyonimoveis.com.br/imovel/a-2-quadras-do-parcao/LF0009",
     "https://lyonimoveis.com.br/imovel/adagio/AP1460"
    ],
-   "removidos": 2
+   "removidos": 0
   }
  },
  "cruzamento": {
   "saneamento": {
-   "enderecos_sede_removidos": 2360,
+   "enderecos_sede_removidos": 2358,
    "fotos_logo_removidas": 0,
    "sedes_auto_detectadas": 2,
-   "coordenadas_invalidas_removidas": 161
+   "coordenadas_invalidas_removidas": 164
   },
-  "site_proprio_urls": 16762,
-  "site_proprio": 16762,
+  "site_proprio_urls": 16764,
+  "site_proprio": 16764,
   "portal_rgi_urls": 19157,
   "portal_rgi": 19157,
-  "base_total": 35919,
-  "mudancas_status": 3,
+  "base_total": 35921,
+  "mudancas_status": 5,
   "localizacao": {
-   "dicionario": 717,
-   "resolvidos_interno": 124,
+   "dicionario": 718,
+   "resolvidos_interno": 160,
    "resolvidos_osm": 2389,
    "osm_consultas": 0
   }
  },
  "alertas": {
-  "mensagens": 2,
-  "callmebot_enviadas": 2
+  "mensagens": 3,
+  "callmebot_enviadas": 3
  }
 }
