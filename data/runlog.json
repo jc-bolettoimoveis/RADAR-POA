@@ -1,5 +1,5 @@
 {
- "executado_em": "2026-10-04T14:34:02Z",
+ "executado_em": "2026-10-04T18:30:39Z",
  "sites": {
   "auxiliadora": {
    "nome": "Auxiliadora Predial",
@@ -32,22 +32,22 @@
   "creditoreal": {
    "nome": "Crédito Real",
    "status": "ok",
-   "novos": 8,
+   "novos": 3,
    "erro": null,
    "metodo": "render(js)",
    "urls_coletadas": 55,
    "urls_imovel": 18,
    "exemplo_imovel": [
-    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-bom-fim-porto-alegre-ag-300-cod-74148827",
-    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-camaqua-porto-alegre-ag-300-cod-74187627",
-    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-higienopolis-porto-alegre-ag-300-cod-74187335"
+    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-bela-vista-porto-alegre-ag-169-cod-74077355",
+    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-bela-vista-porto-alegre-ag-169-cod-74143898",
+    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-bela-vista-porto-alegre-ag-169-cod-74194727"
    ],
    "removidos": 1
   },
   "foxter": {
    "nome": "Foxter Cia Imobiliária",
    "status": "ok",
-   "novos": 2,
+   "novos": 0,
    "erro": null,
    "metodo": "sitemap+listagem",
    "urls_coletadas": 1622,
@@ -65,13 +65,8 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 55,
-   "urls_imovel": 36,
-   "exemplo_imovel": [
-    "https://www.noblesse.com.br/imovel/apartamento-para-comprar-auxiliadora-porto-alegre/25825/",
-    "https://www.noblesse.com.br/imovel/apartamento-para-comprar-auxiliadora-porto-alegre/25826/",
-    "https://www.noblesse.com.br/imovel/apartamento-para-comprar-bela-vista-porto-alegre/23823/"
-   ],
+   "urls_coletadas": 0,
+   "urls_imovel": 0,
    "removidos": 0
   },
   "veronez": {
@@ -102,16 +97,16 @@
     "https://www.jsimasimoveis.com.br/imovel/4211361/apartamento-venda-porto-alegre-rs-vila-sao-jose",
     "https://www.jsimasimoveis.com.br/imovel/4211461/apartamento-venda-porto-alegre-rs-humaita"
    ],
-   "removidos": 0
+   "removidos": 1
   },
   "novolar": {
    "nome": "Novo Lar Imóveis",
    "status": "ok",
-   "novos": 0,
+   "novos": 1,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 4696,
-   "urls_imovel": 4443,
+   "urls_coletadas": 4697,
+   "urls_imovel": 4444,
    "exemplo_imovel": [
     "https://imobiliarianovolar.net/imovel/10010/",
     "https://imobiliarianovolar.net/imovel/10011/",
@@ -147,7 +142,7 @@
     "https://casaportoimobiliaria.com.br/empreendimento/366145",
     "https://casaportoimobiliaria.com.br/empreendimento/366175"
    ],
-   "removidos": 0
+   "removidos": 2
   },
   "sperinde": {
    "nome": "Sperinde Imóveis",
@@ -207,7 +202,7 @@
     "https://oneluxo.com.br/imovel/one19784-venda-apartamento-santa-cecilia-porto-alegre-rs-imoveis-residenciais/",
     "https://oneluxo.com.br/imovel/one23358-venda-cobertura-bela-vista-porto-alegre-rs-imoveis-residenciais/"
    ],
-   "removidos": 2
+   "removidos": 0
   },
   "colnaghi": {
    "nome": "Colnaghi Imóveis",
@@ -236,13 +231,8 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 79,
-   "urls_imovel": 31,
-   "exemplo_imovel": [
-    "https://www.multiimob.com.br/imovel/apartamento-com-112m-no-bairro-bom-fim-em-porto-alegre-para-comprar/36182/",
-    "https://www.multiimob.com.br/imovel/apartamento-com-125m-no-bairro-higienopolis-em-porto-alegre-para-comprar/36404/",
-    "https://www.multiimob.com.br/imovel/apartamento-com-136m-no-bairro-chacara-das-pedras-em-porto-alegre-para-comprar/22415/"
-   ],
+   "urls_coletadas": 0,
+   "urls_imovel": 0,
    "removidos": 0
   },
   "bridge": {
@@ -258,7 +248,7 @@
     "https://www.bridgeimoveis.com.br/imovel/10090/cobertura-3-dormitorios-auxiliadora-porto-alegre",
     "https://www.bridgeimoveis.com.br/imovel/10174/chartres-concid-petropolis-porto-alegre"
    ],
-   "removidos": 3
+   "removidos": 0
   },
   "verabernardes": {
    "nome": "Vera Bernardes",
@@ -325,14 +315,9 @@
    "status": "ok",
    "novos": 0,
    "erro": null,
-   "metodo": "sitemap",
-   "urls_coletadas": 3910,
-   "urls_imovel": 2956,
-   "exemplo_imovel": [
-    "https://www.cpimoveis.com.br//imovel/litoral/venda/casa-em-condominio-3-dormitorios-condominio-blue-xangri-la-por-820000_XG7859//",
-    "https://www.cpimoveis.com.br//imovel/litoral/venda/casa-em-condominio-3-dormitorios-condominio-blue-xangri-la-por-930000_XG7414//",
-    "https://www.cpimoveis.com.br//imovel/litoral/venda/casa-em-condominio-3-dormitorios-condomino-ocean-side-torres-por-980000_XG6928//"
-   ],
+   "metodo": "listagem",
+   "urls_coletadas": 0,
+   "urls_imovel": 0,
    "removidos": 0
   },
   "portolar": {
@@ -386,12 +371,12 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 52,
-   "urls_imovel": 26,
+   "urls_coletadas": 51,
+   "urls_imovel": 25,
    "exemplo_imovel": [
-    "https://visualizeimoveis.com/empreendimento/23166",
-    "https://visualizeimoveis.com/empreendimento/30331",
-    "https://visualizeimoveis.com/empreendimento/42513"
+    "https://visualizeimoveis.com/empreendimento/42369",
+    "https://visualizeimoveis.com/empreendimento/43407",
+    "https://visualizeimoveis.com/empreendimento/48339"
    ],
    "removidos": 0
   },
@@ -436,12 +421,12 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 36,
-   "urls_imovel": 17,
+   "urls_coletadas": 37,
+   "urls_imovel": 18,
    "exemplo_imovel": [
     "https://www.luxtonimoveis.com.br/imovel/17635/apartamento-com-202m-no-bairro-bela-vista-em-porto-alegre_poa/venda/",
     "https://www.luxtonimoveis.com.br/imovel/21019/pavilhao-com-715m-no-bairro-sao-joao-em-porto-alegre_poa/locacao/",
-    "https://www.luxtonimoveis.com.br/imovel/35583/apartamento-com-134m-no-bairro-chacara-das-pedras-em-porto-alegre_poa/venda/"
+    "https://www.luxtonimoveis.com.br/imovel/34760/apartamento-com-86m-no-bairro-tres-figueiras-em-porto-alegre_poa/locacao/"
    ],
    "removidos": 0
   },
@@ -466,32 +451,32 @@
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 2874,
-   "urls_imovel": 2870,
+   "urls_coletadas": 2870,
+   "urls_imovel": 2866,
    "exemplo_imovel": [
     "https://lyonimoveis.com.br/imovel/2-dormitorios-e-2-vagas-no-menino-deus/AP1727",
     "https://lyonimoveis.com.br/imovel/a-2-quadras-do-parcao/LF0009",
     "https://lyonimoveis.com.br/imovel/adagio/AP1460"
    ],
-   "removidos": 0
+   "removidos": 2
   }
  },
  "cruzamento": {
   "saneamento": {
-   "enderecos_sede_removidos": 2303,
+   "enderecos_sede_removidos": 2299,
    "fotos_logo_removidas": 0,
    "sedes_auto_detectadas": 2,
-   "coordenadas_invalidas_removidas": 174
+   "coordenadas_invalidas_removidas": 179
   },
-  "site_proprio_urls": 16820,
-  "site_proprio": 16820,
+  "site_proprio_urls": 16821,
+  "site_proprio": 16821,
   "portal_rgi_urls": 19071,
   "portal_rgi": 19071,
-  "base_total": 35891,
-  "mudancas_status": 8,
+  "base_total": 35892,
+  "mudancas_status": 2,
   "localizacao": {
    "dicionario": 772,
-   "resolvidos_interno": 143,
+   "resolvidos_interno": 142,
    "resolvidos_osm": 2332,
    "osm_consultas": 0
   }
