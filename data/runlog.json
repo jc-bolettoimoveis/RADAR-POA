@@ -1,5 +1,5 @@
 {
- "executado_em": "2026-10-04T02:20:20Z",
+ "executado_em": "2026-10-04T14:34:02Z",
  "sites": {
   "auxiliadora": {
    "nome": "Auxiliadora Predial",
@@ -32,26 +32,26 @@
   "creditoreal": {
    "nome": "Crédito Real",
    "status": "ok",
-   "novos": 7,
+   "novos": 8,
    "erro": null,
    "metodo": "render(js)",
    "urls_coletadas": 55,
    "urls_imovel": 18,
    "exemplo_imovel": [
-    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-bela-vista-porto-alegre-ag-33-cod-74007145",
-    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-camaqua-porto-alegre-ag-33-cod-74210741",
-    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-cavalhada-porto-alegre-ag-33-cod-74197839"
+    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-bom-fim-porto-alegre-ag-300-cod-74148827",
+    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-camaqua-porto-alegre-ag-300-cod-74187627",
+    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-higienopolis-porto-alegre-ag-300-cod-74187335"
    ],
-   "removidos": 2
+   "removidos": 1
   },
   "foxter": {
    "nome": "Foxter Cia Imobiliária",
    "status": "ok",
-   "novos": 0,
+   "novos": 2,
    "erro": null,
    "metodo": "sitemap+listagem",
-   "urls_coletadas": 1641,
-   "urls_imovel": 1492,
+   "urls_coletadas": 1622,
+   "urls_imovel": 1470,
    "exemplo_imovel": [
     "https://www.foxterciaimobiliaria.com.br/empreendimento/10030/condominio-arlete-r-cachoeirinha-vila-vista-alegre-condominio-vertical-zona-grande-porto-alegre",
     "https://www.foxterciaimobiliaria.com.br/empreendimento/10064/empreendimento-residencial-florida-village-r-alvorada-bela-vista-condominio-vertical-zona-grande-porto-alegre",
@@ -65,8 +65,13 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 0,
-   "urls_imovel": 0,
+   "urls_coletadas": 55,
+   "urls_imovel": 36,
+   "exemplo_imovel": [
+    "https://www.noblesse.com.br/imovel/apartamento-para-comprar-auxiliadora-porto-alegre/25825/",
+    "https://www.noblesse.com.br/imovel/apartamento-para-comprar-auxiliadora-porto-alegre/25826/",
+    "https://www.noblesse.com.br/imovel/apartamento-para-comprar-bela-vista-porto-alegre/23823/"
+   ],
    "removidos": 0
   },
   "veronez": {
@@ -90,8 +95,8 @@
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 1358,
-   "urls_imovel": 972,
+   "urls_coletadas": 1357,
+   "urls_imovel": 971,
    "exemplo_imovel": [
     "https://www.jsimasimoveis.com.br/imovel/4211284/cobertura-venda-porto-alegre-rs-menino-deus",
     "https://www.jsimasimoveis.com.br/imovel/4211361/apartamento-venda-porto-alegre-rs-vila-sao-jose",
@@ -102,17 +107,17 @@
   "novolar": {
    "nome": "Novo Lar Imóveis",
    "status": "ok",
-   "novos": 1,
+   "novos": 0,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 4699,
-   "urls_imovel": 4446,
+   "urls_coletadas": 4696,
+   "urls_imovel": 4443,
    "exemplo_imovel": [
     "https://imobiliarianovolar.net/imovel/10010/",
     "https://imobiliarianovolar.net/imovel/10011/",
     "https://imobiliarianovolar.net/imovel/10016/"
    ],
-   "removidos": 0
+   "removidos": 3
   },
   "don": {
    "nome": "Don Imóveis",
@@ -192,17 +197,17 @@
   "oneluxo": {
    "nome": "One Imóveis de Luxo",
    "status": "ok",
-   "novos": 1,
+   "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 92,
+   "urls_coletadas": 118,
    "urls_imovel": 15,
    "exemplo_imovel": [
     "https://oneluxo.com.br/imovel/one13640-aluguel-apartamento-moinhos-de-vento-porto-alegre-rs-imoveis-residenciais/",
     "https://oneluxo.com.br/imovel/one19784-venda-apartamento-santa-cecilia-porto-alegre-rs-imoveis-residenciais/",
     "https://oneluxo.com.br/imovel/one23358-venda-cobertura-bela-vista-porto-alegre-rs-imoveis-residenciais/"
    ],
-   "removidos": 0
+   "removidos": 2
   },
   "colnaghi": {
    "nome": "Colnaghi Imóveis",
@@ -243,7 +248,7 @@
   "bridge": {
    "nome": "Bridge Imóveis",
    "status": "ok",
-   "novos": 2,
+   "novos": 0,
    "erro": null,
    "metodo": "sitemap",
    "urls_coletadas": 6899,
@@ -253,7 +258,7 @@
     "https://www.bridgeimoveis.com.br/imovel/10090/cobertura-3-dormitorios-auxiliadora-porto-alegre",
     "https://www.bridgeimoveis.com.br/imovel/10174/chartres-concid-petropolis-porto-alegre"
    ],
-   "removidos": 0
+   "removidos": 3
   },
   "verabernardes": {
    "nome": "Vera Bernardes",
@@ -384,9 +389,9 @@
    "urls_coletadas": 52,
    "urls_imovel": 26,
    "exemplo_imovel": [
-    "https://visualizeimoveis.com/empreendimento/37723",
-    "https://visualizeimoveis.com/empreendimento/48339",
-    "https://visualizeimoveis.com/empreendimento/60212"
+    "https://visualizeimoveis.com/empreendimento/23166",
+    "https://visualizeimoveis.com/empreendimento/30331",
+    "https://visualizeimoveis.com/empreendimento/42513"
    ],
    "removidos": 0
   },
@@ -431,12 +436,12 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 37,
-   "urls_imovel": 18,
+   "urls_coletadas": 36,
+   "urls_imovel": 17,
    "exemplo_imovel": [
     "https://www.luxtonimoveis.com.br/imovel/17635/apartamento-com-202m-no-bairro-bela-vista-em-porto-alegre_poa/venda/",
-    "https://www.luxtonimoveis.com.br/imovel/18684/casa-com-281m-no-bairro-chacara-das-pedras-em-porto-alegre_poa/venda/",
-    "https://www.luxtonimoveis.com.br/imovel/21019/pavilhao-com-715m-no-bairro-sao-joao-em-porto-alegre_poa/locacao/"
+    "https://www.luxtonimoveis.com.br/imovel/21019/pavilhao-com-715m-no-bairro-sao-joao-em-porto-alegre_poa/locacao/",
+    "https://www.luxtonimoveis.com.br/imovel/35583/apartamento-com-134m-no-bairro-chacara-das-pedras-em-porto-alegre_poa/venda/"
    ],
    "removidos": 0
   },
@@ -473,21 +478,21 @@
  },
  "cruzamento": {
   "saneamento": {
-   "enderecos_sede_removidos": 2301,
+   "enderecos_sede_removidos": 2303,
    "fotos_logo_removidas": 0,
    "sedes_auto_detectadas": 2,
-   "coordenadas_invalidas_removidas": 176
+   "coordenadas_invalidas_removidas": 174
   },
-  "site_proprio_urls": 16824,
-  "site_proprio": 16824,
+  "site_proprio_urls": 16820,
+  "site_proprio": 16820,
   "portal_rgi_urls": 19071,
   "portal_rgi": 19071,
-  "base_total": 35895,
-  "mudancas_status": 3,
+  "base_total": 35891,
+  "mudancas_status": 8,
   "localizacao": {
    "dicionario": 772,
-   "resolvidos_interno": 141,
-   "resolvidos_osm": 2334,
+   "resolvidos_interno": 143,
+   "resolvidos_osm": 2332,
    "osm_consultas": 0
   }
  },
