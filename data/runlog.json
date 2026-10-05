@@ -1,5 +1,5 @@
 {
- "executado_em": "2026-10-04T22:09:50Z",
+ "executado_em": "2026-10-05T01:30:03Z",
  "sites": {
   "auxiliadora": {
    "nome": "Auxiliadora Predial",
@@ -32,17 +32,17 @@
   "creditoreal": {
    "nome": "Crédito Real",
    "status": "ok",
-   "novos": 1,
+   "novos": 13,
    "erro": null,
    "metodo": "render(js)",
    "urls_coletadas": 55,
    "urls_imovel": 18,
    "exemplo_imovel": [
-    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-boa-vista-porto-alegre-ag-3-cod-74193255",
-    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-cidade-baixa-porto-alegre-ag-300-cod-74189281",
-    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-cristo-redentor-porto-alegre-ag-3-cod-74137388"
+    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-chacara-das-pedras-porto-alegre-ag-33-cod-74199476",
+    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-chacara-das-pedras-porto-alegre-ag-33-cod-74199477",
+    "https://www.creditoreal.com.br/vendas/imovel/apartamento-em-menino-deus-porto-alegre-ag-33-cod-9911893"
    ],
-   "removidos": 7
+   "removidos": 3
   },
   "foxter": {
    "nome": "Foxter Cia Imobiliária",
@@ -74,9 +74,14 @@
    "status": "ok",
    "novos": 0,
    "erro": null,
-   "metodo": "listagem",
-   "urls_coletadas": 0,
-   "urls_imovel": 0,
+   "metodo": "sitemap",
+   "urls_coletadas": 1019,
+   "urls_imovel": 742,
+   "exemplo_imovel": [
+    "https://www.veronezimoveis.com.br/imovel/14535/apartamento-2-dormitorios-sao-joao-porto-alegre",
+    "https://www.veronezimoveis.com.br/imovel/14574/apartamento-3-dormitorios-passo-da-areia-porto-alegre",
+    "https://www.veronezimoveis.com.br/imovel/14576/apartamento-1-dormitorio-petropolis-porto-alegre"
+   ],
    "removidos": 0
   },
   "jsimas": {
@@ -174,23 +179,28 @@
    "status": "ok",
    "novos": 0,
    "erro": null,
-   "metodo": "listagem",
-   "urls_coletadas": 0,
-   "urls_imovel": 0,
+   "metodo": "sitemap",
+   "urls_coletadas": 13750,
+   "urls_imovel": 9907,
+   "exemplo_imovel": [
+    "https://www.urban.imb.br/casas/porto-alegre/higienopolis/11-dormitorios",
+    "https://www.urban.imb.br/empreendimento/10261/hotel-v3rso-by-emiliano-boa-vista-porto-alegre",
+    "https://www.urban.imb.br/empreendimento/10356/condominio-canto-dos-passaros-gafisa-jardim-carvalho-porto-alegre"
+   ],
    "removidos": 0
   },
   "oneluxo": {
    "nome": "One Imóveis de Luxo",
    "status": "ok",
-   "novos": 0,
+   "novos": 1,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 118,
-   "urls_imovel": 15,
+   "urls_coletadas": 116,
+   "urls_imovel": 14,
    "exemplo_imovel": [
     "https://oneluxo.com.br/imovel/one13640-aluguel-apartamento-moinhos-de-vento-porto-alegre-rs-imoveis-residenciais/",
-    "https://oneluxo.com.br/imovel/one19784-venda-apartamento-santa-cecilia-porto-alegre-rs-imoveis-residenciais/",
-    "https://oneluxo.com.br/imovel/one23358-venda-cobertura-bela-vista-porto-alegre-rs-imoveis-residenciais/"
+    "https://oneluxo.com.br/imovel/one13717-aluguel-apartamento-auxiliadora-porto-alegre-rs-imoveis-residenciais/",
+    "https://oneluxo.com.br/imovel/one19784-venda-apartamento-santa-cecilia-porto-alegre-rs-imoveis-residenciais/"
    ],
    "removidos": 0
   },
@@ -236,8 +246,8 @@
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 6899,
-   "urls_imovel": 6864,
+   "urls_coletadas": 6895,
+   "urls_imovel": 6860,
    "exemplo_imovel": [
     "https://www.bridgeimoveis.com.br/imovel/10050/with-inviting-home-libel-petropolis-porto-alegre",
     "https://www.bridgeimoveis.com.br/imovel/10090/cobertura-3-dormitorios-auxiliadora-porto-alegre",
@@ -266,8 +276,8 @@
    "novos": 0,
    "erro": null,
    "metodo": "sitemap",
-   "urls_coletadas": 768,
-   "urls_imovel": 534,
+   "urls_coletadas": 782,
+   "urls_imovel": 546,
    "exemplo_imovel": [
     "https://www.condotta.com.br/imovel/andar-corporativo-canoas-100-m/AC0020-COUI",
     "https://www.condotta.com.br/imovel/andar-corporativo-canoas-337-m/AC0019-COUI",
@@ -303,7 +313,7 @@
     "https://www.terracini.com.br/imovel/apartamento-cachoeirinha-1-quarto-49-m/AP6092-TESI",
     "https://www.terracini.com.br/imovel/apartamento-cachoeirinha-2-quartos-43-m/AP2246-TESI"
    ],
-   "removidos": 0
+   "removidos": 1
   },
   "cpimoveis": {
    "nome": "CP Imóveis",
@@ -371,12 +381,12 @@
    "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 52,
-   "urls_imovel": 26,
+   "urls_coletadas": 51,
+   "urls_imovel": 25,
    "exemplo_imovel": [
-    "https://visualizeimoveis.com/empreendimento/30331",
-    "https://visualizeimoveis.com/empreendimento/30533",
-    "https://visualizeimoveis.com/empreendimento/37723"
+    "https://visualizeimoveis.com/empreendimento/48339",
+    "https://visualizeimoveis.com/empreendimento/49861",
+    "https://visualizeimoveis.com/empreendimento/56383"
    ],
    "removidos": 0
   },
@@ -425,18 +435,18 @@
    "urls_imovel": 18,
    "exemplo_imovel": [
     "https://www.luxtonimoveis.com.br/imovel/17635/apartamento-com-202m-no-bairro-bela-vista-em-porto-alegre_poa/venda/",
-    "https://www.luxtonimoveis.com.br/imovel/35583/apartamento-com-134m-no-bairro-chacara-das-pedras-em-porto-alegre_poa/venda/",
-    "https://www.luxtonimoveis.com.br/imovel/36830/cobertura-com-295m-no-bairro-bela-vista-em-porto-alegre_poa/venda/"
+    "https://www.luxtonimoveis.com.br/imovel/21019/pavilhao-com-715m-no-bairro-sao-joao-em-porto-alegre_poa/locacao/",
+    "https://www.luxtonimoveis.com.br/imovel/34511/apartamento-garden-com-232m-no-bairro-petropolis-em-porto-alegre_poa/venda/"
    ],
    "removidos": 0
   },
   "albert": {
    "nome": "Albert Imóveis",
    "status": "ok",
-   "novos": 1,
+   "novos": 0,
    "erro": null,
    "metodo": "listagem",
-   "urls_coletadas": 88,
+   "urls_coletadas": 86,
    "urls_imovel": 20,
    "exemplo_imovel": [
     "https://www.albertimoveis.com.br/empreendimento/21512/tree-haus-porsche-consulting/",
@@ -458,31 +468,31 @@
     "https://lyonimoveis.com.br/imovel/a-2-quadras-do-parcao/LF0009",
     "https://lyonimoveis.com.br/imovel/adagio/AP1460"
    ],
-   "removidos": 3
+   "removidos": 1
   }
  },
  "cruzamento": {
   "saneamento": {
-   "enderecos_sede_removidos": 2300,
+   "enderecos_sede_removidos": 2299,
    "fotos_logo_removidas": 0,
    "sedes_auto_detectadas": 2,
-   "coordenadas_invalidas_removidas": 174
+   "coordenadas_invalidas_removidas": 175
   },
-  "site_proprio_urls": 16822,
-  "site_proprio": 16822,
-  "portal_rgi_urls": 19071,
-  "portal_rgi": 19071,
-  "base_total": 35893,
-  "mudancas_status": 2,
+  "site_proprio_urls": 16821,
+  "site_proprio": 16821,
+  "portal_rgi_urls": 19067,
+  "portal_rgi": 19067,
+  "base_total": 35888,
+  "mudancas_status": 23,
   "localizacao": {
    "dicionario": 772,
-   "resolvidos_interno": 141,
+   "resolvidos_interno": 142,
    "resolvidos_osm": 2332,
-   "osm_consultas": 0
+   "osm_consultas": 4
   }
  },
  "alertas": {
-  "mensagens": 1,
-  "callmebot_enviadas": 1
+  "mensagens": 4,
+  "callmebot_enviadas": 4
  }
 }
