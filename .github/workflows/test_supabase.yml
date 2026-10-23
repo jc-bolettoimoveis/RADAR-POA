@@ -33,6 +33,14 @@ jobs:
                           sys.exit("FALHA: tabelas do Radar nao encontradas.")
                       print("SUCESSO: conexao estabelecida, banco identificado e quatro tabelas encontradas.")
           except Exception as e:
-              print("FALHA: conexao nao estabelecida. Verifique senha, host, porta e caracteres especiais.")
+              message=str(e).lower()
+              if "password authentication failed" in message:
+                  print("FALHA: autenticacao recusada. Confira usuario e senha.")
+              elif "could not translate host name" in message or "name or service not known" in message:
+                  print("FALHA: endereco do servidor invalido.")
+              elif "timeout" in message or "connection refused" in message:
+                  print("FALHA: servidor ou porta inacessivel.")
+              else:
+                  print("FALHA: URI ou conexao invalida. Verifique formato e credenciais.")
               sys.exit(1)
           PY
