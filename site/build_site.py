@@ -23,7 +23,18 @@ def load(p, d):
     fp = os.path.join(DATA, p)
     return json.load(open(fp, encoding="utf-8")) if os.path.exists(fp) else d
 
-listings = load("listings.json", [])
+def load_listings():
+    pasta = os.path.join(DATA, "listings")
+    if os.path.isdir(pasta):
+        partes = sorted(f for f in os.listdir(pasta) if f.startswith("parte-") and f.endswith(".json"))
+        if partes:
+            out = []
+            for f in partes:
+                out.extend(json.load(open(os.path.join(pasta, f), encoding="utf-8")))
+            return out
+    return load("listings.json", [])
+
+listings = load_listings()
 runlog = load("runlog.json", {"executado_em": None, "sites": {}})
 
 def _num(preco):
@@ -54,12 +65,25 @@ for l in listings:
         l["tipo_fam"] = FAM_DE.get(l["tipo_imovel"], "Outros")
 listings.sort(key=lambda l: (l.get("detectado_em") or ""), reverse=True)
 
+# O painel recebe os imóveis em vários arquivos (data-NNN.js) para nenhum passar de 100 MB.
+POR_ARQUIVO = 5000
 with open(os.path.join(DOCS, "data.js"), "w", encoding="utf-8") as f:
-    f.write("const LISTINGS = ")
-    json.dump(listings, f, ensure_ascii=False)
-    f.write(";\nconst RUNLOG = ")
+    f.write("const LISTINGS = [];\nconst RUNLOG = ")
     json.dump(runlog, f, ensure_ascii=False)
     f.write(";\nconst GERADO_EM = " + json.dumps(datetime.now(timezone.utc).strftime("%d/%m/%Y %H:%M UTC")) + ";")
+_partes_js = []
+for i in range(0, len(listings), POR_ARQUIVO):
+    nome = "data-%03d.js" % (i // POR_ARQUIVO)
+    _partes_js.append(nome)
+    with open(os.path.join(DOCS, nome), "w", encoding="utf-8") as f:
+        f.write("LISTINGS.push(...")
+        json.dump(listings[i:i + POR_ARQUIVO], f, ensure_ascii=False, separators=(",", ":"))
+        f.write(");")
+for _f in os.listdir(DOCS):
+    if re.fullmatch(r"data-\d{3}\.js", _f) and _f not in _partes_js:
+        os.remove(os.path.join(DOCS, _f))
+_v = datetime.now(timezone.utc).strftime("%Y%m%d%H%M")
+SCRIPTS_DADOS = "\n".join(f'<script src="{n}?v={_v}"></script>' for n in ["data.js"] + _partes_js)
 
 HTML = """<!DOCTYPE html>
 <html lang="pt-BR">
@@ -201,7 +225,7 @@ if(sessionStorage.getItem('gok')==='1'){document.addEventListener('DOMContentLoa
   <div class="empty" id="empty" style="display:none">Nenhum imóvel com esses filtros.<br>A primeira execução apenas registra o estoque (linha de base); os alertas começam na segunda.</div>
   <div class="health"><h2>Saúde do monitoramento (última execução)</h2><table id="health"></table></div>
 </div>
-<script src="data.js"></script>
+__SCRIPTS_DADOS__
 <script>
 const $=s=>document.querySelector(s);
 $('#gen').textContent='Atualizado: '+GERADO_EM;
@@ -331,13 +355,13 @@ function render(){
         ${specsDe(l)?`<div class="specs">${specsDe(l)}</div>`:''}
         ${l.tipo==='locacao'?`
           <div class="preco">${l.preco_locacao_fmt||l.preco||'—'} <small>/mês</small></div>
-          <div class="custos">${l.condominio_fmt?'Cond. '+l.condominio_fmt+' · ':''}${(l.preco_locacao&&l.condominio)?'<b style=\'color:#1c7c4e\'>Total R$ '+((l.preco_locacao+l.condominio).toLocaleString('pt-BR'))+'/mês</b>':''}${l.iptu_fmt?' · IPTU '+l.iptu_fmt:''}</div>`
+          <div class="custos">${l.condominio_fmt?'Cond. '+l.condominio_fmt+' · ':''}${(l.preco_locacao&&l.condominio)?'<b style="color:#1c7c4e">Total R$ '+((l.preco_locacao+l.condominio).toLocaleString('pt-BR'))+'/mês</b>':''}${l.iptu_fmt?' · IPTU '+l.iptu_fmt:''}</div>`
         :`
           <div class="preco">${l.preco||'—'}</div>
           ${custos?`<div class="custos">${custos}</div>`:''}`}
         ${l.caracteristicas&&l.caracteristicas.length?`<div class="carac">✦ ${l.caracteristicas.join(', ')}</div>`:''}
         ${l.empreendimento?`<div class="loc"><b>🏢 ${l.empreendimento}</b></div>`:''}
-        ${l.endereco?`<div class="loc">📍 ${l.endereco}${l.numero&&!/,\s*\d/.test(l.endereco)?', '+l.numero:''}${l.endereco_fonte?' <span title="localização deduzida pelo condomínio">🏢✓</span>':''}</div>`:''}
+        ${l.endereco?`<div class="loc">📍 ${l.endereco}${l.numero&&!/,\\s*\\d/.test(l.endereco)?', '+l.numero:''}${l.endereco_fonte?' <span title="localização deduzida pelo condomínio">🏢✓</span>':''}</div>`:''}
         <div class="loc-sec">${[l.bairro,l.cidade||'Porto Alegre'].filter(Boolean).join(' · ')}${l.latitude?` · <a href="https://www.google.com/maps?q=${l.latitude},${l.longitude}" target="_blank" rel="noopener">📍 ponto no mapa</a>`:''}</div>
         <div class="comp ${comp<40?'low':''}"><span>Ficha ${comp}%</span><div class="bar"><i style="width:${comp}%"></i></div>${l.codigo?`<span>ref ${l.codigo}</span>`:''}</div>
         <div class="src">${l.imobiliaria} · detectado ${l.detectado_em.split('-').reverse().join('/')} · no ar há ${Math.max(1,Math.round(daysAgo(l.detectado_em)))}d${l.status==='captado'&&l.match_fonte?` · na base: ${l.match_fonte==='portal_rgi'?'portal RGI':l.match_fonte}${l.match_ref?' (ref '+l.match_ref+')':''}`:''}</div>
@@ -374,7 +398,7 @@ render();
 </html>"""
 
 with open(os.path.join(DOCS, "index.html"), "w", encoding="utf-8") as f:
-    f.write(HTML.replace("__SENHA_HASH__", SENHA_HASH))
+    f.write(HTML.replace("__SENHA_HASH__", SENHA_HASH).replace("__SCRIPTS_DADOS__", SCRIPTS_DADOS))
 
 # ================= DASHBOARD ANALÍTICO =================
 from collections import Counter, defaultdict

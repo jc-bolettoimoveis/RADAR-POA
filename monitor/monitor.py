@@ -70,6 +70,36 @@ def save_json(path, obj):
     with open(path, "w", encoding="utf-8") as f:
         json.dump(obj, f, ensure_ascii=False, indent=1)
 
+# listings: guardado em partes (data/listings/parte-NNN.json) porque o GitHub
+# recusa arquivos acima de 100 MB. Lê o formato antigo (listings.json) se ainda existir.
+LISTINGS_DIR = os.path.join(DATA_DIR, "listings")
+LISTINGS_LEGADO = os.path.join(DATA_DIR, "listings.json")
+LISTINGS_POR_PARTE = 5000
+
+def load_listings():
+    if os.path.isdir(LISTINGS_DIR):
+        partes = sorted(f for f in os.listdir(LISTINGS_DIR) if f.startswith("parte-") and f.endswith(".json"))
+        if partes:
+            out = []
+            for f in partes:
+                out.extend(load_json(os.path.join(LISTINGS_DIR, f), []))
+            return out
+    return load_json(LISTINGS_LEGADO, [])
+
+def save_listings(listings):
+    os.makedirs(LISTINGS_DIR, exist_ok=True)
+    novos = set()
+    for i in range(0, max(len(listings), 1), LISTINGS_POR_PARTE):
+        nome = "parte-%03d.json" % (i // LISTINGS_POR_PARTE)
+        novos.add(nome)
+        with open(os.path.join(LISTINGS_DIR, nome), "w", encoding="utf-8") as f:
+            json.dump(listings[i:i + LISTINGS_POR_PARTE], f, ensure_ascii=False, separators=(",", ":"))
+    for f in os.listdir(LISTINGS_DIR):
+        if f.startswith("parte-") and f not in novos:
+            os.remove(os.path.join(LISTINGS_DIR, f))
+    if os.path.exists(LISTINGS_LEGADO):
+        os.remove(LISTINGS_LEGADO)
+
 def fetch(url, session, binary=False):
     r = session.get(url, headers=HEADERS, timeout=TIMEOUT)
     r.raise_for_status()
@@ -293,7 +323,7 @@ def main():
     somente_alvo = cfg.get("somente_bairros_alvo", True)
 
     known = load_json(os.path.join(DATA_DIR, "known_urls.json"), {})
-    listings = load_json(os.path.join(DATA_DIR, "listings.json"), [])
+    listings = load_listings()
     listing_urls = {l["url"] for l in listings}
     runlog = {"executado_em": now_iso(), "sites": {}}
     novos_da_execucao, removidos_agora, quedas_agora = [], [], []
@@ -451,7 +481,7 @@ def main():
         runlog["alertas"] = {"erro": str(e)[:200]}
 
     save_json(os.path.join(DATA_DIR, "known_urls.json"), known)
-    save_json(os.path.join(DATA_DIR, "listings.json"), listings)
+    save_listings(listings)
     save_json(os.path.join(DATA_DIR, "runlog.json"), runlog)
     try:
         import sheets_sync

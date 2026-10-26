@@ -25,7 +25,7 @@ def main():
     monitorar = cfg["monitorar"]
     somente_alvo = cfg.get("somente_bairros_alvo", True)
     known = m.load_json(os.path.join(m.DATA_DIR, "known_urls.json"), {})
-    listings = m.load_json(os.path.join(m.DATA_DIR, "listings.json"), [])
+    listings = m.load_listings()
     listing_urls = {l["url"] for l in listings}
     feito = m.load_json(os.path.join(m.DATA_DIR, "garimpo_feito.json"), {})
     falhas = m.load_json(os.path.join(m.DATA_DIR, "garimpo_falhas.json"), {})
@@ -126,7 +126,7 @@ def main():
     except Exception as e:
         print("Cruzamento falhou:", e)
 
-    m.save_json(os.path.join(m.DATA_DIR, "listings.json"), listings)
+    m.save_listings(listings)
     m.save_json(os.path.join(m.DATA_DIR, "garimpo_feito.json"), feito)
     m.save_json(os.path.join(m.DATA_DIR, "garimpo_falhas.json"), falhas)
 
