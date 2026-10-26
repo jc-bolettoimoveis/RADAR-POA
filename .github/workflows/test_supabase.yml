@@ -24,6 +24,26 @@ jobs:
           url=os.environ.get("DATABASE_URL")
           if not url:
               sys.exit("FALHA: secret SUPABASE_DATABASE_URL ausente ou vazio.")
+          from urllib.parse import urlsplit, unquote
+          try:
+              parsed=urlsplit(url.strip())
+              expected_user="postgres.wwvrrxeejnlbadbxehbi"
+              expected_host="aws-1-sa-east-1.pooler.supabase.com"
+              if parsed.username != expected_user:
+                  sys.exit("DIAGNOSTICO: usuario diferente do projeto radar-boletto-br.")
+              if parsed.hostname != expected_host or parsed.port != 5432 or parsed.path != "/postgres":
+                  sys.exit("DIAGNOSTICO: host, porta ou banco diferente da URI oficial.")
+              if parsed.password is None:
+                  sys.exit("DIAGNOSTICO: URI sem senha.")
+              if parsed.password.startswith("[") or parsed.password.endswith("]"):
+                  sys.exit("DIAGNOSTICO: senha com colchetes. Remova os colchetes no Secret.")
+              if parsed.password == "YOUR-PASSWORD":
+                  sys.exit("DIAGNOSTICO: marcador YOUR-PASSWORD nao substituido.")
+              if "@" in unquote(parsed.password) and "%40" not in parsed.password:
+                  sys.exit("DIAGNOSTICO: senha com arroba sem codificacao percent-encode.")
+              print("DIAGNOSTICO: estrutura da URI correta; testando autenticacao.")
+          except ValueError:
+              sys.exit("DIAGNOSTICO: URI malformada; confira caracteres especiais e porta.")
           try:
               with psycopg2.connect(url,connect_timeout=15,sslmode="require") as db:
                   with db.cursor() as cur:
