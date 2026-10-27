@@ -138,7 +138,21 @@ if(sessionStorage.getItem('gok')==='1'){document.addEventListener('DOMContentLoa
   <div class="empty" id="empty" style="display:none">Nenhum imóvel com esses filtros.<br>A primeira execução apenas registra o estoque (linha de base); os alertas começam na segunda.</div>
   <div class="health"><h2>Saúde do monitoramento (última execução)</h2><table id="health"></table></div>
 </div>
-<script src="data.js"></script>
+<script src="data.js?v=202610261714"></script>
+<script src="data-000.js?v=202610261714"></script>
+<script src="data-001.js?v=202610261714"></script>
+<script src="data-002.js?v=202610261714"></script>
+<script src="data-003.js?v=202610261714"></script>
+<script src="data-004.js?v=202610261714"></script>
+<script src="data-005.js?v=202610261714"></script>
+<script src="data-006.js?v=202610261714"></script>
+<script src="data-007.js?v=202610261714"></script>
+<script src="data-008.js?v=202610261714"></script>
+<script src="data-009.js?v=202610261714"></script>
+<script src="data-010.js?v=202610261714"></script>
+<script src="data-011.js?v=202610261714"></script>
+<script src="data-012.js?v=202610261714"></script>
+<script src="data-013.js?v=202610261714"></script>
 <script>
 const $=s=>document.querySelector(s);
 $('#gen').textContent='Atualizado: '+GERADO_EM;
@@ -268,7 +282,7 @@ function render(){
         ${specsDe(l)?`<div class="specs">${specsDe(l)}</div>`:''}
         ${l.tipo==='locacao'?`
           <div class="preco">${l.preco_locacao_fmt||l.preco||'—'} <small>/mês</small></div>
-          <div class="custos">${l.condominio_fmt?'Cond. '+l.condominio_fmt+' · ':''}${(l.preco_locacao&&l.condominio)?'<b style='color:#1c7c4e'>Total R$ '+((l.preco_locacao+l.condominio).toLocaleString('pt-BR'))+'/mês</b>':''}${l.iptu_fmt?' · IPTU '+l.iptu_fmt:''}</div>`
+          <div class="custos">${l.condominio_fmt?'Cond. '+l.condominio_fmt+' · ':''}${(l.preco_locacao&&l.condominio)?'<b style="color:#1c7c4e">Total R$ '+((l.preco_locacao+l.condominio).toLocaleString('pt-BR'))+'/mês</b>':''}${l.iptu_fmt?' · IPTU '+l.iptu_fmt:''}</div>`
         :`
           <div class="preco">${l.preco||'—'}</div>
           ${custos?`<div class="custos">${custos}</div>`:''}`}
