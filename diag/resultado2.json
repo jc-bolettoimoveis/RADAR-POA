@@ -1,0 +1,610 @@
+{
+ "auxiliadora": {
+  "total_subs": 480,
+  "poa": [
+   "https://www.auxiliadorapredial.com.br/images/cms/sitemaps/venda-ac+porto-alegre.xml",
+   "https://www.auxiliadorapredial.com.br/images/cms/sitemaps/venda-rs+porto-alegre-part-1.xml",
+   "https://www.auxiliadorapredial.com.br/images/cms/sitemaps/venda-rs+porto-alegre-part-2.xml",
+   "https://www.auxiliadorapredial.com.br/images/cms/sitemaps/venda-rs+porto-alegre-part-3.xml",
+   "https://www.auxiliadorapredial.com.br/images/cms/sitemaps/venda-rs+porto-alegre-part-4.xml",
+   "https://www.auxiliadorapredial.com.br/images/cms/sitemaps/aluguel-rs+porto-alegre.xml"
+  ],
+  "tipos": [
+   "aluguel-",
+   "aluguel-mt",
+   "aluguel-pr",
+   "aluguel-rs",
+   "aluguel-sc",
+   "aluguel-sp",
+   "regioes-aluguel.xml",
+   "regioes-venda.xml",
+   "sitemap-agencias-0.xml",
+   "sitemap-static.xml",
+   "venda-",
+   "venda-ac",
+   "venda-ba",
+   "venda-go",
+   "venda-mg",
+   "venda-mt",
+   "venda-pe",
+   "venda-pr",
+   "venda-rj",
+   "venda-ro",
+   "venda-rs",
+   "venda-sc",
+   "venda-sp"
+  ],
+  "por_sub": {
+   "venda-ac+porto-alegre.xml": {
+    "status": 200,
+    "locs": 1,
+    "ex": [
+     "https://www.auxiliadorapredial.com.br/imovel/venda/780599"
+    ]
+   },
+   "venda-rs+porto-alegre-part-1.xml": {
+    "status": 200,
+    "locs": 10000,
+    "ex": [
+     "https://www.auxiliadorapredial.com.br/imovel/venda/100167",
+     "https://www.auxiliadorapredial.com.br/imovel/venda/100171"
+    ]
+   },
+   "venda-rs+porto-alegre-part-2.xml": {
+    "status": 200,
+    "locs": 10000,
+    "ex": [
+     "https://www.auxiliadorapredial.com.br/imovel/venda/361052",
+     "https://www.auxiliadorapredial.com.br/imovel/venda/361053"
+    ]
+   },
+   "venda-rs+porto-alegre-part-3.xml": {
+    "status": 200,
+    "locs": 10000,
+    "ex": [
+     "https://www.auxiliadorapredial.com.br/imovel/venda/653069",
+     "https://www.auxiliadorapredial.com.br/imovel/venda/653085"
+    ]
+   },
+   "venda-rs+porto-alegre-part-4.xml": {
+    "status": 200,
+    "locs": 7444,
+    "ex": [
+     "https://www.auxiliadorapredial.com.br/imovel/venda/790750",
+     "https://www.auxiliadorapredial.com.br/imovel/venda/790753"
+    ]
+   },
+   "aluguel-rs+porto-alegre.xml": {
+    "status": 200,
+    "locs": 5418,
+    "ex": [
+     "https://www.auxiliadorapredial.com.br/imovel/aluguel/106275",
+     "https://www.auxiliadorapredial.com.br/imovel/aluguel/152000"
+    ]
+   }
+  },
+  "total_poa": 42863,
+  "props_poa": 42863,
+  "nao_props_ex": [],
+  "ficha_sem_render": [
+   {
+    "url": "https://www.auxiliadorapredial.com.br/imovel/aluguel/106275",
+    "status": 200,
+    "len": 212680,
+    "info": {
+     "titulo": "Apartamento com 1 quarto e 66m² para alugar em Três Figueiras, Porto Alegre.",
+     "preco": "R$ 6.780",
+     "bairro": "Auxiliadora",
+     "dorms": null,
+     "area": null,
+     "endereco": null
+    }
+   },
+   {
+    "url": "https://www.auxiliadorapredial.com.br/imovel/aluguel/152000",
+    "status": 200,
+    "len": 230604,
+    "info": {
+     "titulo": "Cobertura com 3 quartos e 398m² para alugar em Bela Vista, Porto Alegre.",
+     "preco": "R$ 9.500",
+     "bairro": "Bela Vista",
+     "dorms": null,
+     "area": null,
+     "endereco": null
+    }
+   }
+  ]
+ },
+ "cpimoveis": {
+  "testes": [
+   {
+    "var": "dupla_barra",
+    "hdr": "padrao",
+    "status": 200,
+    "len": 0,
+    "titulo": null
+   },
+   {
+    "var": "dupla_barra",
+    "hdr": "navegador",
+    "status": 200,
+    "len": 0,
+    "titulo": null
+   },
+   {
+    "var": "barra_simples",
+    "hdr": "padrao",
+    "status": 200,
+    "len": 0,
+    "titulo": null
+   },
+   {
+    "var": "barra_simples",
+    "hdr": "navegador",
+    "status": 200,
+    "len": 0,
+    "titulo": null
+   },
+   {
+    "render_len": 176181,
+    "titulo": "Busca - CP Imóveis: Imobiliária na Zona Norte de Porto Alegre",
+    "extr": {
+     "preco_venda_fmt": "R$ 200.000",
+     "dorms": 2,
+     "area": 20.0,
+     "endereco": "Praça Libanesa, 100",
+     "bairro": null
+    }
+   },
+   {
+    "var": "dupla_barra",
+    "hdr": "padrao",
+    "status": 200,
+    "len": 0,
+    "titulo": null
+   },
+   {
+    "var": "dupla_barra",
+    "hdr": "navegador",
+    "status": 200,
+    "len": 0,
+    "titulo": null
+   },
+   {
+    "var": "barra_simples",
+    "hdr": "padrao",
+    "status": 200,
+    "len": 0,
+    "titulo": null
+   },
+   {
+    "var": "barra_simples",
+    "hdr": "navegador",
+    "status": 200,
+    "len": 0,
+    "titulo": null
+   },
+   {
+    "render_len": 176112,
+    "titulo": "Busca - CP Imóveis: Imobiliária na Zona Norte de Porto Alegre",
+    "extr": {
+     "preco_venda_fmt": "R$ 200.000",
+     "dorms": 2,
+     "area": 20.0,
+     "endereco": "Praça Libanesa, 100",
+     "bairro": null
+    }
+   },
+   {
+    "home_status": 200,
+    "home_len": 123811
+   }
+  ]
+ },
+ "rial_portolar": {
+  "r": [
+   {
+    "url": "https://rial.com.br/detalhes_loc.php?imovel=2303&Google=Apartamento+HIGIENOPOLIS+",
+    "len": 20262,
+    "titulo": "",
+    "extr": {
+     "preco_venda_fmt": null,
+     "dorms": null,
+     "area": null,
+     "endereco": "Av Assis Brasil, 3259"
+    },
+    "iframes": [],
+    "texto": " Utilizamos cookies essenciais e tecnologias semelhantes de acordo com a nossa Política de Privacidade e, ao continuar navegando, você concorda com estas condições. OK MENU LOCAÇÕES ► Imóveis Cadastre seu imóvel Documentação Desocupação Débito em conta Manutenção e reparos Boleto de Locação Proprietário On-Line VENDAS ► Imóveis Cadastre seu imóvel Autorização de venda CONDOMÍNIOS ► Solicite proposta Manutenção e reparos Débito em conta Lei do Condomínio Boleto de Condomínio Condomínio On-Line SO"
+   },
+   {
+    "url": "https://portolar.com.br/detalhes_vd.php?imovel=1095&Google=Rio%20Branco%20+Apartamento",
+    "len": 12419,
+    "titulo": "",
+    "extr": {
+     "preco_venda_fmt": null,
+     "dorms": null,
+     "area": null,
+     "endereco": null
+    },
+    "iframes": [],
+    "texto": " Utilizamos cookies essenciais e tecnologias semelhantes de acordo com a nossa Política de Privacidade e, ao continuar navegando, você concorda com estas condições. OK, entendi! . Doc de Locação Doc de Condomínio Aluguéis Imóveis Modalidades para alugar Fichas cadastrais 2ª via de boleto Demonstrativo proprietário Adm. de aluguéis Anuncie seu imóvel Imóvel sob encomenda Desocupação de imóvel Vendas Imóveis Nossos serviços Imóvel sob encomenda Autorização de venda Anuncie seu imóvel Condomínios A"
+   }
+  ]
+ },
+ "dacas": {
+  "titulo": "Página não encontrada (Erro 404)",
+  "final": "https://www.dacas.com.br/",
+  "links": [],
+  "robots": "# Content-Signal declara a preferencia de uso do conteudo deste site:\n# search=yes permite indexar e linkar em resultados de busca;\n# ai-input=yes permite usar o conteudo como fonte em respostas geradas por IA;\n# ai-train=yes permite usar o conteudo para treinar ou fazer fine-tuning de modelos de IA"
+ },
+ "paginacao": {
+  "noblesse": [
+   [
+    0,
+    200,
+    12,
+    12
+   ],
+   [
+    1,
+    200,
+    12,
+    0
+   ],
+   [
+    2,
+    200,
+    12,
+    12
+   ],
+   [
+    3,
+    200,
+    12,
+    12
+   ],
+   [
+    30,
+    200,
+    12,
+    12
+   ],
+   [
+    60,
+    200,
+    12,
+    12
+   ],
+   [
+    63,
+    200,
+    12,
+    12
+   ],
+   [
+    64,
+    200,
+    6,
+    6
+   ],
+   [
+    65,
+    200,
+    0,
+    0
+   ],
+   [
+    72,
+    200,
+    0,
+    0
+   ],
+   [
+    73,
+    200,
+    0,
+    0
+   ],
+   [
+    107,
+    200,
+    0,
+    0
+   ],
+   [
+    108,
+    200,
+    0,
+    0
+   ],
+   [
+    120,
+    200,
+    0,
+    0
+   ],
+   [
+    200,
+    200,
+    0,
+    0
+   ]
+  ],
+  "garcia": [
+   [
+    0,
+    404,
+    0,
+    0
+   ],
+   [
+    1,
+    200,
+    13,
+    13
+   ],
+   [
+    2,
+    200,
+    13,
+    12
+   ],
+   [
+    3,
+    200,
+    13,
+    12
+   ],
+   [
+    30,
+    200,
+    13,
+    12
+   ],
+   [
+    60,
+    200,
+    13,
+    12
+   ],
+   [
+    63,
+    200,
+    13,
+    12
+   ],
+   [
+    64,
+    200,
+    13,
+    12
+   ],
+   [
+    65,
+    200,
+    13,
+    12
+   ],
+   [
+    72,
+    200,
+    13,
+    12
+   ],
+   [
+    73,
+    200,
+    4,
+    3
+   ],
+   [
+    107,
+    200,
+    1,
+    0
+   ],
+   [
+    108,
+    200,
+    1,
+    0
+   ],
+   [
+    120,
+    200,
+    1,
+    0
+   ],
+   [
+    200,
+    200,
+    1,
+    0
+   ]
+  ],
+  "luxton": [
+   [
+    0,
+    200,
+    12,
+    12
+   ],
+   [
+    1,
+    200,
+    12,
+    0
+   ],
+   [
+    2,
+    200,
+    12,
+    12
+   ],
+   [
+    3,
+    200,
+    12,
+    12
+   ],
+   [
+    30,
+    200,
+    12,
+    12
+   ],
+   [
+    60,
+    200,
+    12,
+    12
+   ],
+   [
+    63,
+    200,
+    12,
+    12
+   ],
+   [
+    64,
+    200,
+    12,
+    12
+   ],
+   [
+    65,
+    200,
+    12,
+    12
+   ],
+   [
+    72,
+    200,
+    12,
+    12
+   ],
+   [
+    73,
+    200,
+    12,
+    12
+   ],
+   [
+    107,
+    200,
+    7,
+    7
+   ],
+   [
+    108,
+    200,
+    0,
+    0
+   ],
+   [
+    120,
+    200,
+    0,
+    0
+   ],
+   [
+    200,
+    200,
+    0,
+    0
+   ]
+  ],
+  "multiimob": [
+   [
+    0,
+    200,
+    12,
+    12
+   ],
+   [
+    1,
+    200,
+    12,
+    0
+   ],
+   [
+    2,
+    200,
+    12,
+    2
+   ],
+   [
+    3,
+    200,
+    12,
+    1
+   ],
+   [
+    30,
+    200,
+    12,
+    12
+   ],
+   [
+    60,
+    200,
+    12,
+    12
+   ],
+   [
+    63,
+    200,
+    12,
+    3
+   ],
+   [
+    64,
+    200,
+    12,
+    1
+   ],
+   [
+    65,
+    200,
+    12,
+    1
+   ],
+   [
+    72,
+    200,
+    12,
+    7
+   ],
+   [
+    73,
+    200,
+    12,
+    1
+   ],
+   [
+    107,
+    200,
+    12,
+    12
+   ],
+   [
+    108,
+    200,
+    12,
+    1
+   ],
+   [
+    120,
+    200,
+    12,
+    12
+   ],
+   [
+    200,
+    200,
+    12,
+    12
+   ]
+  ]
+ }
+}
