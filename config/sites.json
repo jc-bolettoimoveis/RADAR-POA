@@ -80,23 +80,16 @@
       "nome": "Auxiliadora Predial",
       "base": "https://www.auxiliadorapredial.com.br",
       "enabled": true,
-      "listing_paths": [
-        "/comprar/residencial/rs+porto-alegre+boa-vista",
-        "/comprar/residencial/rs+porto-alegre+bela-vista",
-        "/comprar/residencial/rs+porto-alegre+auxiliadora",
-        "/comprar/residencial/rs+porto-alegre+tres-figueiras",
-        "/comprar/residencial/rs+porto-alegre+chacara-das-pedras",
-        "/comprar/residencial/rs+porto-alegre+jardim-europa",
-        "/comprar/residencial/rs+porto-alegre+passo-da-areia",
-        "/comprar/residencial/rs+porto-alegre+mont-serrat",
-        "/comprar/residencial/rs+porto-alegre+moinhos-de-vento",
-        "/comprar/residencial/rs+porto-alegre+rio-branco",
-        "/comprar/residencial/rs+porto-alegre+independencia",
-        "/comprar/residencial/rs+porto-alegre+higienopolis",
-        "/comprar/residencial/rs+porto-alegre+petropolis"
+      "obs": "Lê o sitemap oficial (todo o estoque de Porto Alegre, venda e aluguel). Fichas abrem sem navegador. Cota própria no garimpo.",
+      "sitemaps": [
+        "https://www.auxiliadorapredial.com.br/images/cms/sitemaps/sitemap-ap.xml"
       ],
-      "render": true,
-      "obs": "Listagens em JavaScript — coletado via navegador headless."
+      "sitemap_filtro": "rs\\+porto-alegre",
+      "max_urls": 60000,
+      "url_pattern": "/imovel/(venda|aluguel)/\\d+",
+      "url_canonica": "(/imovel/(?:venda|aluguel)/\\d+)",
+      "garimpo_cota": 1500,
+      "garimpo_delay": 0.4
     },
     {
       "id": "guarida",
@@ -116,7 +109,8 @@
         "/vendas/porto-alegre-rs?pagina=3"
       ],
       "obs": "Site JavaScript — coletado via navegador headless (Playwright).",
-      "render": true
+      "render": true,
+      "coleta_parcial": true
     },
     {
       "id": "foxter",
@@ -154,7 +148,19 @@
         "/busca/comprar/cidade/porto-alegre/3/",
         "/busca/alugar/cidade/porto-alegre/1/"
       ],
-      "obs": "Alto padrão (Três Figueiras). Plataforma Vista/Tecimob — costuma dar endereço."
+      "obs": "Alto padrão (Três Figueiras). Plataforma Vista/Tecimob — costuma dar endereço.",
+      "paginacao": [
+        {
+          "url": "/busca/comprar/cidade/porto-alegre/{n}/",
+          "de": 1,
+          "ate": 90
+        },
+        {
+          "url": "/busca/alugar/cidade/porto-alegre/{n}/",
+          "de": 1,
+          "ate": 60
+        }
+      ]
     },
     {
       "id": "veronez",
@@ -253,7 +259,8 @@
       "nome": "Rial Imóveis",
       "base": "https://www.rial.com.br",
       "enabled": true,
-      "url_pattern": "detalhes_(vd|loc)\\.php\\?.*imovel=\\d+"
+      "url_pattern": "detalhes_(vd|loc)\\.php\\?.*imovel=\\d+",
+      "aceitar_sem_ficha": true
     },
     {
       "id": "urban",
@@ -302,7 +309,19 @@
         "/busca/alugar/cidade/porto-alegre/2/"
       ],
       "paginas_extra": 30,
-      "captura_total": true
+      "captura_total": true,
+      "paginacao": [
+        {
+          "url": "/busca/comprar/cidade/Porto Alegre/{n}/",
+          "de": 0,
+          "ate": 15
+        },
+        {
+          "url": "/busca/alugar/cidade/Porto Alegre/{n}/",
+          "de": 0,
+          "ate": 10
+        }
+      ]
     },
     {
       "id": "bridge",
@@ -346,14 +365,16 @@
       "nome": "CP Imóveis",
       "base": "https://www.cpimoveis.com.br",
       "enabled": true,
-      "url_pattern": "/imovel/"
+      "url_pattern": "/imovel/",
+      "aceitar_sem_ficha": true
     },
     {
       "id": "portolar",
       "nome": "Portolar Imóveis",
       "base": "https://portolar.com.br",
       "enabled": true,
-      "url_pattern": "detalhes_(vd|loc)\\.php\\?.*imovel=\\d+"
+      "url_pattern": "detalhes_(vd|loc)\\.php\\?.*imovel=\\d+",
+      "aceitar_sem_ficha": true
     },
     {
       "id": "garcia",
@@ -365,7 +386,19 @@
         "/busca/comprar/cidade/porto-alegre/2/",
         "/busca/alugar/cidade/porto-alegre/1/"
       ],
-      "ignorar_sitemap": true
+      "ignorar_sitemap": true,
+      "paginacao": [
+        {
+          "url": "/busca/comprar/cidade/porto-alegre/{n}/",
+          "de": 1,
+          "ate": 100
+        },
+        {
+          "url": "/busca/alugar/cidade/porto-alegre/{n}/",
+          "de": 1,
+          "ate": 60
+        }
+      ]
     },
     {
       "id": "silveira",
@@ -441,7 +474,7 @@
       "id": "dacas",
       "nome": "Da Cás Imóveis",
       "base": "https://www.dacas.com.br",
-      "enabled": true,
+      "enabled": false,
       "listing_paths": [
         "/",
         "/imoveis",
@@ -449,7 +482,7 @@
       ],
       "render": true,
       "ignorar_sitemap": true,
-      "obs": "Site JavaScript/institucional — coletado via navegador headless."
+      "obs": "Site fora do ar (página inicial retorna 404) em 28/10/2026."
     },
     {
       "id": "housin",
@@ -467,7 +500,19 @@
         "/busca/comprar/cidade/porto-alegre/1/",
         "/busca/comprar/cidade/porto-alegre/2/"
       ],
-      "paginas_extra": 15
+      "paginas_extra": 15,
+      "paginacao": [
+        {
+          "url": "/busca/comprar/site/poa/cidade/porto-alegre/{n}/",
+          "de": 1,
+          "ate": 140
+        },
+        {
+          "url": "/busca/alugar/site/poa/cidade/porto-alegre/{n}/",
+          "de": 1,
+          "ate": 80
+        }
+      ]
     },
     {
       "id": "albert",

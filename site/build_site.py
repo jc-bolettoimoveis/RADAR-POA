@@ -491,6 +491,35 @@ S["imobiliarias"] = [{
     "vigiados": len(known.get(next((s for s,n in sid2nome.items() if n==k), ""), [])),
 } for k, v in sorted(imobs.items(), key=lambda kv: -kv[1]["ops"])]
 
+# saúde da coleta por imobiliária (para o raio-x apontar quem está com problema)
+_feito = load("garimpo_feito.json", {})
+_urls_listings = {l["url"] for l in listings}
+_nome2id = {s["nome"]: s["id"] for s in _sites_cfg.get("sites", [])}
+_ja = {i["nome"] for i in S["imobiliarias"]}
+for _s in _sites_cfg.get("sites", []):
+    if _s.get("enabled") and _s["nome"] not in _ja:
+        S["imobiliarias"].append({"nome": _s["nome"], "site_url": _s.get("base"), "ops": 0, "livres": 0,
+                                  "pct_end": 0, "comp_media": 0, "dias_medio": 0,
+                                  "vigiados": len(known.get(_s["id"], []))})
+for i in S["imobiliarias"]:
+    sid = _nome2id.get(i["nome"])
+    rl = runlog.get("sites", {}).get(sid, {})
+    feitos = set(_feito.get(sid, []))
+    i["lidos_ultima"] = rl.get("urls_imovel")
+    i["fila"] = sum(1 for u in known.get(sid, []) if u not in _urls_listings and u not in feitos)
+    if rl.get("status") == "erro" or rl.get("render_erro"):
+        i["saude"] = "❌ erro na coleta"
+    elif sid and rl and not rl.get("urls_imovel"):
+        i["saude"] = "⚠️ coleta zerada"
+    elif i["fila"] > 500:
+        i["saude"] = "⏳ fila de leitura"
+    elif sid and not next((x for x in _sites_cfg.get("sites", []) if x["id"] == sid), {}).get("enabled"):
+        i["saude"] = "⏸ desativada"
+    elif sid and not rl:
+        i["saude"] = "⏸ fora da última execução"
+    else:
+        i["saude"] = "✅ ok"
+
 with open(os.path.join(DOCS, "dash_data.js"), "w", encoding="utf-8") as f:
     f.write("const STATS = "); json.dump(S, f, ensure_ascii=False)
     f.write(";\nconst DGERADO = " + json.dumps(datetime.now(timezone.utc).strftime("%d/%m/%Y %H:%M UTC")) + ";")
@@ -594,8 +623,8 @@ new Chart(document.getElementById('cTipo'),{type:'doughnut',data:{labels:Object.
 new Chart(document.getElementById('cTime'),{type:'line',data:{labels:STATS.timeline.labels,
  datasets:[{data:STATS.timeline.valores,borderColor:AZ,backgroundColor:'rgba(15,76,129,.12)',fill:true,tension:.3}]},
  options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
-document.getElementById('tImob').innerHTML='<tr><th>Imobiliária</th><th>Estoque vigiado</th><th>Oportunidades</th><th>🟢 Livres</th><th>% endereço localizável</th><th>Ficha média</th><th>Tempo médio no ar</th></tr>'+
- STATS.imobiliarias.map(i=>`<tr><td>${i.site_url?`<a href="${i.site_url}" target="_blank" rel="noopener" style="color:var(--acc);font-weight:600">${i.nome} ↗</a>`:i.nome}</td><td>${i.vigiados.toLocaleString('pt-BR')}</td><td>${i.ops}</td><td>${i.livres}</td><td>${i.pct_end}%</td><td>${i.comp_media}%</td><td>${i.dias_medio}d</td></tr>`).join('');
+document.getElementById('tImob').innerHTML='<tr><th>Imobiliária</th><th>Estoque vigiado</th><th>Oportunidades</th><th>🟢 Livres</th><th>% endereço localizável</th><th>Ficha média</th><th>Tempo médio no ar</th><th>Lidos na última execução</th><th>Fila de leitura</th><th>Situação</th></tr>'+
+ STATS.imobiliarias.map(i=>`<tr><td>${i.site_url?`<a href="${i.site_url}" target="_blank" rel="noopener" style="color:var(--acc);font-weight:600">${i.nome} ↗</a>`:i.nome}</td><td>${i.vigiados.toLocaleString('pt-BR')}</td><td>${i.ops}</td><td>${i.livres}</td><td>${i.pct_end}%</td><td>${i.comp_media}%</td><td>${i.dias_medio}d</td><td>${i.lidos_ultima==null?'—':i.lidos_ultima.toLocaleString('pt-BR')}</td><td>${(i.fila||0).toLocaleString('pt-BR')}</td><td>${i.saude||''}</td></tr>`).join('');
 </script>
 </body>
 </html>"""
