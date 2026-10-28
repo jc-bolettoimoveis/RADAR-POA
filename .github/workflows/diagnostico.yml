@@ -24,6 +24,6 @@ jobs:
         run: |
           git config user.name "radar-bot"
           git config user.email "radar-bot@users.noreply.github.com"
-          git add diag/resultado.json
+          git add diag/
           git commit -m "diag: resultado [skip ci]" || true
           git push

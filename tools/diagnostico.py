@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Sondagem temporária dos sites com captação baixa. Grava diag/resultado.json."""
+"""Sondagem temporária (rodada 2). Grava diag/resultado2.json."""
 import json, os, re, sys, time, traceback
 from urllib.parse import urljoin, urlparse
 import requests
@@ -15,143 +15,114 @@ SITES = {s["id"]: s for s in cfg["sites"]}
 OUT = {}
 S = requests.Session()
 
-def props_de(urls, sid):
+def get(url, headers=None):
+    try:
+        r = S.get(url, headers=headers or m.HEADERS, timeout=25)
+        return r.status_code, r.text
+    except Exception as e:
+        return str(e)[:150], ""
+
+def props(urls, sid):
     return sorted({u for u in urls if m.is_property_url(u, SITES[sid])})
 
-def get(url, **kw):
-    t = time.time()
-    try:
-        r = S.get(url, headers=m.HEADERS, timeout=25, allow_redirects=True, **kw)
-        txt = r.text
-        return {"status": r.status_code, "final": r.url, "len": len(txt),
-                "titulo": (re.search(r"<title[^>]*>([^<]{0,120})", txt, re.I) or [None, None])[1],
-                "seg": round(time.time() - t, 1)}, txt
-    except Exception as e:
-        return {"erro": str(e)[:200], "seg": round(time.time() - t, 1)}, ""
-
-def links(html, base):
-    out = set()
-    for h in re.findall(r'href=["\']([^"\'#]+)', html):
-        f = urljoin(base, h)
-        if urlparse(f).netloc == urlparse(base).netloc:
-            out.add(f)
-    return out
-
 def bloco(nome, fn):
-    t = time.time()
     try:
         OUT[nome] = fn()
     except Exception:
-        OUT[nome] = {"excecao": traceback.format_exc()[-600:]}
-    OUT[nome] = OUT[nome] if isinstance(OUT[nome], dict) else {"v": OUT[nome]}
-    OUT[nome]["_seg"] = round(time.time() - t, 1)
-    json.dump(OUT, open(os.path.join(ROOT, "diag", "resultado.json"), "w", encoding="utf-8"),
+        OUT[nome] = {"excecao": traceback.format_exc()[-800:]}
+    json.dump(OUT, open(os.path.join(ROOT, "diag", "resultado2.json"), "w", encoding="utf-8"),
               ensure_ascii=False, indent=1)
     print("ok", nome, flush=True)
 
-os.makedirs(os.path.join(ROOT, "diag"), exist_ok=True)
-
-# 1) Auxiliadora: sitemap, paginação e chamadas de API
 def aux():
-    base = "https://www.auxiliadorapredial.com.br"
-    r = {}
-    rb, txt = get(base + "/robots.txt"); r["robots"] = txt[:800]
-    for sm in m.discover_sitemaps(base, S)[:6]:
-        info, t = get(sm)
+    st, idx = get("https://www.auxiliadorapredial.com.br/images/cms/sitemaps/sitemap-ap.xml")
+    subs = re.findall(r"<loc>\s*([^<\s]+)", idx)
+    poa = [u for u in subs if "porto-alegre" in u]
+    r = {"total_subs": len(subs), "poa": poa, "tipos": sorted({u.split("/")[-1].split("+")[0] for u in subs})}
+    tot = set()
+    for u in poa:
+        st, t = get(u)
         locs = re.findall(r"<loc>\s*([^<\s]+)", t)
-        r.setdefault("sitemaps", {})[sm] = {**info, "locs": len(locs), "ex": locs[:5],
-                                            "imovel": sum(1 for u in locs if "/imovel/" in u)}
-    pg = render_js._pagina()
-    api = []
-    def on_resp(resp):
-        try:
-            ct = resp.headers.get("content-type", "")
-            if "json" in ct and len(api) < 40:
-                api.append({"url": resp.url[:300], "status": resp.status, "metodo": resp.request.method,
-                            "post": (resp.request.post_data or "")[:400]})
-        except Exception:
-            pass
-    pg.on("response", on_resp)
-    url = base + "/comprar/residencial/rs+porto-alegre+petropolis"
-    pg.goto(url, timeout=45000, wait_until="domcontentloaded")
-    pg.wait_for_timeout(7000)
-    antes = len(props_de(pg.eval_on_selector_all("a[href]", "e=>e.map(x=>x.href)"), "auxiliadora"))
-    for _ in range(12):
-        pg.mouse.wheel(0, 5000); pg.wait_for_timeout(1300)
-    depois = len(props_de(pg.eval_on_selector_all("a[href]", "e=>e.map(x=>x.href)"), "auxiliadora"))
-    body = pg.inner_text("body")
-    r["petropolis"] = {"props_antes_rolar": antes, "props_depois_rolar": depois,
-                       "total_texto": re.findall(r"[\d\.]+\s+(?:im[oó]veis|resultados|encontrad)", body, re.I)[:5],
-                       "botoes": [b for b in pg.eval_on_selector_all("button, a", "e=>e.map(x=>(x.innerText||'').trim())")
-                                  if re.search(r"mais|pr[oó]xim|carregar|ver mais|^\d+$|›|»", b, re.I)][:30],
-                       "links_pag": sorted({h for h in pg.eval_on_selector_all("a[href]", "e=>e.map(x=>x.href)")
-                                            if re.search(r"pag|page", h, re.I)})[:15]}
-    for q in ["?pagina=2", "?page=2", "/2", "?p=2"]:
-        pg.goto(url + q, timeout=45000, wait_until="domcontentloaded"); pg.wait_for_timeout(6000)
-        ps = props_de(pg.eval_on_selector_all("a[href]", "e=>e.map(x=>x.href)"), "auxiliadora")
-        r.setdefault("tentativas_pag", {})[q] = {"props": len(ps), "ex": ps[:3]}
-    r["api"] = api
-    pg.remove_listener("response", on_resp)
+        tot.update(locs)
+        r.setdefault("por_sub", {})[u.split("/")[-1]] = {"status": st, "locs": len(locs), "ex": locs[:2]}
+        time.sleep(0.3)
+    r["total_poa"] = len(tot)
+    r["props_poa"] = len(props(tot, "auxiliadora"))
+    r["nao_props_ex"] = [u for u in sorted(tot) if not m.is_property_url(u, SITES["auxiliadora"])][:10]
+    # ficha sem navegador: dá para ler?
+    ex = props(tot, "auxiliadora")[:2]
+    for u in ex:
+        st, html = get(u)
+        info, _ = m.enrich(u, S, cfg["bairros_alvo"])
+        r.setdefault("ficha_sem_render", []).append({"url": u, "status": st, "len": len(html),
+            "info": {k: info.get(k) for k in ("titulo", "preco", "bairro", "dorms", "area", "endereco")}})
     return r
 bloco("auxiliadora", aux)
 
-# 2) Sites JS que zeravam por causa do bug
-def js_sites():
-    r = {}
-    for sid in ["creditoreal", "colnaghi", "private", "dacas"]:
-        s = dict(SITES[sid]); s["listing_paths"] = s.get("listing_paths", ["/"])[:3]
-        log = {}
-        urls = render_js.coletar(s, log)
-        ps = props_de(urls, sid)
-        r[sid] = {"urls": len(urls), "props": len(ps), "ex_props": ps[:4], "log": log,
-                  "ex_outros": sorted(u for u in urls if u not in ps)[:12]}
-    return r
-bloco("sites_js", js_sites)
-
-# 3) Fichas que falham na leitura
-def fichas():
+def cp():
     fal = json.load(open(os.path.join(ROOT, "data", "garimpo_falhas.json"), encoding="utf-8"))
-    r = {}
-    for dom in ["cpimoveis", "rial.com", "portolar", "guarida", "urban.imb", "novolar"]:
-        us = [u for u in fal if dom in u][:3]
-        r[dom] = []
-        for u in us:
-            info, html = get(u)
-            enr, _ = m.enrich(u, S, cfg["bairros_alvo"])
-            r[dom].append({"url": u, **info,
-                           "enrich": {k: enr.get(k) for k in ("titulo", "preco", "bairro", "dorms", "endereco")},
-                           "trecho": re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html))[:300]})
-            time.sleep(1)
-    return r
-bloco("fichas", fichas)
+    us = [u for u in fal if "cpimoveis" in u][:2]
+    r = []
+    for u in us:
+        variantes = {"dupla_barra": u, "barra_simples": re.sub(r"(?<!:)//+", "/", u)}
+        for nome, uu in variantes.items():
+            for hn, h in {"padrao": m.HEADERS,
+                          "navegador": {**m.HEADERS, "Accept": "text/html,application/xhtml+xml,*/*;q=0.8",
+                                        "Accept-Language": "pt-BR,pt;q=0.9"}}.items():
+                st, t = get(uu, h)
+                r.append({"var": nome, "hdr": hn, "status": st, "len": len(t),
+                          "titulo": (re.search(r"<title[^>]*>([^<]{0,100})", t) or [None, None])[1]})
+        try:
+            html = render_js.get_html(u)
+            info = {}
+            from extrator import extrair
+            d = extrair(html, u)
+            r.append({"render_len": len(html), "titulo": (re.search(r"<title[^>]*>([^<]{0,100})", html) or [None, None])[1],
+                      "extr": {k: d.get(k) for k in ("preco_venda_fmt", "dorms", "area", "endereco", "bairro")}})
+        except Exception as e:
+            r.append({"render_erro": str(e)[:200]})
+    st, home = get("https://www.cpimoveis.com.br/")
+    r.append({"home_status": st, "home_len": len(home)})
+    return {"testes": r}
+bloco("cpimoveis", cp)
 
-# 4) Sites de listagem: quantos imóveis por página e até onde vai
-def listagem():
+def rial():
+    r = []
+    for u in ["https://rial.com.br/detalhes_loc.php?imovel=2303&Google=Apartamento+HIGIENOPOLIS+",
+              "https://portolar.com.br/detalhes_vd.php?imovel=1095&Google=Rio%20Branco%20+Apartamento"]:
+        html = render_js.get_html(u)
+        from extrator import extrair
+        d = extrair(html, u)
+        txt = re.sub(r"\s+", " ", re.sub(r"<script.*?</script>|<style.*?</style>|<[^>]+>", " ", html, flags=re.S))
+        r.append({"url": u, "len": len(html), "titulo": (re.search(r"<title[^>]*>([^<]{0,100})", html) or [None, None])[1],
+                  "extr": {k: d.get(k) for k in ("preco_venda_fmt", "dorms", "area", "endereco")},
+                  "iframes": re.findall(r"<iframe[^>]+src=[\"']([^\"']+)", html)[:5], "texto": txt[:500]})
+    return {"r": r}
+bloco("rial_portolar", rial)
+
+def dacas():
+    pg = render_js._pagina()
+    pg.goto("https://www.dacas.com.br/", timeout=45000, wait_until="domcontentloaded"); pg.wait_for_timeout(6000)
+    hs = pg.eval_on_selector_all("a[href]", "e=>e.map(x=>x.href)")
+    st, robots = get("https://www.dacas.com.br/robots.txt")
+    return {"titulo": pg.title(), "final": pg.url, "links": sorted(set(hs))[:40], "robots": robots[:300]}
+bloco("dacas", dacas)
+
+def paginacao():
     r = {}
-    for sid in ["noblesse", "garcia", "luxton", "multiimob", "visualize", "oneluxo", "auxiliadora"]:
-        s = SITES[sid]; base = s["base"]
-        res = {}
-        if sid == "auxiliadora":
-            continue
-        for pth in (s.get("listing_paths") or ["/"])[:2]:
-            info, html = get(urljoin(base, pth))
-            ls = links(html, base)
-            res[pth] = {**info, "props": len(props_de(ls, sid)),
-                        "pag": sorted(u for u in ls if re.search(r"pag|page|/\d+/?$", u, re.I))[:10],
-                        "total": re.findall(r"([\d\.]+)\s*(?:im[oó]veis|resultados|encontrad)", html, re.I)[:4]}
-        # tenta páginas altas para ver se a paginação segue
-        p1 = (s.get("listing_paths") or [""])[0]
-        if re.search(r"/1/$", p1):
-            for n in (5, 10, 20, 40):
-                info, html = get(urljoin(base, re.sub(r"/1/$", f"/{n}/", p1)))
-                res[f"pagina_{n}"] = {"status": info.get("status"), "props": len(props_de(links(html, base), sid))}
-        sm = {}
-        for u in m.discover_sitemaps(base, S)[:4]:
-            info, t = get(u)
-            sm[u] = {"status": info.get("status"), "locs": len(re.findall(r"<loc>", t)),
-                     "props": len(props_de(re.findall(r"<loc>\s*([^<\s]+)", t), sid))}
-        res["sitemaps"] = sm
-        r[sid] = res
+    for sid, tpl in {"noblesse": "/busca/comprar/cidade/porto-alegre/{n}/",
+                     "garcia": "/busca/comprar/cidade/porto-alegre/{n}/",
+                     "luxton": "/busca/comprar/site/poa/cidade/porto-alegre/{n}/",
+                     "multiimob": "/busca/comprar/cidade/Porto Alegre/{n}/"}.items():
+        base = SITES[sid]["base"]; vistos = set(); serie = []
+        for n in (0, 1, 2, 3, 30, 60, 63, 64, 65, 72, 73, 107, 108, 120, 200):
+            st, t = get(urljoin(base, tpl.format(n=n)))
+            ls = {urljoin(base, h) for h in re.findall(r'href=["\']([^"\'#]+)', t)}
+            ps = set(props(ls, sid))
+            serie.append((n, st, len(ps), len(ps - vistos)))
+            vistos |= ps
+            time.sleep(0.4)
+        r[sid] = serie
     return r
-bloco("listagem", listagem)
+bloco("paginacao", paginacao)
 print("FIM")
