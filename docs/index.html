@@ -120,6 +120,7 @@ if(sessionStorage.getItem('gok')==='1'){document.addEventListener('DOMContentLoa
     <input class="mini" type="number" id="amax" placeholder="m² máx">
     <select id="fcomp"><option value="">Ficha (qualquer)</option><option value="70">Completa (70%+)</option><option value="40">Média (40%+)</option><option value="-40">Incompleta (&lt;40%)</option></select>
     <div id="msPrio"></div>
+    <div id="msEtapa"></div>
     <div id="msGestao"></div>
     <select id="ford">
       <option value="recentes">↕ Mais recentes</option>
@@ -138,22 +139,22 @@ if(sessionStorage.getItem('gok')==='1'){document.addEventListener('DOMContentLoa
   <div class="empty" id="empty" style="display:none">Nenhum imóvel com esses filtros.<br>A primeira execução apenas registra o estoque (linha de base); os alertas começam na segunda.</div>
   <div class="health"><h2>Saúde do monitoramento (última execução)</h2><table id="health"></table></div>
 </div>
-<script src="data.js?v=202610290840"></script>
-<script src="data-000.js?v=202610290840"></script>
-<script src="data-001.js?v=202610290840"></script>
-<script src="data-002.js?v=202610290840"></script>
-<script src="data-003.js?v=202610290840"></script>
-<script src="data-004.js?v=202610290840"></script>
-<script src="data-005.js?v=202610290840"></script>
-<script src="data-006.js?v=202610290840"></script>
-<script src="data-007.js?v=202610290840"></script>
-<script src="data-008.js?v=202610290840"></script>
-<script src="data-009.js?v=202610290840"></script>
-<script src="data-010.js?v=202610290840"></script>
-<script src="data-011.js?v=202610290840"></script>
-<script src="data-012.js?v=202610290840"></script>
-<script src="data-013.js?v=202610290840"></script>
-<script src="data-014.js?v=202610290840"></script>
+<script src="data.js?v=202610292124"></script>
+<script src="data-000.js?v=202610292124"></script>
+<script src="data-001.js?v=202610292124"></script>
+<script src="data-002.js?v=202610292124"></script>
+<script src="data-003.js?v=202610292124"></script>
+<script src="data-004.js?v=202610292124"></script>
+<script src="data-005.js?v=202610292124"></script>
+<script src="data-006.js?v=202610292124"></script>
+<script src="data-007.js?v=202610292124"></script>
+<script src="data-008.js?v=202610292124"></script>
+<script src="data-009.js?v=202610292124"></script>
+<script src="data-010.js?v=202610292124"></script>
+<script src="data-011.js?v=202610292124"></script>
+<script src="data-012.js?v=202610292124"></script>
+<script src="data-013.js?v=202610292124"></script>
+<script src="data-014.js?v=202610292124"></script>
 <script>
 const $=s=>document.querySelector(s);
 $('#gen').textContent='Atualizado: '+GERADO_EM;
@@ -195,6 +196,8 @@ makeMS('msBairro','Bairros',uniq(LISTINGS.map(l=>l.bairro)).map(v=>({v,t:v})));
   makeMS('msTipo','Tipo de imóvel',items);
 }
 makeMS('msStatus','Status',[{v:'livre',t:'🟢 Livres p/ captar'},{v:'verificar',t:'🟡 Verificar'},{v:'captado',t:'🔴 Já captados'},{v:'removido',t:'⚫ Removidos'}]);
+window.ETAPAS={pronto:'🎯 Pronto p/ proprietário',falta_unidade:'🏢 Prédio achado — falta unidade',falta_numero:'📍 Falta o número',so_predio:'🏷️ Só o nome do prédio',so_bairro:'❔ Só o bairro'};
+makeMS('msEtapa','Endereço',Object.entries(ETAPAS).map(([v,t])=>({v,t})));
 makeMS('msPrio','Prioridade',[{v:'1',t:'🎯 P1 — endereço completo'},{v:'2',t:'📍 P2 — prédio identificado'},{v:'3',t:'P3 — só rua'},{v:'4',t:'P4 — só bairro'}]);
 makeMS('msGestao','Gestão',[{v:'novo',t:'⬜ Novos (sem contato)'},{v:'contatado',t:'📞 Contatados'},{v:'negociando',t:'🤝 Negociando'},{v:'captado_nosso',t:'✅ Captados por nós'},{v:'descartado',t:'🗑 Descartados'}]);
 document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');days=+c.dataset.d;render()});
@@ -239,6 +242,7 @@ function passa(l){
   if(amax.value&&!(l.area_num&&l.area_num<=+amax.value))return false;
   if(comp){const c=l.completude||0;if(comp==='-40'){if(c>=40)return false}else if(c<+comp)return false}
   if(SEL.msPrio.size&&!SEL.msPrio.has(String(l.prioridade||4)))return false;
+  if(SEL.msEtapa.size&&!SEL.msEtapa.has(l.etapa))return false;
   if(SEL.msGestao.size&&!SEL.msGestao.has(gDe(l.url).st))return false;
   if(q){const blob=((l.titulo||'')+' '+(l.bairro||'')+' '+(l.endereco||'')+' '+(l.descricao||'')+' '+((l.caracteristicas||[]).join(' '))+' '+l.url).toLowerCase();if(!blob.includes(q))return false}
   return true;
@@ -278,6 +282,7 @@ function render(){
           <span class="b tipo">${l.tipo==='locacao'?'Locação':l.tipo==='venda'?'Venda':'—'}</span>
           ${l.bairro?`<span class="b">${l.bairro}</span>`:''}
           ${l.prioridade===1?'<span class="b st-livre">🎯 P1 EEMOVEL</span>':l.prioridade===2?'<span class="b st-queda">📍 P2 PRÉDIO</span>':''}
+          <span class="b" title="Etapa da captação do endereço">${(ETAPAS[l.etapa]||'')}</span>
         </div>
         <div class="t">${l.titulo||l.url.split('/').slice(-1)[0].replace(/-/g,' ')}</div>
         ${specsDe(l)?`<div class="specs">${specsDe(l)}</div>`:''}
@@ -305,7 +310,7 @@ function render(){
   $('#empty').style.display=filtradas.length?'none':'block';
 }
 $('#csv').onclick=()=>{
-  const cols=['status','prioridade','imobiliaria','tipo_imovel','empreendimento','endereco','numero','bairro','cidade','dorms','suites','vagas','banheiros','area','preco_num','preco_locacao','condominio','iptu','codigo','completude','endereco_nivel','latitude','longitude','detectado_em','removido_em','url','gestao_status','gestao_corretor','gestao_captado_em','gestao_tel','gestao_obs'];
+  const cols=['status','prioridade','imobiliaria','tipo_imovel','empreendimento','endereco','numero','bairro','cidade','dorms','suites','vagas','banheiros','area','preco_num','preco_locacao','condominio','iptu','codigo','completude','endereco_nivel','grupo','etapa','latitude','longitude','detectado_em','removido_em','url','gestao_status','gestao_corretor','gestao_captado_em','gestao_tel','gestao_obs'];
   const esc=v=>'"'+String(v==null?'':Array.isArray(v)?v.join('; '):v).replace(/"/g,'""')+'"';
   const csv=[cols.join(';')].concat(filtradas.map(l=>{const g=gDe(l.url);const r={...l,cidade:l.cidade||'Porto Alegre',gestao_status:g.st,gestao_corretor:g.corretor,gestao_captado_em:g.captado_em,gestao_tel:g.tel,gestao_obs:g.obs};return cols.map(c=>esc(r[c])).join(';')})).join('\r\n');
   const a=document.createElement('a');
