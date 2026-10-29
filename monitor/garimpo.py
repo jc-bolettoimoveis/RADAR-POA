@@ -29,6 +29,9 @@ def main():
     listing_urls = {l["url"] for l in listings}
     feito = m.load_json(os.path.join(m.DATA_DIR, "garimpo_feito.json"), {})
     falhas = m.load_json(os.path.join(m.DATA_DIR, "garimpo_falhas.json"), {})
+    import migracoes
+    migracoes.aplicar(m, cfg, listings, known, feito, falhas)
+    listing_urls = {l["url"] for l in listings}
     nomes = {s["id"]: s["nome"] for s in cfg["sites"]}
     ativos_ids = {s["id"] for s in cfg["sites"] if s.get("enabled")}
     scfg = {s["id"]: s for s in cfg["sites"]}

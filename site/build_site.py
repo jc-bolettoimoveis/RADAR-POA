@@ -63,6 +63,32 @@ for l in listings:
     if l.get("tipo_imovel"):
         l["tipo_imovel"] = LEGADO_TIPO.get(l["tipo_imovel"], l["tipo_imovel"])
         l["tipo_fam"] = FAM_DE.get(l["tipo_imovel"], "Outros")
+# ---- etapa da captação do endereço (casa x unidade em prédio/condomínio) ----
+UNICO = {"casa", "sobrado", "casa comercial", "terreno", "prédio", "galpão", "pavilhão",
+         "depósito", "sítio", "chácara"}
+GRUPO_DE = {"casa": "Casas", "sobrado": "Casas", "casa em condomínio": "Casas em condomínio",
+            "terreno": "Terrenos", "fração": "Terrenos"}
+for _t in ("apartamento", "apartamento garden", "apartamento jk", "cobertura", "duplex", "triplex",
+           "loft", "studio", "kitnet", "flat"):
+    GRUPO_DE[_t] = "Apartamentos"
+for _t in ("sala", "conjunto", "conjunto comercial", "loja", "casa comercial", "galpão", "pavilhão",
+           "depósito", "prédio", "box", "garagem"):
+    GRUPO_DE[_t] = "Comercial"
+
+def etapa_endereco(l):
+    tem_num = bool(l.get("endereco") and l.get("numero"))
+    unico = (l.get("tipo_imovel") or "") in UNICO
+    if tem_num:
+        return "pronto" if unico else "falta_unidade"
+    if l.get("endereco") or l.get("latitude"):
+        return "falta_numero"
+    if l.get("empreendimento"):
+        return "so_predio"
+    return "so_bairro"
+
+for l in listings:
+    l["grupo"] = GRUPO_DE.get(l.get("tipo_imovel") or "", "Não identificado")
+    l["etapa"] = etapa_endereco(l)
 listings.sort(key=lambda l: (l.get("detectado_em") or ""), reverse=True)
 
 # O painel recebe os imóveis em vários arquivos (data-NNN.js) para nenhum passar de 100 MB.
@@ -207,6 +233,7 @@ if(sessionStorage.getItem('gok')==='1'){document.addEventListener('DOMContentLoa
     <input class="mini" type="number" id="amax" placeholder="m² máx">
     <select id="fcomp"><option value="">Ficha (qualquer)</option><option value="70">Completa (70%+)</option><option value="40">Média (40%+)</option><option value="-40">Incompleta (&lt;40%)</option></select>
     <div id="msPrio"></div>
+    <div id="msEtapa"></div>
     <div id="msGestao"></div>
     <select id="ford">
       <option value="recentes">↕ Mais recentes</option>
@@ -267,6 +294,8 @@ makeMS('msBairro','Bairros',uniq(LISTINGS.map(l=>l.bairro)).map(v=>({v,t:v})));
   makeMS('msTipo','Tipo de imóvel',items);
 }
 makeMS('msStatus','Status',[{v:'livre',t:'🟢 Livres p/ captar'},{v:'verificar',t:'🟡 Verificar'},{v:'captado',t:'🔴 Já captados'},{v:'removido',t:'⚫ Removidos'}]);
+window.ETAPAS={pronto:'🎯 Pronto p/ proprietário',falta_unidade:'🏢 Prédio achado — falta unidade',falta_numero:'📍 Falta o número',so_predio:'🏷️ Só o nome do prédio',so_bairro:'❔ Só o bairro'};
+makeMS('msEtapa','Endereço',Object.entries(ETAPAS).map(([v,t])=>({v,t})));
 makeMS('msPrio','Prioridade',[{v:'1',t:'🎯 P1 — endereço completo'},{v:'2',t:'📍 P2 — prédio identificado'},{v:'3',t:'P3 — só rua'},{v:'4',t:'P4 — só bairro'}]);
 makeMS('msGestao','Gestão',[{v:'novo',t:'⬜ Novos (sem contato)'},{v:'contatado',t:'📞 Contatados'},{v:'negociando',t:'🤝 Negociando'},{v:'captado_nosso',t:'✅ Captados por nós'},{v:'descartado',t:'🗑 Descartados'}]);
 document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');days=+c.dataset.d;render()});
@@ -311,6 +340,7 @@ function passa(l){
   if(amax.value&&!(l.area_num&&l.area_num<=+amax.value))return false;
   if(comp){const c=l.completude||0;if(comp==='-40'){if(c>=40)return false}else if(c<+comp)return false}
   if(SEL.msPrio.size&&!SEL.msPrio.has(String(l.prioridade||4)))return false;
+  if(SEL.msEtapa.size&&!SEL.msEtapa.has(l.etapa))return false;
   if(SEL.msGestao.size&&!SEL.msGestao.has(gDe(l.url).st))return false;
   if(q){const blob=((l.titulo||'')+' '+(l.bairro||'')+' '+(l.endereco||'')+' '+(l.descricao||'')+' '+((l.caracteristicas||[]).join(' '))+' '+l.url).toLowerCase();if(!blob.includes(q))return false}
   return true;
@@ -350,6 +380,7 @@ function render(){
           <span class="b tipo">${l.tipo==='locacao'?'Locação':l.tipo==='venda'?'Venda':'—'}</span>
           ${l.bairro?`<span class="b">${l.bairro}</span>`:''}
           ${l.prioridade===1?'<span class="b st-livre">🎯 P1 EEMOVEL</span>':l.prioridade===2?'<span class="b st-queda">📍 P2 PRÉDIO</span>':''}
+          <span class="b" title="Etapa da captação do endereço">${(ETAPAS[l.etapa]||'')}</span>
         </div>
         <div class="t">${l.titulo||l.url.split('/').slice(-1)[0].replace(/-/g,' ')}</div>
         ${specsDe(l)?`<div class="specs">${specsDe(l)}</div>`:''}
@@ -377,7 +408,7 @@ function render(){
   $('#empty').style.display=filtradas.length?'none':'block';
 }
 $('#csv').onclick=()=>{
-  const cols=['status','prioridade','imobiliaria','tipo_imovel','empreendimento','endereco','numero','bairro','cidade','dorms','suites','vagas','banheiros','area','preco_num','preco_locacao','condominio','iptu','codigo','completude','endereco_nivel','latitude','longitude','detectado_em','removido_em','url','gestao_status','gestao_corretor','gestao_captado_em','gestao_tel','gestao_obs'];
+  const cols=['status','prioridade','imobiliaria','tipo_imovel','empreendimento','endereco','numero','bairro','cidade','dorms','suites','vagas','banheiros','area','preco_num','preco_locacao','condominio','iptu','codigo','completude','endereco_nivel','grupo','etapa','latitude','longitude','detectado_em','removido_em','url','gestao_status','gestao_corretor','gestao_captado_em','gestao_tel','gestao_obs'];
   const esc=v=>'"'+String(v==null?'':Array.isArray(v)?v.join('; '):v).replace(/"/g,'""')+'"';
   const csv=[cols.join(';')].concat(filtradas.map(l=>{const g=gDe(l.url);const r={...l,cidade:l.cidade||'Porto Alegre',gestao_status:g.st,gestao_corretor:g.corretor,gestao_captado_em:g.captado_em,gestao_tel:g.tel,gestao_obs:g.obs};return cols.map(c=>esc(r[c])).join(';')})).join('\\r\\n');
   const a=document.createElement('a');
@@ -491,6 +522,18 @@ S["imobiliarias"] = [{
     "vigiados": len(known.get(next((s for s,n in sid2nome.items() if n==k), ""), [])),
 } for k, v in sorted(imobs.items(), key=lambda kv: -kv[1]["ops"])]
 
+# casas x unidades: quantos estão prontos para buscar o proprietário
+ETAPAS_ORD = ["pronto", "falta_unidade", "falta_numero", "so_predio", "so_bairro"]
+GRUPOS_ORD = ["Casas", "Terrenos", "Casas em condomínio", "Apartamentos", "Comercial", "Não identificado"]
+_m = {g: Counter() for g in GRUPOS_ORD}
+for l in livres:
+    _m.setdefault(l["grupo"], Counter())[l["etapa"]] += 1
+S["captacao_endereco"] = {"etapas": ETAPAS_ORD,
+                          "linhas": [{"grupo": g, **{e: _m[g][e] for e in ETAPAS_ORD}, "total": sum(_m[g].values())}
+                                     for g in GRUPOS_ORD if sum(_m[g].values())]}
+S["visao"]["prontos_proprietario"] = sum(1 for l in livres if l["etapa"] == "pronto")
+S["visao"]["predios_falta_unidade"] = sum(1 for l in livres if l["etapa"] == "falta_unidade")
+
 # saúde da coleta por imobiliária (para o raio-x apontar quem está com problema)
 _feito = load("garimpo_feito.json", {})
 _urls_listings = {l["url"] for l in listings}
@@ -589,6 +632,8 @@ if(sessionStorage.getItem('gok')==='1'){document.addEventListener('DOMContentLoa
     <div class="box"><h2>Livres por dormitórios</h2><canvas id="cDorm"></canvas></div>
     <div class="box"><h2>Livres por faixa de preço</h2><canvas id="cPreco"></canvas></div>
   </div>
+  <div class="box" style="margin-top:14px"><h2>Captação de endereço: casas × unidades em prédio/condomínio (livres)</h2><table id="tEnd"></table>
+  <div class="note">🎯 Casa, sobrado ou terreno com rua e número: já dá para buscar a matrícula e o proprietário. 🏢 Apartamento, sala ou casa em condomínio com o prédio localizado: falta descobrir a unidade.</div></div>
   <div class="box" style="margin-top:14px"><h2>Raio-x por imobiliária</h2><table id="tImob"></table></div>
 </div>
 <script src="dash_data.js"></script>
@@ -596,7 +641,7 @@ if(sessionStorage.getItem('gok')==='1'){document.addEventListener('DOMContentLoa
 document.getElementById('g').textContent='Atualizado: '+DGERADO;
 const V=STATS.visao;
 const kpis=[[V.vigiados.toLocaleString('pt-BR'),'imóveis vigiados',''],[V.oportunidades,'oportunidades no painel',''],
- [V.livres,'🟢 livres p/ captar','green'],[V.p1_livres,'🎯 P1 livres (eemovel)','green'],
+ [V.livres,'🟢 livres p/ captar','green'],[V.p1_livres,'🎯 P1 livres (eemovel)','green'],[V.prontos_proprietario||0,'🎯 casas/terrenos prontos p/ proprietário','green'],[V.predios_falta_unidade||0,'🏢 prédios achados (falta unidade)',''],
  [V.verificar,'🟡 a verificar',''],[V.captados_rede,'🔴 já na base/RGI',''],
  [V.removidos,'⚫ saíram do ar','red'],[V.quedas,'💸 quedas de preço','']];
 document.getElementById('kpis').innerHTML=kpis.map(k=>`<div class="kpi ${k[2]}"><div class="v">${k[0]}</div><div class="l">${k[1]}</div></div>`).join('');
@@ -623,6 +668,10 @@ new Chart(document.getElementById('cTipo'),{type:'doughnut',data:{labels:Object.
 new Chart(document.getElementById('cTime'),{type:'line',data:{labels:STATS.timeline.labels,
  datasets:[{data:STATS.timeline.valores,borderColor:AZ,backgroundColor:'rgba(15,76,129,.12)',fill:true,tension:.3}]},
  options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
+{const N={pronto:'🎯 Pronto p/ proprietário',falta_unidade:'🏢 Prédio achado — falta unidade',falta_numero:'📍 Falta o número',so_predio:'🏷️ Só o nome do prédio',so_bairro:'❔ Só o bairro'};
+ const E=STATS.captacao_endereco;
+ document.getElementById('tEnd').innerHTML='<tr><th>Grupo</th>'+E.etapas.map(e=>`<th>${N[e]}</th>`).join('')+'<th>Total</th></tr>'+
+  E.linhas.map(r=>`<tr><td><b>${r.grupo}</b></td>`+E.etapas.map(e=>`<td>${r[e].toLocaleString('pt-BR')}${r.total?` <small style="color:#6b7686">(${Math.round(100*r[e]/r.total)}%)</small>`:''}</td>`).join('')+`<td>${r.total.toLocaleString('pt-BR')}</td></tr>`).join('');}
 document.getElementById('tImob').innerHTML='<tr><th>Imobiliária</th><th>Estoque vigiado</th><th>Oportunidades</th><th>🟢 Livres</th><th>% endereço localizável</th><th>Ficha média</th><th>Tempo médio no ar</th><th>Lidos na última execução</th><th>Fila de leitura</th><th>Situação</th></tr>'+
  STATS.imobiliarias.map(i=>`<tr><td>${i.site_url?`<a href="${i.site_url}" target="_blank" rel="noopener" style="color:var(--acc);font-weight:600">${i.nome} ↗</a>`:i.nome}</td><td>${i.vigiados.toLocaleString('pt-BR')}</td><td>${i.ops}</td><td>${i.livres}</td><td>${i.pct_end}%</td><td>${i.comp_media}%</td><td>${i.dias_medio}d</td><td>${i.lidos_ultima==null?'—':i.lidos_ultima.toLocaleString('pt-BR')}</td><td>${(i.fila||0).toLocaleString('pt-BR')}</td><td>${i.saude||''}</td></tr>`).join('');
 </script>

@@ -366,6 +366,8 @@ def main():
 
     known = load_json(os.path.join(DATA_DIR, "known_urls.json"), {})
     listings = load_listings()
+    import migracoes
+    migracoes.aplicar(sys.modules[__name__], cfg, listings, known)
     listing_urls = {l["url"] for l in listings}
     runlog = {"executado_em": now_iso(), "sites": {}}
     novos_da_execucao, removidos_agora, quedas_agora = [], [], []

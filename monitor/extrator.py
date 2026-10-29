@@ -117,9 +117,26 @@ def _latlong(html):
                 return la, lo
     return None
 
+def _endereco_do_mapa(html):
+    """Endereço escrito no link/iframe do mapa (Google Maps embed, maps?q=, /maps/place/, waze)."""
+    from urllib.parse import unquote_plus
+    pats = [r'(?:maps\.google\.[a-z.]+/maps|google\.[a-z.]+/maps(?:/embed(?:/v1/place)?)?|maps\.googleapis\.com/maps/api/staticmap)[^"\'\s<>]*?[?&](?:q|query|daddr|destination|center|markers)=([^&"\'<>]+)',
+            r'google\.[a-z.]+/maps/(?:place|search)/([^/?"\'<>]+)',
+            r'waze\.com/ul\?[^"\'<>]*?q=([^&"\'<>]+)']
+    for p in pats:
+        for m in re.finditer(p, html, re.I):
+            q = unquote_plus(htmllib.unescape(m.group(1))).strip()
+            if re.match(r"^-?\d{1,2}\.\d+\s*,\s*-?\d{1,3}\.\d+", q):
+                continue                                   # coordenada: _latlong cuida
+            q = re.sub(r"\s+", " ", q)
+            mm = re.search(r"((?:Rua|R\.|Av\.?|Avenida|Travessa|Tv\.?|Alameda|Al\.?|Estrada|Pra[çc]a|Beco)\s+[^,|]{2,60}?)\s*,?\s*(?:n[ºo\.]*\s*)?(\d{1,5})\b", q, re.I)
+            if mm:
+                return f"{mm.group(1).strip()}, {mm.group(2)}"
+    return None
+
 FEAT_UI = re.compile(
-    r"fechad|abert[oa]|elevador|piscina|estacionament|g[áa]s\b|festas|fitness|churrasq|"
-    r"portaria|porteir|academia|playground|quadra|sauna|gourmet|mobiliad|spa\b|v[íi]deo|"
+    r"fechad|abert[oa]|elevador|piscina|estacionament|\bg[áa]s\b|festas|fitness|churrasq|"
+    r"portaria|porteir|academia|playground|quadra|sauna|gourmet|mobiliad|\bspa\b|v[íi]deo|"
     r"localiza|seguros|digital|conhe[çc]a|fotos|mapa|whatsapp|agende|visita|financ|"
     r"lavanderia|brinquedoteca|coworking|solarium|jardim|hidro|deck|bicicletari|"
     r"salão|salao|lazer|infantil|coletiv|adulto|aquecid|semimobil|reformad", re.I)
@@ -253,6 +270,11 @@ def extrair(html, url=""):
         d["endereco"] = _endereco_valido(m.group(0)) if m else None
 
     d["endereco"] = _endereco_valido(d.get("endereco"))
+    # o mapa do anúncio costuma ter o endereço exato (rua + número) mesmo quando o texto esconde
+    end_mapa = _endereco_valido(_endereco_do_mapa(html))
+    if end_mapa and (not d.get("endereco") or not re.search(r",\s*\d", d["endereco"])):
+        d["endereco"] = end_mapa
+        d["endereco_origem"] = "mapa"
     # ------- localização detalhada -------
     ll = _latlong(html)
     d["latitude"], d["longitude"] = (ll if ll else (None, None))
