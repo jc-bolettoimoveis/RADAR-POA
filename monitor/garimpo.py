@@ -148,6 +148,22 @@ def main():
             time.sleep(DELAY)
     print(f"Processados {processados}, aproveitados {aproveitados}")
 
+    # ---- confirmação: imóvel reativado só fica no painel se a página ainda estiver no ar ----
+    CONFIRMAR = int(os.environ.get("GARIMPO_CONFIRMAR") or "2000")
+    conf = [l for l in listings if l.get("confirmar_ativo") and not l.get("removido_em")]
+    vivos = mortos = 0
+    for l in conf[:CONFIRMAR]:
+        info, _ = m.enrich(l["url"], session, bairros, render=l.get("site_id") in render_ids)
+        if any(info.get(k) for k in ("titulo", "preco", "preco_venda", "dorms")):
+            vivos += 1
+        else:
+            l["removido_em"] = hoje
+            mortos += 1
+        l.pop("confirmar_ativo", None)
+        time.sleep(0.4)
+    if conf:
+        print(f"Confirmação de reativados: {vivos} no ar, {mortos} fora do ar (restam {max(0, len(conf) - CONFIRMAR)})")
+
     # ---- releitura: anúncios já cadastrados sem número, com o extrator novo ----
     import extrator
     REEXTRAIR = int(os.environ.get("GARIMPO_REEXTRAIR") or "800")
