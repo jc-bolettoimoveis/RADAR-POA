@@ -52,7 +52,7 @@ FICHA_CAMPOS = ("dorms", "suites", "vagas", "banheiros", "area", "area_total",
                 "endereco", "caracteristicas", "completude",
                 "preco_locacao_fmt", "condominio_fmt", "iptu_fmt",
                 "latitude", "longitude", "empreendimento", "tipo_imovel",
-                "numero", "endereco_nivel", "prioridade")
+                "numero", "endereco_nivel", "prioridade", "endereco_origem")
 
 def now_iso():
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -151,15 +151,20 @@ def collect_site_urls(site, session, log):
             log["render_erro"] = str(e)[:150]
             # se a renderização falhar, cai no fluxo normal abaixo
     used_sitemap = False
-    for sm in ([] if site.get("ignorar_sitemap") else discover_sitemaps(base, session)):
+    max_urls = site.get("max_urls", MAX_URLS_PER_SITE)
+    filtro_sub = re.compile(site["sitemap_filtro"], re.I) if site.get("sitemap_filtro") else None
+    lista_sm = site.get("sitemaps") or ([] if site.get("ignorar_sitemap") else discover_sitemaps(base, session))
+    for sm in lista_sm:
         try:
             content = fetch(sm, session, binary=True)
             locs, is_index = parse_sitemap(content)
             if not locs:
                 continue
             used_sitemap = True
-            if is_index:
+            if is_index or all(re.search(r"\.xml(\.gz)?$", u) for u in locs[:20]):
                 # prioriza sub-sitemaps que aparentam conter imóveis
+                if filtro_sub:
+                    locs = [u for u in locs if filtro_sub.search(u)]
                 locs.sort(key=lambda u: 0 if re.search(r"im[oó]?ve|prop|post|product", u, re.I) else 1)
                 for sub in locs[:MAX_SUBSITEMAPS]:
                     try:
@@ -167,7 +172,7 @@ def collect_site_urls(site, session, log):
                         l2, _ = parse_sitemap(c2)
                         urls.update(l2)
                         time.sleep(0.4)
-                        if len(urls) > MAX_URLS_PER_SITE:
+                        if len(urls) > max_urls:
                             break
                     except Exception:
                         continue
@@ -207,6 +212,31 @@ def collect_site_urls(site, session, log):
                 time.sleep(DELAY_BETWEEN_REQ)
             except Exception:
                 continue
+    # -------- paginação completa por modelo (ex.: /busca/comprar/.../{n}/) --------
+    for modelo in site.get("paginacao", []):
+        tpl, ini, fim = modelo["url"], modelo.get("de", 1), modelo.get("ate", 150)
+        vistos, vazias = set(), 0
+        for n in range(ini, fim + 1):
+            try:
+                html = fetch(urljoin(base, tpl.format(n=n)), session)
+            except Exception:
+                vazias += 1
+                if vazias >= 2:
+                    break
+                continue
+            achados = set()
+            for href in re.findall(r'href=["\']([^"\'#]+)', html):
+                full = urljoin(base, href)
+                if urlparse(full).netloc == urlparse(base).netloc and is_property_url(full, site):
+                    achados.add(full)
+            novos = achados - vistos
+            vistos |= achados
+            urls |= achados
+            vazias = vazias + 1 if not novos else 0
+            if vazias >= 2:          # duas páginas seguidas sem nada novo: fim da lista
+                break
+            time.sleep(DELAY_BETWEEN_REQ)
+        log.setdefault("paginas_lidas", {})[tpl] = n
     # -------- segunda onda: segue links de paginação encontrados --------
     PAG_PAT = re.compile(r"([?&](?:pagina|pag|page|p)=\d+|/pagina/\d+/?$|/page/\d+/?$)", re.I)
     LISTA_PAT = re.compile(r"busca|venda|comprar|alugar|imoveis|locacao", re.I)
@@ -234,6 +264,14 @@ def collect_site_urls(site, session, log):
     return urls
 
 # ---------------------------------------------------------------- classificação
+def canonica(url, site):
+    """Normaliza a URL do imóvel quando o site usa mais de um formato para o mesmo anúncio."""
+    regra = site.get("url_canonica")
+    if not regra:
+        return url
+    mm = re.search(regra, url)
+    return urljoin(site["base"], mm.group(1)) if mm else url
+
 def is_property_url(url, site):
     pat = site.get("url_pattern")
     path = urlparse(url).path
@@ -251,8 +289,10 @@ def url_tipo(url):
         return "venda"
     return "indefinido"
 
+MARCAS_COM_BAIRRO = re.compile(r"auxiliadora\s+predial|auxiliadorapredial", re.I)
+
 def match_bairro(text, bairros_alvo):
-    t = text.lower()
+    t = MARCAS_COM_BAIRRO.sub(" ", text or "").lower()
     for canonico, variantes in bairros_alvo.items():
         for v in variantes:
             if v in t:
@@ -302,8 +342,10 @@ def enrich(url, session, bairros_alvo, render=False):
         info["foto"] = info["foto"] or det.get("foto_boa")
     except Exception:
         pass
-    texto_busca = " ".join(x for x in (url, info["titulo"], info["descricao"]) if x)
-    info["bairro"] = match_bairro(texto_busca, bairros_alvo) or match_bairro(html[:60000], bairros_alvo)
+    info["bairro"] = (match_bairro(info["titulo"], bairros_alvo)
+                      or match_bairro(url, bairros_alvo)
+                      or match_bairro(info["descricao"], bairros_alvo)
+                      or match_bairro(html[:60000], bairros_alvo))
     # tipo pelo conteúdo, caso a URL não diga
     tipo_html = None
     low = (info["titulo"] or "").lower() + " " + (info["descricao"] or "").lower()
@@ -324,6 +366,8 @@ def main():
 
     known = load_json(os.path.join(DATA_DIR, "known_urls.json"), {})
     listings = load_listings()
+    import migracoes
+    migracoes.aplicar(sys.modules[__name__], cfg, listings, known)
     listing_urls = {l["url"] for l in listings}
     runlog = {"executado_em": now_iso(), "sites": {}}
     novos_da_execucao, removidos_agora, quedas_agora = [], [], []
@@ -339,7 +383,7 @@ def main():
         print(f"== {nome} ({site['base']})")
         try:
             urls = collect_site_urls(site, session, log)
-            props = {u for u in urls if is_property_url(u, site)}
+            props = {canonica(u, site) for u in urls if is_property_url(u, site)}
             log["urls_imovel"] = len(props)
             # autodiagnóstico: guarda exemplos p/ calibrar filtros
             if props:
@@ -396,7 +440,13 @@ def main():
                 print(f"   {len(new_urls)} URLs novas, {log['novos']} imóveis registrados")
                 # anúncios que sumiram (só se a coleta do site foi confiável nesta rodada)
                 prev_count = sum(1 for l in listings if l.get("site_id") == sid and not l.get("removido_em"))
-                coleta_ok = len(props) >= max(3, prev_count * 0.5)   # coletou ao menos metade do conhecido
+                coleta_ok = (len(props) >= max(3, prev_count * 0.5)   # coletou ao menos metade do conhecido
+                             and not site.get("coleta_parcial"))
+                for l in listings:
+                    if l.get("site_id") == sid and l.get("removido_em") and l["url"] in props:
+                        l.pop("removido_em", None)      # voltou a aparecer: não tinha saído do ar
+                        l["faltas"] = 0
+                        log["reativados"] = log.get("reativados", 0) + 1
                 faltas_necessarias = 3 if site.get("render") else 2  # sites JS: mais tolerância
                 for l in (listings if coleta_ok else []):
                     if l.get("site_id") != sid or l.get("removido_em"):
