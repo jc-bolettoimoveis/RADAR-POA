@@ -27,6 +27,7 @@ jobs:
           WA_META_TOKEN: ${{ secrets.WA_META_TOKEN }}
           WA_META_PHONE_ID: ${{ secrets.WA_META_PHONE_ID }}
           WA_META_DESTINOS: ${{ secrets.WA_META_DESTINOS }}
+          GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
           PAINEL_URL: ${{ secrets.PAINEL_URL }}
         run: python monitor/monitor.py
       - name: Gerar painel

@@ -30,6 +30,7 @@ jobs:
         env:
           GARIMPO_LOTE: ${{ github.event.inputs.lote }}
           WHATSAPP_DESTINOS: ${{ secrets.WHATSAPP_DESTINOS }}
+          GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
           PAINEL_URL: ${{ secrets.PAINEL_URL }}
         run: python monitor/garimpo.py
       - name: Gerar painel e salvar

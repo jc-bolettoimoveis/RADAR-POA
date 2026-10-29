@@ -51,9 +51,12 @@ def _int_perto(texto, pat):
     return int(m.group(1)) if m else None
 
 # --------------------------------------------------------------- JSON-LD
-def _walk(obj, out):
+ORG_TIPOS = re.compile(r"organization|realestateagent|localbusiness|corporation|store|website|webpage|brand|person", re.I)
+
+def _walk(obj, out, dono=""):
     if isinstance(obj, dict):
         t = str(obj.get("@type", "")).lower()
+        dono_aqui = t or dono
         if "offer" in t or "price" in str(obj.keys()).lower():
             p = obj.get("price") or (obj.get("priceSpecification") or {}).get("price")
             if p and not out.get("preco_venda"):
@@ -67,19 +70,17 @@ def _walk(obj, out):
             elif kl == "floorsize" and isinstance(v, dict) and v.get("value"):
                 out.setdefault("area", _num_br(v["value"]))
             elif kl == "address":
-                if isinstance(v, dict):
-                    out.setdefault("endereco", ", ".join(
-                        str(v.get(c)) for c in ("streetAddress", "addressLocality") if v.get(c)))
-                elif isinstance(v, str):
-                    out.setdefault("endereco", v)
+                rua = v.get("streetAddress") if isinstance(v, dict) else (v if isinstance(v, str) else None)
+                if rua:
+                    out.setdefault("_ends_jl", []).append((dono_aqui, str(rua)))
             elif kl == "image" and v and not out.get("foto_jl"):
                 out["foto_jl"] = v[0] if isinstance(v, list) and v else (v if isinstance(v, str) else None)
             elif kl in ("sku", "productid", "identifier") and v and not out.get("codigo"):
                 out["codigo"] = str(v)[:30]
-            _walk(v, out)
+            _walk(v, out, dono_aqui)
     elif isinstance(obj, list):
         for x in obj:
-            _walk(x, out)
+            _walk(x, out, dono)
 
 def _jsonld(html):
     out = {}
@@ -113,13 +114,62 @@ def _latlong(html):
                 la, lo = float(m.group(1)), float(m.group(2))
             except ValueError:
                 continue
-            if -34.5 < la < -27.0 and -58.0 < lo < -49.0:   # plausível no RS
+            if -30.35 < la < -29.75 and -51.40 < lo < -50.90:   # Grande Porto Alegre
                 return la, lo
     return None
 
+_SEDES = None
+
+def _chave_end(s):
+    """'Av. Dr. Nilo Peçanha, 1215 - Sala 3' -> 'nilo pecanha 1215' (para comparar endereços)."""
+    t = str(s or "").lower().translate(str.maketrans("áàâãéêëíìóòôõúùüç", "aaaaeeeiiooooouuc"))
+    t = re.sub(r"\b(rua|r|av|avenida|travessa|tv|alameda|al|estrada|praca|dr|doutor|dona|d|cel|coronel|prof|professor|eng|engenheiro)\b\.?", " ", t)
+    mm = re.search(r"([a-z][a-z ]{2,}?)[\s,]+n?[ºo\.]*\s*(\d{1,5})\b", t)
+    if not mm:
+        return re.sub(r"[^a-z ]", " ", t).split() and " ".join(re.sub(r"[^a-z ]", " ", t).split()) or ""
+    return " ".join(mm.group(1).split()) + " " + mm.group(2)
+
+def _eh_sede(end):
+    global _SEDES
+    if _SEDES is None:
+        try:
+            import os
+            cfg = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                              "config", "sites.json"), encoding="utf-8"))
+            _SEDES = {_chave_end(x) for x in cfg.get("enderecos_sede", [])}
+        except Exception:
+            _SEDES = set()
+    k = _chave_end(end)
+    return bool(k) and k in _SEDES
+
+def _com_virgula(end):
+    """'Santa Cecília 2043' -> 'Santa Cecília, 2043'; mantém complemento fora."""
+    end = re.sub(r"\s+", " ", str(end or "")).strip()
+    if re.search(r",\s*(?:n[ºo\.]*\s*)?\d", end):
+        return end
+    mm = re.match(r"^(.{3,60}?[A-Za-zÀ-ü\.])\s+(?:n[ºo\.]*\s*)?(\d{1,5})\b(.*)$", end)
+    return f"{mm.group(1)}, {mm.group(2)}{mm.group(3)}" if mm else end
+
+def _endereco_do_mapa(html):
+    """Endereço escrito no link/iframe do mapa (Google Maps embed, maps?q=, /maps/place/, waze)."""
+    from urllib.parse import unquote_plus
+    pats = [r'(?:maps\.google\.[a-z.]+/maps|google\.[a-z.]+/maps(?:/embed(?:/v1/place)?)?|maps\.googleapis\.com/maps/api/staticmap)[^"\'\s<>]*?[?&](?:q|query|daddr|destination|center|markers)=([^&"\'<>]+)',
+            r'google\.[a-z.]+/maps/(?:place|search)/([^/?"\'<>]+)',
+            r'waze\.com/ul\?[^"\'<>]*?q=([^&"\'<>]+)']
+    for p in pats:
+        for m in re.finditer(p, html, re.I):
+            q = unquote_plus(htmllib.unescape(m.group(1))).strip()
+            if re.match(r"^-?\d{1,2}\.\d+\s*,\s*-?\d{1,3}\.\d+", q):
+                continue                                   # coordenada: _latlong cuida
+            q = re.sub(r"\s+", " ", q)
+            mm = re.search(r"((?:Rua|R\.|Av\.?|Avenida|Travessa|Tv\.?|Alameda|Al\.?|Estrada|Pra[çc]a|Beco)\s+[^,|]{2,60}?)\s*,?\s*(?:n[ºo\.]*\s*)?(\d{1,5})\b", q, re.I)
+            if mm:
+                return f"{mm.group(1).strip()}, {mm.group(2)}"
+    return None
+
 FEAT_UI = re.compile(
-    r"fechad|abert[oa]|elevador|piscina|estacionament|g[áa]s\b|festas|fitness|churrasq|"
-    r"portaria|porteir|academia|playground|quadra|sauna|gourmet|mobiliad|spa\b|v[íi]deo|"
+    r"fechad|abert[oa]|elevador|piscina|estacionament|\bg[áa]s\b|festas|fitness|churrasq|"
+    r"portaria|porteir|academia|playground|quadra|sauna|gourmet|mobiliad|\bspa\b|v[íi]deo|"
     r"localiza|seguros|digital|conhe[çc]a|fotos|mapa|whatsapp|agende|visita|financ|"
     r"lavanderia|brinquedoteca|coworking|solarium|jardim|hidro|deck|bicicletari|"
     r"salão|salao|lazer|infantil|coletiv|adulto|aquecid|semimobil|reformad", re.I)
@@ -243,6 +293,34 @@ def extrair(html, url=""):
     if not d.get("codigo"):
         m = re.search(r"(?:refer[êe]ncia|c[óo]d(?:igo)?\.?|ref\.?)[:\s#]{0,3}([A-Z]{0,4}\d{2,8})", texto, re.I)
         d["codigo"] = m.group(1) if m else None
+    # candidatos estruturados: JSON-LD do imóvel (não o da imobiliária), chaves de dados, mapa
+    cands = []
+    for dono, rua in d.pop("_ends_jl", []):
+        if not ORG_TIPOS.search(dono or ""):
+            cands.append((_com_virgula(rua), "jsonld"))
+    for mm in re.finditer(r'"(?:logradouro|endereco|endereço)"\s*:\s*"([^"]{4,90})"', html):
+        cands.append((_com_virgula(mm.group(1).split(" - ")[0]), "dados"))
+        if len(cands) > 8:
+            break
+    em = _endereco_do_mapa(html)
+    if em:
+        cands.append((em, "mapa"))
+    escolhido = None
+    for so_com_numero in (True, False):
+        for end, origem in cands:
+            end_v = _endereco_valido(re.sub(r"^(.*?,\s*(?:n[ºo\.]*\s*)?\d{1,5})\b.*$", r"\1", str(end).strip()))
+            if not end_v or _eh_sede(end_v):
+                continue
+            if so_com_numero and not re.search(r",\s*(?:n[ºo\.]*\s*)?\d", end_v):
+                continue
+            escolhido = (end_v, origem)
+            break
+        if escolhido:
+            break
+    if escolhido:
+        d["endereco"], d["endereco_origem"] = escolhido
+    elif d.get("endereco") and _eh_sede(d["endereco"]):
+        d["endereco"] = None
     if not d.get("endereco"):
         VIA = r"(?:Rua|R\.|Av\.?|Avenida|Travessa|Tv\.?|Alameda|Al\.?|Estrada|Est\.?|Rodovia|Beco|Praça)"
         # 1º tenta a forma COMPLETA "Via Nome, 275" (nome para antes de dígitos/Cód/traço)
@@ -251,8 +329,15 @@ def extrair(html, url=""):
             # 2º forma só via + nome, cortando em Cód/dígito/traço/quebra
             m = re.search(VIA + r"\s+[A-ZÀ-Ü](?:(?!\s(?:C[óo]d|n[ºo])\b)[^,\n\d;\-])" + r"{2,45}", texto)
         d["endereco"] = _endereco_valido(m.group(0)) if m else None
+        if d.get("endereco") and _eh_sede(d["endereco"]):
+            d["endereco"] = None
 
     d["endereco"] = _endereco_valido(d.get("endereco"))
+    # o mapa do anúncio costuma ter o endereço exato (rua + número) mesmo quando o texto esconde
+    end_mapa = _endereco_valido(_endereco_do_mapa(html))
+    if end_mapa and not _eh_sede(end_mapa) and (not d.get("endereco") or not re.search(r",\s*\d", d["endereco"])):
+        d["endereco"] = end_mapa
+        d["endereco_origem"] = "mapa"
     # ------- localização detalhada -------
     ll = _latlong(html)
     d["latitude"], d["longitude"] = (ll if ll else (None, None))

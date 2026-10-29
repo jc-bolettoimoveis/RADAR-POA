@@ -29,6 +29,9 @@ def main():
     listing_urls = {l["url"] for l in listings}
     feito = m.load_json(os.path.join(m.DATA_DIR, "garimpo_feito.json"), {})
     falhas = m.load_json(os.path.join(m.DATA_DIR, "garimpo_falhas.json"), {})
+    import migracoes
+    migracoes.aplicar(m, cfg, listings, known, feito, falhas)
+    listing_urls = {l["url"] for l in listings}
     nomes = {s["id"]: s["nome"] for s in cfg["sites"]}
     ativos_ids = {s["id"] for s in cfg["sites"] if s.get("enabled")}
     scfg = {s["id"]: s for s in cfg["sites"]}
@@ -75,47 +78,106 @@ def main():
 
     processados = aproveitados = renders_feitos = 0
     hoje = m.today()
+
+    def ficha_pela_url(u):
+        """Quando o site não entrega a ficha ao robô, aproveita o que a própria URL diz."""
+        slug = re.sub(r"[-_+/]|%20", " ", u.split("?", 1)[-1] if "?" in u else u.rsplit("/imovel/", 1)[-1])
+        slug = re.sub(r"\s+", " ", slug).strip()
+        pm = re.search(r"por (\d{3,})", slug)
+        return {"titulo": slug[:120].title(), "preco": f"R$ {int(pm.group(1)):,}".replace(",", ".") if pm else None}
+
+    def processar(sid, u):
+        nonlocal renders_feitos, aproveitados
+        usa_render = sid in render_ids
+        info, tipo_html = m.enrich(u, session, bairros, render=usa_render)
+        if usa_render:
+            renders_feitos += 1
+        ficha_vazia = not any(info.get(k) for k in ("titulo", "preco", "dorms", "foto", "preco_venda"))
+        if ficha_vazia and scfg.get(sid, {}).get("aceitar_sem_ficha") and m.match_bairro(u, bairros):
+            info = {**info, **ficha_pela_url(u), "bairro": m.match_bairro(u, bairros)}
+            ficha_vazia = False
+        if ficha_vazia:
+            falhas[u] = falhas.get(u, 0) + 1
+            if falhas[u] < 2:
+                return            # leitura falhou: NÃO cadastra nem marca; tenta no próximo lote
+            feito.setdefault(sid, []).append(u)   # falhou 2x: desiste desta URL
+            return
+        feito.setdefault(sid, []).append(u)
+        tipo = m.url_tipo(u)
+        if tipo == "indefinido" and tipo_html:
+            tipo = tipo_html
+        if tipo == "locacao" and not monitorar.get("locacao"):
+            return
+        bairro = info.get("bairro")
+        if somente_alvo and bairro is None and info.get("titulo"):
+            return                     # ficha lida e fora da região
+        listings.append({
+            "url": u, "site_id": sid, "imobiliaria": nomes.get(sid, sid),
+            "tipo": tipo, "bairro": bairro,
+            "titulo": info.get("titulo"), "foto": info.get("foto"),
+            "preco": info.get("preco"), "descricao": info.get("descricao"),
+            "detectado_em": hoje, "ultima_verificacao": hoje,
+            "origem": "garimpo",
+            **{k: info.get(k) for k in m.FICHA_CAMPOS},
+        })
+        listing_urls.add(u)
+        aproveitados += 1
+
+    # cota própria para sites com estoque grande (não disputa o lote comum)
+    for sid, fila in filas.items():
+        cota = scfg.get(sid, {}).get("garimpo_cota", 0)
+        feitos_cota = 0
+        while fila and feitos_cota < cota:
+            processar(sid, fila.pop(0))
+            feitos_cota += 1
+            time.sleep(scfg[sid].get("garimpo_delay", DELAY))
+        if cota:
+            print(f"Cota própria {sid}: {feitos_cota} processados, restam {len(fila)}")
+
     while processados < BATCH and any(filas.values()):
         for sid, fila in filas.items():
             if not fila or processados >= BATCH:
                 continue
             u = fila.pop(0)
-            usa_render = sid in render_ids
-            if usa_render and renders_feitos >= RENDER_MAX:
-                continue      # cota de renderização esgotada: deixa p/ próxima rodada (não marca feito)
+            if sid in render_ids and renders_feitos >= RENDER_MAX:
+                fila.insert(0, u)
+                filas[sid] = []   # cota de renderização esgotada: deixa p/ próxima rodada (não marca feito)
+                continue
             processados += 1
-            info, tipo_html = m.enrich(u, session, bairros, render=usa_render)
-            if usa_render:
-                renders_feitos += 1
-            ficha_vazia = not any(info.get(k) for k in ("titulo", "preco", "dorms", "foto", "preco_venda"))
-            if ficha_vazia:
-                falhas[u] = falhas.get(u, 0) + 1
-                if falhas[u] < 2:
-                    continue      # leitura falhou: NÃO cadastra nem marca; tenta no próximo lote
-                feito.setdefault(sid, []).append(u)   # falhou 2x: desiste desta URL
-                continue
-            feito.setdefault(sid, []).append(u)
-            tipo = m.url_tipo(u)
-            if tipo == "indefinido" and tipo_html:
-                tipo = tipo_html
-            if tipo == "locacao" and not monitorar.get("locacao"):
-                continue
-            bairro = info.get("bairro")
-            if somente_alvo and bairro is None and info.get("titulo"):
-                continue                     # ficha lida e fora da região
-            listings.append({
-                "url": u, "site_id": sid, "imobiliaria": nomes.get(sid, sid),
-                "tipo": tipo, "bairro": bairro,
-                "titulo": info.get("titulo"), "foto": info.get("foto"),
-                "preco": info.get("preco"), "descricao": info.get("descricao"),
-                "detectado_em": hoje, "ultima_verificacao": hoje,
-                "origem": "garimpo",
-                **{k: info.get(k) for k in m.FICHA_CAMPOS},
-            })
-            listing_urls.add(u)
-            aproveitados += 1
+            processar(sid, u)
             time.sleep(DELAY)
     print(f"Processados {processados}, aproveitados {aproveitados}")
+
+    # ---- releitura: anúncios já cadastrados sem número, com o extrator novo ----
+    import extrator
+    REEXTRAIR = int(os.environ.get("GARIMPO_REEXTRAIR") or "800")
+    def precisa_reler(l):
+        if l.get("removido_em") or l.get("site_id") in render_ids or not ativos_ids.__contains__(l.get("site_id")):
+            return False
+        if l.get("endereco") and extrator._eh_sede(l["endereco"]):
+            return True
+        return not (l.get("endereco") and l.get("numero")) and l.get("releitura_v") != 2
+    fila_r = [l for l in listings if precisa_reler(l)]
+    fila_r.sort(key=lambda l: l.get("detectado_em") or "", reverse=True)     # mais recentes primeiro
+    fila_r.sort(key=lambda l: l.get("status", "livre") != "livre")           # livres na frente
+    melhorados = 0
+    for l in fila_r[:REEXTRAIR]:
+        if l.get("endereco") and extrator._eh_sede(l["endereco"]):
+            l["endereco"] = l["numero"] = None
+        info, _ = m.enrich(l["url"], session, bairros)
+        l["releitura_v"] = 2
+        if info.get("endereco") and info.get("numero") and not l.get("numero"):
+            for k in ("endereco", "numero", "empreendimento", "latitude", "longitude", "endereco_origem"):
+                if info.get(k):
+                    l[k] = info[k]
+            l["endereco_fonte"] = None
+            melhorados += 1
+        elif info.get("empreendimento") and not l.get("empreendimento"):
+            l["empreendimento"] = info["empreendimento"]
+        extrator.classificar(l)
+        time.sleep(DELAY)
+    print(f"Releitura: {min(len(fila_r), REEXTRAIR)} anúncios relidos, {melhorados} ganharam rua e número "
+          f"(restam {max(0, len(fila_r) - REEXTRAIR)})")
 
     # cruzamento p/ marcar livre/verificar/captado
     try:
