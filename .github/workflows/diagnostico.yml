@@ -24,7 +24,7 @@ jobs:
         run: |
           git config user.name "radar-bot"
           git config user.email "radar-bot@users.noreply.github.com"
-          git add -A diag || true
-          git commit -m "diag: resultado [skip ci]" || true
-          git pull --rebase origin ${GITHUB_REF_NAME} || true
-          git push || true
+          git checkout -b diag-out
+          git add -f diag
+          git commit -m "diag: resultado [skip ci]"
+          git push -f origin diag-out

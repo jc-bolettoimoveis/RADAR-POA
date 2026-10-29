@@ -89,4 +89,4 @@ for sid in ordem:
         OUT[sid].append(r)
         salvar()
     print("ok", sid, flush=True)
-print("FIM")
+print("FIM", flush=True)
