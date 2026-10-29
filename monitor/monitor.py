@@ -444,8 +444,9 @@ def main():
                              and not site.get("coleta_parcial"))
                 for l in listings:
                     if l.get("site_id") == sid and l.get("removido_em") and l["url"] in props:
-                        l.pop("removido_em", None)      # voltou a aparecer: não tinha saído do ar
+                        l.pop("removido_em", None)      # voltou a aparecer no site...
                         l["faltas"] = 0
+                        l["confirmar_ativo"] = today()   # ...mas o garimpo abre a página para confirmar
                         log["reativados"] = log.get("reativados", 0) + 1
                 faltas_necessarias = 3 if site.get("render") else 2  # sites JS: mais tolerância
                 for l in (listings if coleta_ok else []):

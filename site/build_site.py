@@ -325,7 +325,7 @@ function passa(l){
   if(SEL.msBairro.size&&!SEL.msBairro.has(l.bairro))return false;
   if(tipoSel&&l.tipo!==tipoSel)return false;
   if(SEL.msTipo.size&&!SEL.msTipo.has(l.tipo_imovel))return false;
-  if(SEL.msStatus.size){const st=l.removido_em?'removido':(l.status||'livre');if(!SEL.msStatus.has(st))return false;}
+  if(SEL.msStatus.size){const st=(l.removido_em||l.confirmar_ativo)?'removido':(l.status||'livre');if(!SEL.msStatus.has(st))return false;}
   if(days!==0&&daysAgo(l.detectado_em)>days)return false;
   if(fdorm.value&&!((l.dorms||0)>=+fdorm.value))return false;
   if(fsuite.value&&!((l.suites||0)>=+fsuite.value))return false;
@@ -374,6 +374,7 @@ function render(){
           ${hoje&&!l.removido_em&&l.origem!=='garimpo'?'<span class="b new">NOVO HOJE</span>':''}
           ${l.origem==='garimpo'?'<span class="b">🗄 estoque</span>':''}
           ${l.removido_em?'<span class="b st-rem">⚫ REMOVIDO</span>':''}
+          ${l.confirmar_ativo&&!l.removido_em?'<span class="b" title="Reapareceu no site; o robô vai abrir a página para confirmar">⏳ CONFIRMANDO SE ESTÁ NO AR</span>':''}
           ${l.queda?'<span class="b st-queda">💸 PREÇO ↓</span>':''}
           ${daysAgo(l.detectado_em)>=90&&!l.removido_em?'<span class="b">⏳ 90d+</span>':''}
           ${{'livre':'<span class="b st-livre">🟢 LIVRE</span>','verificar':'<span class="b st-ver">🟡 VERIFICAR</span>','captado':'<span class="b st-cap">🔴 CAPTADO</span>'}[l.status||'livre']}
@@ -447,7 +448,7 @@ def dias_no_ar(l):
     except Exception:
         return 0
 
-ativos = [l for l in listings if not l.get("removido_em")]
+ativos = [l for l in listings if not l.get("removido_em") and not l.get("confirmar_ativo")]
 livres = [l for l in ativos if l.get("status", "livre") == "livre"]
 
 S = {}
