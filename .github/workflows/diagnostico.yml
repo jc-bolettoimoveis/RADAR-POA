@@ -25,6 +25,7 @@ jobs:
           git config user.name "radar-bot"
           git config user.email "radar-bot@users.noreply.github.com"
           git checkout -b diag-out
+          sed -i -E "s/AIza[0-9A-Za-z_-]{20,}/AIza***/g" diag/log.txt || true
           git add -f diag
           git commit -m "diag: resultado [skip ci]"
           git push -f origin diag-out

@@ -17,7 +17,11 @@ CHAVES = re.compile(r'"(logradouro|endereco|endere[çc]o|address|street\w*|rua|n
                     r'lat|latitude|lng|lon|longitude|condominio|edificio|empreendimento|cep)"\s*:\s*("[^"]{1,90}"|-?\d[\d\.]*)', re.I)
 
 def salvar():
-    json.dump(OUT, open(os.path.join(ROOT, "diag", "fontes.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    # chaves de API que os sites embutem nos mapas: mascara (o GitHub bloqueia o envio de segredos)
+    txt = json.dumps(OUT, ensure_ascii=False, indent=1)
+    txt = re.sub(r"AIza[0-9A-Za-z_\-]{20,}", "AIza***", txt)
+    txt = re.sub(r"(key|token|apikey|access_token)=([0-9A-Za-z_\-\.]{12,})", r"\1=***", txt, flags=re.I)
+    open(os.path.join(ROOT, "diag", "fontes.json"), "w", encoding="utf-8").write(txt)
 
 def sondar(url):
     pg = render_js._pagina()
