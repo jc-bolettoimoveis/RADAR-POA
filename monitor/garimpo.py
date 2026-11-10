@@ -108,6 +108,8 @@ def main():
             tipo = tipo_html
         if tipo == "locacao" and not monitorar.get("locacao"):
             return
+        if (info.get("uf") or "RS") != "RS":
+            return                     # fora do Rio Grande do Sul: não interessa
         bairro = info.get("bairro")
         if somente_alvo and bairro is None and info.get("titulo"):
             return                     # ficha lida e fora da região
