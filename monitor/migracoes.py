@@ -42,7 +42,29 @@ def _aux_2026_10(m, cfg, listings, known, feito, falhas):
     listings[:] = novo
     return r
 
-MIGRACOES = [("auxiliadora_2026_10", _aux_2026_10)]
+def _cidades_2026_11(m, cfg, listings, known, feito, falhas):
+    """Identifica a cidade de cada imóvel já cadastrado (antes tudo era marcado como
+    Porto Alegre) e tira da base os que são de fora do Rio Grande do Sul."""
+    import cidades
+    novo, r = [], {"porto_alegre": 0, "outras_rs": 0, "fora_rs_removidos": 0}
+    for l in listings:
+        ci, uf, fo = cidades.detectar(l.get("url"), l.get("titulo"), l.get("endereco"),
+                                      l.get("descricao"), None, l.get("latitude"), l.get("longitude"))
+        if uf != "RS":
+            r["fora_rs_removidos"] += 1
+            sid = l.get("site_id")
+            if sid:
+                feito.setdefault(sid, []).append(l["url"])   # garimpo não volta a buscar
+            continue
+        l["cidade"], l["uf"], l["cidade_fonte"] = ci, uf, fo
+        r["porto_alegre" if ci == cidades.POA else "outras_rs"] += 1
+        novo.append(l)
+    for sid in feito:
+        feito[sid] = sorted(set(feito[sid]))
+    listings[:] = novo
+    return r
+
+MIGRACOES = [("auxiliadora_2026_10", _aux_2026_10), ("cidades_2026_11", _cidades_2026_11)]
 
 def aplicar(m, cfg, listings, known, feito=None, falhas=None):
     """Aplica as migrações pendentes. Se feito/falhas não vierem, lê e grava do disco."""

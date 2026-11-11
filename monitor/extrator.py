@@ -385,7 +385,7 @@ def extrair(html, url=""):
     tl = texto.lower()
     carac = sorted({c for c in VOCAB if c in tl})
     d["caracteristicas"] = carac or None
-    d["cidade"] = "Porto Alegre"
+    # cidade/estado: definidos em monitor.enrich (módulo cidades), com título e URL
 
     d["foto_boa"] = escolher_foto(html, d.pop("foto_jl", None))
 
