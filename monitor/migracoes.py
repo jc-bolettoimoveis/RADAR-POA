@@ -42,7 +42,21 @@ def _aux_2026_10(m, cfg, listings, known, feito, falhas):
     listings[:] = novo
     return r
 
-MIGRACOES = [("auxiliadora_2026_10", _aux_2026_10)]
+def _confirmar_reativados(m, cfg, listings, known, feito, falhas):
+    """Imóveis reativados porque reapareceram no sitemap: o sitemap pode guardar anúncio vendido,
+    então cada um é aberto pelo garimpo antes de voltar a contar como ativo."""
+    p = os.path.join(m.DATA_DIR, "confirmar_ativos.json")
+    urls = set(m.load_json(p, []))
+    n = 0
+    for l in listings:
+        if l["url"] in urls and not l.get("removido_em"):
+            l["confirmar_ativo"] = m.today()
+            n += 1
+    if os.path.exists(p):
+        os.remove(p)
+    return {"marcados": n}
+
+MIGRACOES = [("auxiliadora_2026_10", _aux_2026_10), ("confirmar_reativados_2026_10", _confirmar_reativados)]
 
 def aplicar(m, cfg, listings, known, feito=None, falhas=None):
     """Aplica as migrações pendentes. Se feito/falhas não vierem, lê e grava do disco."""
