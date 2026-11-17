@@ -139,7 +139,7 @@ def _eh_sede(end):
             _SEDES = {_chave_end(x) for x in cfg.get("enderecos_sede", [])}
         except Exception:
             _SEDES = set()
-    k = _chave_end(end)
+    k = _chave_end(re.sub(r"^\s*(?:RS|SP|SC|PR)\b[\s\-,]*", "", str(end or "")))
     return bool(k) and k in _SEDES
 
 def _com_virgula(end):
@@ -224,7 +224,9 @@ def escolher_foto(html, foto_jl=None, foto_og=None):
     """Prefere foto real do imóvel; descarta logos/placeholder."""
     cands = []
     for f in (foto_jl, foto_og):
-        if f:
+        if isinstance(f, dict):
+            f = f.get("url") or f.get("contentUrl")
+        if isinstance(f, str) and f:
             cands.append(f)
     cands += re.findall(r'<img[^>]+src=["\']([^"\'>]+)', html, re.I)[:60]
     for c in cands:
@@ -343,7 +345,7 @@ def extrair(html, url=""):
     d["latitude"], d["longitude"] = (ll if ll else (None, None))
     d["empreendimento"] = _empreendimento(texto)
     d["tipo_imovel"] = _tipo_imovel((d.get("endereco") or "") + " " + texto[:3000]) or _tipo_imovel(url)
-    m = re.search(r",\s?(\d{1,5})(?:\D|$)", d.get("endereco") or "")
+    m = re.search(r",\s?(?:n[ºo°\.]*\s*)?(\d{1,5})(?:\D|$)", d.get("endereco") or "", re.I)
     d["numero"] = m.group(1) if m else None
     # formato "Bairro - Nome da Rua, 962 - Cidade" (número sem 'Rua' na frente)
     if not d["numero"] and d.get("endereco"):
@@ -370,7 +372,10 @@ def extrair(html, url=""):
         end = re.sub(r"\s*[-–]?\s*R\$.*$", "", d["endereco"])
         end = re.sub(r"\s+(?:C[óoÓO]D|COD|c[óo]digo)\b.*?(?=,\s*\d|$)", "", end, flags=re.I)
         end = re.sub(r"\s+", " ", end).strip(" ,-")
-        d["endereco"] = _endereco_valido(end)
+        end = re.sub(r"^(?:RS|SP|SC|PR)\s+(?=(?:Rua|R\.|Av|Avenida|Travessa|Alameda|Estrada|Pra))", "", end)
+        d["endereco"] = None if _eh_sede(end) else _endereco_valido(end)
+        if not d["endereco"]:
+            d["numero"] = None
     classificar(d)
     casa_terreno = (d.get("tipo_imovel") or "") in ("casa", "sobrado", "terreno")
     if d["endereco_nivel"] == "completo":
