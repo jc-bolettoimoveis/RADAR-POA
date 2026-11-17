@@ -158,8 +158,17 @@ def main():
             return True
         return not (l.get("endereco") and l.get("numero")) and l.get("releitura_v") != 2
     fila_r = [l for l in listings if precisa_reler(l)]
-    fila_r.sort(key=lambda l: l.get("detectado_em") or "", reverse=True)     # mais recentes primeiro
-    fila_r.sort(key=lambda l: l.get("status", "livre") != "livre")           # livres na frente
+    # intercala as imobiliárias (antes a fila ficava só com a mais recente, e as outras não andavam);
+    # dentro de cada uma: livres primeiro, depois os mais recentes
+    por_site = {}
+    for l in sorted(fila_r, key=lambda l: (l.get("status", "livre") != "livre",
+                                           "".join(chr(255 - ord(c)) for c in (l.get("detectado_em") or "")))):
+        por_site.setdefault(l.get("site_id"), []).append(l)
+    fila_r = []
+    while any(por_site.values()):
+        for sid in list(por_site):
+            if por_site[sid]:
+                fila_r.append(por_site[sid].pop(0))
     melhorados = 0
     for l in fila_r[:REEXTRAIR]:
         if l.get("endereco") and extrator._eh_sede(l["endereco"]):
