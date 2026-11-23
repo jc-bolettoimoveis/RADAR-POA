@@ -52,7 +52,8 @@ FICHA_CAMPOS = ("dorms", "suites", "vagas", "banheiros", "area", "area_total",
                 "endereco", "caracteristicas", "completude",
                 "preco_locacao_fmt", "condominio_fmt", "iptu_fmt",
                 "latitude", "longitude", "empreendimento", "tipo_imovel",
-                "numero", "endereco_nivel", "prioridade", "endereco_origem")
+                "numero", "endereco_nivel", "prioridade", "endereco_origem",
+                "cidade", "uf", "cidade_fonte")
 
 def now_iso():
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -342,6 +343,13 @@ def enrich(url, session, bairros_alvo, render=False):
         info["foto"] = info["foto"] or det.get("foto_boa")
     except Exception:
         pass
+    try:
+        import cidades
+        info["cidade"], info["uf"], info["cidade_fonte"] = cidades.detectar(
+            url, info.get("titulo"), info.get("endereco"), info.get("descricao"), html,
+            info.get("latitude"), info.get("longitude"))
+    except Exception:
+        pass
     info["bairro"] = (match_bairro(info["titulo"], bairros_alvo)
                       or match_bairro(url, bairros_alvo)
                       or match_bairro(info["descricao"], bairros_alvo)
@@ -422,6 +430,8 @@ def main():
                         continue
                     if tipo == "venda" and not monitorar.get("venda"):
                         continue
+                    if (info.get("uf") or "RS") != "RS":
+                        continue        # fora do Rio Grande do Sul: não interessa
                     bairro = info.get("bairro")
                     if somente_alvo and bairro is None and info.get("titulo"):
                         # página lida e nenhum bairro-alvo citado -> fora da região

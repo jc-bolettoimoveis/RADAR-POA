@@ -58,6 +58,7 @@ for _f, _ts in {
     for _t in _ts:
         FAM_DE[_t] = _f
 for l in listings:
+    l["cidade"] = l.get("cidade") or "Porto Alegre"
     l["preco_num"] = l.get("preco_venda") or _num(l.get("preco"))
     l["area_num"] = l.get("area")
     if l.get("tipo_imovel"):
@@ -206,6 +207,7 @@ if(sessionStorage.getItem('gok')==='1'){document.addEventListener('DOMContentLoa
 <div class="wrap">
   <div class="filters">
     <input type="text" id="q" placeholder="Buscar título, endereço, característica (ex.: churrasqueira)...">
+    <div id="msCidade"></div>
     <div id="msImob"></div>
     <div id="msBairro"></div>
     <div class="segtipo">
@@ -259,8 +261,8 @@ $('#gen').textContent='Atualizado: '+GERADO_EM;
 let days=1, tipoSel='', filtradas=[];
 const uniq=a=>[...new Set(a.filter(Boolean))].sort();
 const SEL={};
-function makeMS(id,label,items){
-  const el=document.getElementById(id);SEL[id]=new Set();
+function makeMS(id,label,items,pre){
+  const el=document.getElementById(id);SEL[id]=new Set(pre||[]);
   const btn=document.createElement('button');btn.type='button';btn.className='msbtn';
   const pan=document.createElement('div');pan.className='mspan';
   el.classList.add('ms');el.append(btn,pan);
@@ -268,6 +270,7 @@ function makeMS(id,label,items){
   items.forEach(it=>{
     const lab=document.createElement('label');if(it.kids)lab.className='mshead';
     const cb=document.createElement('input');cb.type='checkbox';
+    if(!it.kids&&SEL[id].has(it.v))cb.checked=true;
     cb.onchange=()=>{
       if(it.kids){pan.querySelectorAll('input').forEach(o=>{if(o._v!==undefined&&it.kids.includes(o._v)){o.checked=cb.checked;cb.checked?SEL[id].add(o._v):SEL[id].delete(o._v);}});}
       else{cb.checked?SEL[id].add(it.v):SEL[id].delete(it.v);}
@@ -280,6 +283,12 @@ function makeMS(id,label,items){
   upd();
 }
 document.addEventListener('click',()=>document.querySelectorAll('.mspan.open').forEach(p=>p.classList.remove('open')));
+{
+  // Cidade: começa em Porto Alegre; demais cidades do RS ficam disponíveis no filtro
+  const cont={};LISTINGS.forEach(l=>{const c=l.cidade||'Porto Alegre';cont[c]=(cont[c]||0)+1});
+  const cs=Object.keys(cont).sort((a,b)=>a==='Porto Alegre'?-1:b==='Porto Alegre'?1:a.localeCompare(b,'pt'));
+  makeMS('msCidade','Cidade',cs.map(v=>({v,t:v+' ('+cont[v].toLocaleString('pt-BR')+')'})),['Porto Alegre']);
+}
 makeMS('msImob','Imobiliárias',uniq(LISTINGS.map(l=>l.imobiliaria)).map(v=>({v,t:v})));
 makeMS('msBairro','Bairros',uniq(LISTINGS.map(l=>l.bairro)).map(v=>({v,t:v})));
 {
@@ -321,6 +330,7 @@ function valorDe(l){
 function passa(l){
   const q=$('#q').value.toLowerCase(), comp=fcomp.value;
   const emLoc=tipoSel==='locacao';
+  if(SEL.msCidade.size&&!SEL.msCidade.has(l.cidade||'Porto Alegre'))return false;
   if(SEL.msImob.size&&!SEL.msImob.has(l.imobiliaria))return false;
   if(SEL.msBairro.size&&!SEL.msBairro.has(l.bairro))return false;
   if(tipoSel&&l.tipo!==tipoSel)return false;
@@ -447,6 +457,10 @@ def dias_no_ar(l):
     except Exception:
         return 0
 
+# Dashboard: só Porto Alegre (as outras cidades do RS aparecem no painel, pelo filtro Cidade)
+listings_todos = listings
+outras_cidades = sum(1 for l in listings if l["cidade"] != "Porto Alegre" and not l.get("removido_em"))
+listings = [l for l in listings if l["cidade"] == "Porto Alegre"]
 ativos = [l for l in listings if not l.get("removido_em")]
 livres = [l for l in ativos if l.get("status", "livre") == "livre"]
 
@@ -460,6 +474,7 @@ S["visao"] = {
     "removidos": len(listings) - len(ativos),
     "quedas": sum(1 for l in listings if l.get("queda")),
     "p1_livres": sum(1 for l in livres if l.get("prioridade") == 1),
+    "outras_cidades": outras_cidades,
 }
 S["por_status"] = dict(Counter((l.get("status") or "livre") for l in ativos))
 S["por_prioridade"] = dict(Counter("P%d" % (l.get("prioridade") or 4) for l in livres))
@@ -536,7 +551,7 @@ S["visao"]["predios_falta_unidade"] = sum(1 for l in livres if l["etapa"] == "fa
 
 # saúde da coleta por imobiliária (para o raio-x apontar quem está com problema)
 _feito = load("garimpo_feito.json", {})
-_urls_listings = {l["url"] for l in listings}
+_urls_listings = {l["url"] for l in listings_todos}
 _nome2id = {s["nome"]: s["id"] for s in _sites_cfg.get("sites", [])}
 _ja = {i["nome"] for i in S["imobiliarias"]}
 for _s in _sites_cfg.get("sites", []):
@@ -617,7 +632,7 @@ async function _sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEnco
 async function gcheck(){const v=document.getElementById('gpw').value;if(await _sha(v)===GHASH){sessionStorage.setItem('gok','1');document.getElementById('gate').style.display='none';}else{document.getElementById('gerr').textContent='Senha incorreta';}}
 if(sessionStorage.getItem('gok')==='1'){document.addEventListener('DOMContentLoaded',()=>{const g=document.getElementById('gate');if(g)g.style.display='none';});}
 </script>
-<header><h1>📊 Dashboard — Radar de Captação</h1><div><a href="index.html">📡 Voltar ao painel</a> <small id="g" style="margin-left:8px"></small></div></header>
+<header><h1>📊 Dashboard — Radar de Captação · Porto Alegre</h1><div><a href="index.html">📡 Voltar ao painel</a> <small id="g" style="margin-left:8px"></small></div></header>
 <div class="wrap">
   <div class="kpis" id="kpis"></div>
   <div class="box" style="margin-bottom:14px"><h2>Funil de captação (status de gestão deste navegador)</h2><div class="funil" id="funil"></div>
@@ -643,7 +658,8 @@ const V=STATS.visao;
 const kpis=[[V.vigiados.toLocaleString('pt-BR'),'imóveis vigiados',''],[V.oportunidades,'oportunidades no painel',''],
  [V.livres,'🟢 livres p/ captar','green'],[V.p1_livres,'🎯 P1 livres (eemovel)','green'],[V.prontos_proprietario||0,'🎯 casas/terrenos prontos p/ proprietário','green'],[V.predios_falta_unidade||0,'🏢 prédios achados (falta unidade)',''],
  [V.verificar,'🟡 a verificar',''],[V.captados_rede,'🔴 já na base/RGI',''],
- [V.removidos,'⚫ saíram do ar','red'],[V.quedas,'💸 quedas de preço','']];
+ [V.removidos,'⚫ saíram do ar','red'],[V.quedas,'💸 quedas de preço',''],
+ [(V.outras_cidades||0).toLocaleString('pt-BR'),'📍 outras cidades do RS (fora deste dashboard)','']];
 document.getElementById('kpis').innerHTML=kpis.map(k=>`<div class="kpi ${k[2]}"><div class="v">${k[0]}</div><div class="l">${k[1]}</div></div>`).join('');
 // funil da gestão local
 const GEST=JSON.parse(localStorage.getItem('radar_gestao')||'{}');
@@ -679,4 +695,4 @@ document.getElementById('tImob').innerHTML='<tr><th>Imobiliária</th><th>Estoque
 </html>"""
 with open(os.path.join(DOCS, "dashboard.html"), "w", encoding="utf-8") as f:
     f.write(DASH.replace("__SENHA_HASH__", SENHA_HASH))
-print("painel + dashboard gerados em docs/ —", len(listings), "imóveis no acumulado")
+print("painel + dashboard gerados em docs/ —", len(listings_todos), "imóveis no acumulado")
